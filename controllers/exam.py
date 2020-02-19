@@ -10,6 +10,9 @@ class examfrom(QWidget,Ui_Dialog):
     def __init__(self):
         super().__init__()
         self.setupUi(self)
+        self.coursename=""
+        self.questionnowid=0
+        self.paperlist=[]
         self.inithidebutton()
         self.pushButton_4.clicked.connect(self.kaishidati)
         self.pushButton_3.clicked.connect(self.xianshidaan)
@@ -23,9 +26,24 @@ class examfrom(QWidget,Ui_Dialog):
         self.pushButton_2.setHidden(False)
         self.pushButton.setHidden(False)
         self.pushButton_4.setHidden(True)
-        # ui=examfrom()
-        # ui.show()
-        # self.
+        from controllers.utils.createpaper import createpaper
+        paper=createpaper(self.coursename)
+        self.paperlist=paper.createpaper()
+        self.xianshitimu()
+    def xianshitimu(self):
+        #题目内容
+        self.textBrowser.setText("asdfasfdsa")
+        #题目选项答案
+        from PyQt5.QtWidgets import QCheckBox,QHBoxLayout
+        self.pushButton_11 = QCheckBox(self.groupBox_2)
+        self.horizontalLayout1 = QHBoxLayout(self.groupBox_2)
+        self.horizontalLayout1.addWidget(self.pushButton_11)
+        self.horizontalLayout1.setObjectName("horizontalLayout1")
+
+
+
+
+
 
     def inithidebutton(self):
         self.pushButton.hide()

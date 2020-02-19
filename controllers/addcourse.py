@@ -32,7 +32,8 @@ class myform1(QWidget,Ui_Dialog):
         except:
             pass
 
-        session.close()
+        finally:
+            session.close()
     def delcource(self):
         Session = sessionmaker(bind=engine)
         # 每次执行数据库操作时，都需要创建一个session
@@ -52,7 +53,8 @@ class myform1(QWidget,Ui_Dialog):
             QMessageBox.information(self, '删除', '删除成功')
         except:
             QMessageBox.information(self, '删除', '删除失败')
-        session.close()
+        finally:
+            session.close()
         self.initcomboBox()
 
     def initshezhi(self):
@@ -67,8 +69,8 @@ class myform1(QWidget,Ui_Dialog):
             for paperlistre in result:
                 self.lineEdit_2.setText(str(paperlistre.single_choice_num))
                 self.lineEdit_3.setText(str(paperlistre.single_choice_score))
-                self.lineEdit_7.setText(str(paperlistre.judgment))
-                self.lineEdit_8.setText(str(paperlistre.judgment_score))
+                self.lineEdit_8.setText(str(paperlistre.judgment))
+                self.lineEdit_7.setText(str(paperlistre.judgment_score))
                 self.lineEdit_5.setText(str(paperlistre.multiple_choice_num))
                 self.lineEdit_4.setText(str(paperlistre.multiple_choice_score))
                 self.lineEdit_6.setText(str(paperlistre.jd_choice_num))
@@ -77,7 +79,8 @@ class myform1(QWidget,Ui_Dialog):
 
         except:
             pass
-        session.close()
+        finally:
+            session.close()
 
 
 
@@ -98,8 +101,8 @@ class myform1(QWidget,Ui_Dialog):
             paperlist = session.query(PaperList).filter(PaperList.course_name == coursename).first()
             paperlist.single_choice_num = int(self.lineEdit_2.text())
             paperlist.single_choice_score = int(self.lineEdit_3.text())
-            paperlist.judgment = int(self.lineEdit_7.text())
-            paperlist.judgment_score = int(self.lineEdit_8.text())
+            paperlist.judgment = int(self.lineEdit_8.text())
+            paperlist.judgment_score = int(self.lineEdit_7.text())
             paperlist.multiple_choice_num = int(self.lineEdit_5.text())
             paperlist.multiple_choice_score = int(self.lineEdit_4.text())
             paperlist.jd_choice_num = int(self.lineEdit_6.text())
@@ -111,7 +114,8 @@ class myform1(QWidget,Ui_Dialog):
             QMessageBox.information(self, '设置', '设置成功')
         except:
             QMessageBox.information(self, '设置', '设置失败')
-        session.close()
+        finally:
+            session.close()
 
 
     @pyqtSlot()
@@ -135,7 +139,8 @@ class myform1(QWidget,Ui_Dialog):
             QMessageBox.information(self, '导入', '导入成功')
         except:
             QMessageBox.information(self, '导入', '导入失败')
-        session.close()
+        finally:
+            session.close()
         self.initcomboBox()
 
 

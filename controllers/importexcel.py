@@ -66,6 +66,8 @@ class mywindow(QtWidgets.QMainWindow,Ui_MainWindow):
         from controllers.exam import examfrom
         self.examui = examfrom()
         self.examui.setWindowModality(Qt.ApplicationModal)
+        coursename=self.comboBox.currentText()
+        self.examui.coursename=coursename
         self.examui.show()
 
 
@@ -107,18 +109,22 @@ def excel_into_model(model_name, excel_file):
     from model.question import question
     for cell in table_header:
         field_name.append(cell)
-    for x in range(1, nrows):
-        # 行的数据,创建对象,进行报错数据
-        obj=question()
-        print(len(field_name))
-        for y in range(len(field_name)):
-            tempfildname=field_name[y]
-            cell_value=table.cell_value(x, y)
-            tempstr = 'obj.%s' % field_name[y] + '=cell_value'
-            exec(tempstr)
-        session.add(obj)
-        session.commit()
-    session.close()
+    try:
+        for x in range(1, nrows):
+            # 行的数据,创建对象,进行报错数据
+            obj=question()
+            print(len(field_name))
+            for y in range(len(field_name)):
+                tempfildname=field_name[y]
+                cell_value=table.cell_value(x, y)
+                tempstr = 'obj.%s' % field_name[y] + '=cell_value'
+                exec(tempstr)
+            session.add(obj)
+            session.commit()
+    except:
+        pass
+    finally:
+        session.close()
 
 
 
