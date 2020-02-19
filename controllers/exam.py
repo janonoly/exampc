@@ -34,11 +34,29 @@ class examfrom(QWidget,Ui_Dialog):
         #题目内容
         self.textBrowser.setText("asdfasfdsa")
         #题目选项答案
-        from PyQt5.QtWidgets import QCheckBox,QHBoxLayout
-        self.pushButton_11 = QCheckBox(self.groupBox_2)
-        self.horizontalLayout1 = QHBoxLayout(self.groupBox_2)
-        self.horizontalLayout1.addWidget(self.pushButton_11)
-        self.horizontalLayout1.setObjectName("horizontalLayout1")
+        # from PyQt5.QtWidgets import QCheckBox,QGridLayout,QLabel,QHBoxLayout,QVBoxLayout
+        from PyQt5 import QtWidgets
+
+
+        gridtalLayout = QtWidgets.QGridLayout(self.groupBox_2)
+        gridtalLayout.setSpacing(10)
+        from controllers.utils.displayques import createpaper
+        createpaper=createpaper( self.textBrowser,"1234155")
+        for i in range(7):
+            checkboxname="checkbox"+str(i)
+            checkbox = QtWidgets.QCheckBox(self.groupBox_2)
+            checkbox.setObjectName(checkboxname)
+            checkbox.resize(20,10)
+
+            labelname="labelname"+str(i)
+            label= QtWidgets.QLabel(self.groupBox_2)
+            label.setText("1啊大哥的撒vvvvvvvvvvvvvvvvvvvvvvvvvvvvv")
+            label.setObjectName(labelname)
+
+            gridtalLayout.addWidget(checkbox,i,1)
+            gridtalLayout.addWidget(label,i,2,1,200 )
+
+
 
 
 

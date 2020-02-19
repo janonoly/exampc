@@ -19,7 +19,7 @@
      <property name="sizePolicy">
       <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
        <horstretch>0</horstretch>
-       <verstretch>4</verstretch>
+       <verstretch>6</verstretch>
       </sizepolicy>
      </property>
      <property name="sizeIncrement">
@@ -49,7 +49,7 @@
      <property name="sizePolicy">
       <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
        <horstretch>0</horstretch>
-       <verstretch>2</verstretch>
+       <verstretch>4</verstretch>
       </sizepolicy>
      </property>
      <property name="title">
