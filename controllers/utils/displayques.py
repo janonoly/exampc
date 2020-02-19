@@ -3,16 +3,20 @@ from sqlalchemy.orm import sessionmaker
 from PyQt5 import QtWidgets
 from model.createdb import engine
 from model.question import question
-
+from PyQt5.QtCore import pyqtSlot
 class displayques(object):
-    def __init__(self,chuangti,quescontentlabel,quesoptionlayout,questionid,coursename):
+    def __init__(self,chuangti,quescontentlabel,quesoptionlayout,questionid,coursename,tihao,papernum,tihaolayout):
+        # super().__init__()
+        # self.setupUi(self)
         self.quescontentlabel=quescontentlabel
         self.quesoptionlayout=quesoptionlayout
         self.questionid=questionid
         self.coursename = coursename
         self.chuangti=chuangti
-
-
+        self.tihao=tihao
+        self.papernum=papernum
+        self.tihaolayout=tihaolayout
+        # self.inittihaodisplay()
 
     def initmxzdisplay(self):
         for i in range(6):
@@ -60,14 +64,32 @@ class displayques(object):
             checkbox.setObjectName(checkboxname)
             checkbox.resize(20, 10)
             self.quesoptionlayout.addWidget(checkbox)
-
     def removeallwiget(self):
         for i in range(self.quesoptionlayout.count()):
             self.quesoptionlayout.itemAt(i).widget().deleteLater()
+    def inittihaodisplay(self):
+        clonum=self.papernum//3
+        rownum=4
+        tihao=0
+        for i in range(rownum):
+
+            for j in range(clonum):
+                checkboxname = "tihao" + str(tihao)
+                checkbox = QtWidgets.QPushButton()
+                checkbox.setObjectName(checkboxname)
+                checkbox.setText(str(tihao))
+                self.tihaolayout.addWidget(checkbox, i,j)
+                checkbox.clicked.connect(self.jumptihao)
+
+                tihao += 1
+                if tihao > self.papernum :
+                    break
+        # for i in range(self.tihaolayout.count()):
+        #     self.tihaolayout.itemAt(i).widget().clicked.connect(self.jumptihao)
 
 
-
-
+    def jumptihao(self):
+        print("1")
     def display(self):
         #先清空layout中的wiget
         self.removeallwiget()
@@ -75,7 +97,8 @@ class displayques(object):
         session = Session()
         questionres = session.query(question).filter(and_(question.id ==self.questionid , question.course_name == self.coursename)).first()
         #显示题目内容
-        self.quescontentlabel.setText(questionres.content)
+        tempstr=str(self.tihao+1)+': '+questionres.content
+        self.quescontentlabel.setText(tempstr)
 
         # labelname = "labelname" + str(1)
         # label = QtWidgets.QLabel()
@@ -86,61 +109,28 @@ class displayques(object):
 
         if questionres.questionType=='xz':
              self.initxzdisplay()
-
+             qlist = self.chuangti.findChildren(QtWidgets.QRadioButton)
+             self.displayoption(questionres,qlist)
         elif questionres.questionType == 'pd':
             self.initpddisplay()
         elif questionres.questionType == 'mxz':
             self.initmxzdisplay()
-            #
-            # if len(questionres.choice_a)>2:
-            #     self.dismxz(1,questionres.choice_a)
-            # if len(questionres.choice_b)>2:
-            #     self.dismxz(2,questionres.choice_b)
-            # if len(questionres.choice_c)>2:
-            #     self.dismxz(3,questionres.choice_c)
-            # if len(questionres.choice_d)>2:
-            #     self.dismxz(4,questionres.choice_d)
-            # if len(questionres.choice_e)>2:
-            #     self.dismxz(5,questionres.choice_e)
-            # if len(questionres.choice_f)>2:
-            #     self.dismxz(6,questionres.choice_f)
-
-
-
-
-
-
-
+            qlist = self.chuangti.findChildren(QtWidgets.QCheckBox)
+            self.displayoption(questionres, qlist)
         elif questionres.questionType == 'jd':
             self.initjddisplay()
 
-    def dismxz(self,i,content):
 
 
-        checkboxname = "mxzcheckbox" + str(i)
-        checkbox = QtWidgets.QCheckBox()
-        checkbox.setObjectName(checkboxname)
-        checkbox.resize(20, 10)
+    def displayoption(self,questionres,qlist):
 
-        labelname = "mxzlabelname" + str(i)
-        label = QtWidgets.QLabel()
-        label.setText(content)
-        label.setObjectName(labelname)
-        self.quesoptionlayout.addWidget(checkbox, i, 1)
-        self.quesoptionlayout.addWidget(label, i, 2, 1, 200)
-
-    def dispd(self):
-
-
-        checkboxname = "radio" + str(1)
-        checkbox = QtWidgets.QRadioButton()
-        checkbox.setObjectName(checkboxname)
-        labelname = "radio" + str(1)
-        label = QtWidgets.QLabel()
-        label.setText("对")
-        label.setObjectName(labelname)
-        self.quesoptionlayout.addWidget(checkbox, 1, 1)
-        self.quesoptionlayout.addWidget(label, 1, 2, 1, 200)
+        flag = ['a', 'b', 'c', 'd', 'e', 'f']
+        flag1 = 0
+        for x in qlist:
+            x.setText(questionres.choice_a)
+            tempstr = 'x.setText(questionres.choice_%s)' % flag[flag1]
+            exec(tempstr)
+            flag1 += 1
 
 
 

@@ -1,4 +1,5 @@
 import this
+from functools import partial
 
 from PyQt5 import QtWidgets
 from PyQt5.QtCore import  QTimer
@@ -23,9 +24,31 @@ class examfrom(QWidget,Ui_Dialog):
 
         self.gridtalLayout1 = QtWidgets.QGridLayout(self.groupBox_2)
 
+        self.tihaolayout = QtWidgets.QGridLayout(self.groupBox_3)
 
 
+    def inittihaodisplay(self):
+        papernum = len(self.paperlist)
+        clonum=papernum//3
+        rownum=4
+        tihao=1
+        for i in range(rownum):
 
+            for j in range(clonum):
+                checkboxname = "tihao" + str(tihao)
+                checkbox = QtWidgets.QPushButton()
+                checkbox.setObjectName(checkboxname)
+                checkbox.setText(str(tihao))
+                self.tihaolayout.addWidget(checkbox, i,j)
+
+                checkbox.clicked.connect(partial(self.jumptihao, checkbox.text()))
+
+                tihao += 1
+                if tihao > papernum :
+                    break
+    def jumptihao(self,buttext):
+        self.questionnowid=int(buttext)-1
+        self.xianshitimu()
     def xianshidaan(self):
 
         pass
@@ -50,6 +73,8 @@ class examfrom(QWidget,Ui_Dialog):
         self.kaoshishijian=self.paperlist[-1]*60
         self.paperlist.pop()
         self.xianshitimu()
+        self.inittihaodisplay()
+
     def xianshitimu(self):
         #题目内容
         from controllers.utils.displayques import displayques
@@ -63,22 +88,22 @@ class examfrom(QWidget,Ui_Dialog):
         except:
             pass
 
-        if self.questionnowid>0 and self.questionnowid<papernum:
-            display=displayques(self,self.textBrowser,self.gridtalLayout1,questionid,self.coursename)
+        if self.questionnowid>0 and self.questionnowid<papernum-1:
+            display=displayques(self,self.textBrowser,self.gridtalLayout1,questionid,self.coursename,self.questionnowid,papernum,self.tihaolayout)
             display.display()
             self.pushButton.setHidden(False)
             self.pushButton_2.setHidden(False)
         elif self.questionnowid==0:
             self.pushButton.setHidden(True)
-            display=displayques(self,self.textBrowser,self.gridtalLayout1,questionid,self.coursename)
+            display=displayques(self,self.textBrowser,self.gridtalLayout1,questionid,self.coursename,self.questionnowid,papernum,self.tihaolayout)
             display.display()
-        elif self.questionnowid==papernum:
+        elif self.questionnowid==papernum-1:
             self.pushButton_2.setHidden(True)
-            display = displayques(self,self.textBrowser, self.gridtalLayout1, questionid,self.coursename)
+            display = displayques(self,self.textBrowser, self.gridtalLayout1, questionid,self.coursename,self.questionnowid,papernum,self.tihaolayout)
             display.display()
         elif self.questionnowid<0:
             self.pushButton.setHidden(True)
-        elif self.questionnowid>papernum:
+        elif self.questionnowid>papernum-1:
             self.pushButton_2.setHidden(True)
 
 
