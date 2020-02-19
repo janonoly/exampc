@@ -65,7 +65,7 @@ class mywindow(QtWidgets.QMainWindow,Ui_MainWindow):
     def exam(self):
         from controllers.exam import examfrom
         self.examui = examfrom()
-        self.examui.setWindowModality(Qt.ApplicationModal)
+        # self.examui.setWindowModality(Qt.ApplicationModal)
         coursename=self.comboBox.currentText()
         self.examui.coursename=coursename
         self.examui.show()
