@@ -1,0 +1,4 @@
+python:3.7
+pyqt5
+orm框架：sqlalchemy
+数据库：sqll ite3
