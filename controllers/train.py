@@ -12,18 +12,23 @@ class trainfrom(QWidget,Ui_Dialog):
         self.setupUi(self)
         self.coursename=""
         self.questionnowid=0
+        self.nowid =0
         self.pushButton.clicked.connect(self.shangyiti)
         self.pushButton_2.clicked.connect(self.xiayiti)
         self.gridtalLayout1 = QtWidgets.QGridLayout(self.groupBox_2)
         self.pushButton_5.clicked.connect(self.tijiaodaan)
+        self.lineEdit.textChanged.connect(self.changtihao1)
+        # self.xianshitimu()
 
-
+    def changtihao1(self):
+        self.nowid = int(self.lineEdit.text())
     def tijiaodaan(self):
+
         Session = sessionmaker(bind=engine)
         session = Session()
-        questionid=self.paperlist[self.questionnowid][0]
-        questionres = session.query(question.questionType).filter(
-            and_(question.id ==questionid , question.course_name == self.coursename)).first()
+
+        questionres = session.query(question).filter(
+            and_(question.id ==self.questionnowid , question.course_name == self.coursename)).first()
 
         userdaan = ""
         if questionres.questionType == 'xz':
@@ -68,25 +73,46 @@ class trainfrom(QWidget,Ui_Dialog):
             for i in qlist:
                 userdaan=i.toPlainText()
 
+        anser=questionres.answer
 
+        self.label_2.setText("正确答案为："+anser+"   我的答案："+userdaan)
         session.close()
-        uers=userdaan
+
+
 
     def shangyiti(self):
-        self.questionnowid-=1
+        self.nowid-=1
+
+        self.changetihao()
         self.xianshitimu()
+        self.label_2.setText('')
 
     def xiayiti(self):
-        self.questionnowid+=1
+        self.nowid+=1
+
+        self.changetihao()
         self.xianshitimu()
+        self.label_2.setText('')
 
     def xianshitimu(self):
         #题目内容
         from controllers.utils.displayques import displayques
 
         questionid=self.questionnowid
-        display = displayques(self,self.textBrowser, self.gridtalLayout1, questionid,self.coursename,self.questionnowid,20,self.gridtalLayout1)
+        display = displayques(self,self.textBrowser, self.gridtalLayout1, questionid,self.coursename,self.nowid-1,20,self.gridtalLayout1)
         display.display()
+    def changetihao(self):
+        Session = sessionmaker(bind=engine)
+        session = Session()
+        questionall = session.query(question.id).filter(
+            question.course_name == self.coursename).all()
+        try:
+
+            self.questionnowid = questionall[self.nowid - 1].id
+        except:
+            QtWidgets.QMessageBox.information(self, '题号', '超出题目范围')
+        session.close()
+        # self.lineEdit.setText(str(self.nowid))
 
 
     def closeEvent(self, event):
@@ -96,12 +122,12 @@ class trainfrom(QWidget,Ui_Dialog):
         :return: None
         """
         reply = QtWidgets.QMessageBox.question(self,
-                                               '本程序',
-                                               "是否要退出程序？",
+                                               '训练',
+                                               "是否要退出训练？",
                                                QtWidgets.QMessageBox.Yes | QtWidgets.QMessageBox.No,
                                                QtWidgets.QMessageBox.No)
         if reply == QtWidgets.QMessageBox.Yes:
-            self.inittempuser()
+
             event.accept()
         else:
             event.ignore()

@@ -227,6 +227,14 @@ class examfrom(QWidget,Ui_Dialog):
         fenzhong = self.kaoshishijian // 60
         miao=self.kaoshishijian%60
         timeleft="     剩余时间："+str(fenzhong)+":"+str(miao)
+        if self.kaoshishijian<1:
+            from controllers.jiaojuan import juaojuan
+            self.juaojuan = juaojuan(self.paperlist, self.coursename)
+
+            self.juaojuan.show()
+            self.close()
+            self.timer.timeout.disconnect()
+
         self.label_2.setText(timeleft)
     def closeEvent(self, event):
         """
@@ -234,16 +242,8 @@ class examfrom(QWidget,Ui_Dialog):
         :param event: close()触发的事件
         :return: None
         """
-        reply = QtWidgets.QMessageBox.question(self,
-                                               '本程序',
-                                               "是否要退出程序？",
-                                               QtWidgets.QMessageBox.Yes | QtWidgets.QMessageBox.No,
-                                               QtWidgets.QMessageBox.No)
-        if reply == QtWidgets.QMessageBox.Yes:
-            self.inittempuser()
-            event.accept()
-        else:
-            event.ignore()
+
+        self.inittempuser()
 
     def inittempuser(self):
         Session = sessionmaker(bind=engine)
