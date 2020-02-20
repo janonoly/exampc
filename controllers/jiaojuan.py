@@ -143,6 +143,7 @@ class juaojuan(QWidget,Ui_Dialog):
 
         # self.textBrowser.setHtml("<font color='red'>hell</font>")
         self.textBrowser.setHtml(yemian)
+        session.close()
 
 
 

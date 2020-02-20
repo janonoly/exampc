@@ -17,10 +17,20 @@ class mywindow(QtWidgets.QMainWindow,Ui_MainWindow):
         self.setupUi(self)
         self.action_F.triggered.connect(self.impquefrmexl)
         self.action_K.triggered.connect(self.addcourse)
+        self.action_D.triggered.connect(self.deletequestion)
         self.pushButton.clicked.connect(self.exam)
         self.pushButton_2.clicked.connect(self.train)
         self.initcomboBox()
         self.inittempuser()
+    def deletequestion(self):
+        Session = sessionmaker(bind=engine)
+        session = Session()
+        from model.question import question
+        # result = session.query(tempuserans).all()
+        # session.delete(result)
+        session.query(question).filter().delete()
+        session.commit()
+        session.close()
     def inittempuser(self):
         Session = sessionmaker(bind=engine)
         session = Session()
@@ -89,7 +99,12 @@ class mywindow(QtWidgets.QMainWindow,Ui_MainWindow):
     # 定义槽函数
     @pyqtSlot()
     def train(self):
-        QMessageBox.information(self, '导入', '导入成功')
+        from controllers.train import trainfrom
+        self.examui = trainfrom()
+        # self.examui.setWindowModality(Qt.ApplicationModal)
+        coursename = self.comboBox.currentText()
+        self.examui.coursename = coursename
+        self.examui.show()
 
 
 

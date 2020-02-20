@@ -101,6 +101,7 @@
      <string>导入题库</string>
     </property>
     <addaction name="action_F"/>
+    <addaction name="action_D"/>
    </widget>
    <widget class="QMenu" name="menu_3">
     <property name="title">
@@ -129,6 +130,11 @@
   <action name="action_K">
    <property name="text">
     <string>科目设置(&amp;K)</string>
+   </property>
+  </action>
+  <action name="action_D">
+   <property name="text">
+    <string>删除题库&amp;D</string>
    </property>
   </action>
  </widget>
