@@ -20,6 +20,16 @@ class mywindow(QtWidgets.QMainWindow,Ui_MainWindow):
         self.pushButton.clicked.connect(self.exam)
         self.pushButton_2.clicked.connect(self.train)
         self.initcomboBox()
+        self.inittempuser()
+    def inittempuser(self):
+        Session = sessionmaker(bind=engine)
+        session = Session()
+        from model.question import tempuserans
+        # result = session.query(tempuserans).all()
+        # session.delete(result)
+        session.query(tempuserans).filter().delete()
+        session.commit()
+        session.close()
     def addcourse(self):
         from controllers.addcourse import myform1
         self.ui=myform1()
@@ -80,6 +90,8 @@ class mywindow(QtWidgets.QMainWindow,Ui_MainWindow):
     @pyqtSlot()
     def train(self):
         QMessageBox.information(self, '导入', '导入成功')
+
+
 
 
 

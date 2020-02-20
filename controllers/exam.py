@@ -1,11 +1,12 @@
-import this
+import re
 from functools import partial
-
 from PyQt5 import QtWidgets
 from PyQt5.QtCore import  QTimer
 from PyQt5.QtWidgets import QWidget
+from sqlalchemy import and_
 from sqlalchemy.orm import sessionmaker
-
+from model.createdb import engine
+from model.question import question,tempuserans
 from views.exam import Ui_Dialog
 
 class examfrom(QWidget,Ui_Dialog):
@@ -22,9 +23,86 @@ class examfrom(QWidget,Ui_Dialog):
         self.pushButton_2.clicked.connect(self.xiayiti)
         self.pushButton_3.clicked.connect(self.jiaojuan)
 
+
         self.gridtalLayout1 = QtWidgets.QGridLayout(self.groupBox_2)
 
         self.tihaolayout = QtWidgets.QGridLayout(self.groupBox_3)
+        self.pushButton_5.clicked.connect(self.tijiaodaan)
+    def shuaxingtihao(self):
+        checkboxname = "tihao" + str(self.questionnowid+1)
+        qlist = self.findChildren(QtWidgets.QPushButton,checkboxname)
+        for i in  qlist:
+           i.setStyleSheet("background-color: green")
+
+    def tijiaodaan(self):
+        #刷新题号状态
+
+        #获取用户答案
+        # for i in range(self.gridtalLayout1.count()):
+        #     self.gridtalLayout1.itemAt(i).widget()
+        Session = sessionmaker(bind=engine)
+        session = Session()
+        questionid=self.paperlist[self.questionnowid][0]
+        questionres = session.query(question.questionType).filter(
+            and_(question.id ==questionid , question.course_name == self.coursename)).first()
+
+        session.query(tempuserans).filter(tempuserans.question_id ==questionid).delete()
+        tempuseran = tempuserans()
+        userdaan = ""
+        if questionres.questionType == 'xz':
+
+            qlist = self.findChildren(QtWidgets.QRadioButton)
+            tempkey=['A','B','C','D','E','F']
+            num=0
+            for i in qlist:
+                name=i.isChecked()
+                if name:
+                    userdaan+=tempkey[int(num)]
+                num+=1
+            tempuseran.question_id=questionid
+            tempuseran.userans=userdaan
+
+        elif questionres.questionType == 'pd':
+
+            qlist = self.findChildren(QtWidgets.QRadioButton)
+            tempkey = ['True', 'False']
+            num = 0
+            for i in qlist:
+                name = i.isChecked()
+                if name:
+                    userdaan += tempkey[int(num)]
+                num += 1
+            tempuseran.question_id =questionid
+            tempuseran.userans = userdaan
+
+        elif questionres.questionType == 'mxz':
+
+            qlist = self.findChildren(QtWidgets.QCheckBox)
+            tempkey=['A','B','C','D','E','F']
+            num = 0
+            for i in qlist:
+                name = i.isChecked()
+                if name:
+                    userdaan += tempkey[int(num)]
+                num += 1
+            tempuseran.question_id =questionid
+            tempuseran.userans = userdaan
+
+        elif questionres.questionType == 'jd':
+
+            qlist = self.findChildren(QtWidgets.QTextEdit)
+            for i in qlist:
+                userdaan=i.toPlainText()
+            tempuseran.question_id =questionid
+            tempuseran.userans = userdaan
+
+        session.add(tempuseran)
+        session.commit()
+        session.close()
+        if userdaan:
+            self.shuaxingtihao()
+        # self.xiayiti()
+
 
 
     def inittihaodisplay(self):
@@ -55,12 +133,26 @@ class examfrom(QWidget,Ui_Dialog):
     def shangyiti(self):
         self.questionnowid-=1
         self.xianshitimu()
+
     def xiayiti(self):
         self.questionnowid+=1
         self.xianshitimu()
     def jiaojuan(self):
-        self.pushButton_3.setHidden(True)
-        # self.xianshitimu()
+        reply = QtWidgets.QMessageBox.question(self,
+                                               '交卷',
+                                               "是否要交卷？",
+                                               QtWidgets.QMessageBox.Yes | QtWidgets.QMessageBox.No,
+                                               QtWidgets.QMessageBox.No)
+        if reply == QtWidgets.QMessageBox.Yes:
+            self.pushButton_3.setHidden(True)
+            # self.xianshitimu()
+            from controllers.jiaojuan import juaojuan
+            self.juaojuan = juaojuan(self.paperlist,self.coursename)
+
+            self.juaojuan.show()
+        else:
+            pass
+
     def kaishidati(self):
         self.settimer()
         self.pushButton_3.setHidden(False)
@@ -93,18 +185,23 @@ class examfrom(QWidget,Ui_Dialog):
             display.display()
             self.pushButton.setHidden(False)
             self.pushButton_2.setHidden(False)
+            self.pushButton_5.setHidden(False)
         elif self.questionnowid==0:
             self.pushButton.setHidden(True)
             display=displayques(self,self.textBrowser,self.gridtalLayout1,questionid,self.coursename,self.questionnowid,papernum,self.tihaolayout)
             display.display()
+            self.pushButton_5.setHidden(False)
         elif self.questionnowid==papernum-1:
             self.pushButton_2.setHidden(True)
+
             display = displayques(self,self.textBrowser, self.gridtalLayout1, questionid,self.coursename,self.questionnowid,papernum,self.tihaolayout)
             display.display()
         elif self.questionnowid<0:
             self.pushButton.setHidden(True)
+            self.pushButton_5.setHidden(True)
         elif self.questionnowid>papernum-1:
             self.pushButton_2.setHidden(True)
+            self.pushButton_5.setHidden(True)
 
 
 
@@ -119,6 +216,7 @@ class examfrom(QWidget,Ui_Dialog):
         self.pushButton.hide()
         self.pushButton_2.hide()
         self.pushButton_3.hide()
+        self.pushButton_5.hide()
     def settimer(self):
         self.timer = QTimer(self)  # 初始化一个定时器
         self.timer.timeout.connect(self.operate)  # 每次计时到时间时发出信号
@@ -130,5 +228,30 @@ class examfrom(QWidget,Ui_Dialog):
         miao=self.kaoshishijian%60
         timeleft="     剩余时间："+str(fenzhong)+":"+str(miao)
         self.label_2.setText(timeleft)
+    def closeEvent(self, event):
+        """
+        重写closeEvent方法，实现dialog窗体关闭时执行一些代码
+        :param event: close()触发的事件
+        :return: None
+        """
+        reply = QtWidgets.QMessageBox.question(self,
+                                               '本程序',
+                                               "是否要退出程序？",
+                                               QtWidgets.QMessageBox.Yes | QtWidgets.QMessageBox.No,
+                                               QtWidgets.QMessageBox.No)
+        if reply == QtWidgets.QMessageBox.Yes:
+            self.inittempuser()
+            event.accept()
+        else:
+            event.ignore()
 
+    def inittempuser(self):
+        Session = sessionmaker(bind=engine)
+        session = Session()
+        from model.question import tempuserans
+        # result = session.query(tempuserans).all()
+        # session.delete(result)
+        session.query(tempuserans).filter().delete()
+        session.commit()
+        session.close()
 

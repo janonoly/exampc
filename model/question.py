@@ -51,3 +51,13 @@ class PaperList(Base):#用于查看往期考试题目可能不用
     jd_choice_num = Column(Integer, name=u"填空题数", default=0)
     jd_choice_score = Column(Integer, name=u"填空分值", default=0)
     kaoshishijian=Column(Integer, name=u"考试时间", default=60)
+
+class tempuserans(Base):
+  __tablename__ = "tempuserans"
+
+  userans = Column(String(255),name=u"用户答案", default="")
+  question_id = Column(Integer, primary_key=True)
+
+
+
+

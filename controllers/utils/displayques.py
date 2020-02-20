@@ -2,7 +2,7 @@ from sqlalchemy import and_
 from sqlalchemy.orm import sessionmaker
 from PyQt5 import QtWidgets
 from model.createdb import engine
-from model.question import question
+from model.question import question,tempuserans
 from PyQt5.QtCore import pyqtSlot
 class displayques(object):
     def __init__(self,chuangti,quescontentlabel,quesoptionlayout,questionid,coursename,tihao,papernum,tihaolayout):
@@ -17,26 +17,46 @@ class displayques(object):
         self.papernum=papernum
         self.tihaolayout=tihaolayout
         # self.inittihaodisplay()
+        self.userans=self.getuseran()
 
+
+
+
+    def getuseran(self):
+        Session = sessionmaker(bind=engine)
+        session = Session()
+        tempuseran = session.query(tempuserans).filter(
+            tempuserans.question_id==self.questionid ).first()
+        userans=''
+        if tempuseran :
+            userans = tempuseran.userans
+        return userans
     def initmxzdisplay(self):
+
+        tempkey = ['A', 'B', 'C', 'D', 'E', 'F']
         for i in range(6):
-            checkboxname = "mxz" + str(i)
+            checkboxname = "daan" + str(i)
             checkbox = QtWidgets.QCheckBox()
             checkbox.setObjectName(checkboxname)
             checkbox.resize(20, 10)
-
+            tempkeyl=tempkey[i]
+            if tempkeyl in self.userans:
+                checkbox.setChecked(True)
             labelname = "mxzl" + str(i)
             label = QtWidgets.QLabel()
             label.setObjectName(labelname)
             self.quesoptionlayout.addWidget(checkbox, i, 1)
             self.quesoptionlayout.addWidget(label, i, 2, 1, 200)
     def initxzdisplay(self):
+        tempkey = ['A', 'B', 'C', 'D', 'E', 'F']
         for i in range(6):
-            checkboxname = "xz" + str(i)
+            checkboxname = "daan" + str(i)
             checkbox = QtWidgets.QRadioButton()
             checkbox.setObjectName(checkboxname)
             checkbox.resize(20, 10)
-
+            tempkeyl=tempkey[i]
+            if tempkeyl in self.userans:
+                checkbox.setChecked(True)
             labelname = "xzl" + str(i)
             label = QtWidgets.QLabel()
             label.setObjectName(labelname)
@@ -44,10 +64,16 @@ class displayques(object):
             self.quesoptionlayout.addWidget(label, i, 2, 1, 200)
     def initpddisplay(self):
         for i in range(2):
-            checkboxname = "pd" + str(i)
+            checkboxname = "daan" + str(i)
             checkbox = QtWidgets.QRadioButton()
             checkbox.setObjectName(checkboxname)
             checkbox.resize(20, 10)
+            if i==0:
+                if self.userans=='True':
+                    checkbox.setChecked(True)
+            if i==1:
+                if self.userans=='False':
+                    checkbox.setChecked(True)
 
             labelname = "pdl" + str(i)
             label = QtWidgets.QLabel()
@@ -59,11 +85,14 @@ class displayques(object):
             self.quesoptionlayout.addWidget(checkbox, i, 1)
             self.quesoptionlayout.addWidget(label, i, 2, 1, 200)
     def initjddisplay(self):
-            checkboxname = "jd"
+            checkboxname = "daan"
             checkbox = QtWidgets.QTextEdit()
             checkbox.setObjectName(checkboxname)
             checkbox.resize(20, 10)
+            checkbox.setText(self.userans)
             self.quesoptionlayout.addWidget(checkbox)
+
+
     def removeallwiget(self):
         for i in range(self.quesoptionlayout.count()):
             self.quesoptionlayout.itemAt(i).widget().deleteLater()
