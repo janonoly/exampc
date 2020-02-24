@@ -20,7 +20,6 @@ class mywindow(QtWidgets.QMainWindow,Ui_MainWindow):
         self.action_D.triggered.connect(self.deletequestion)
         self.pushButton.clicked.connect(self.exam)
         self.pushButton_2.clicked.connect(self.train)
-        self.initcomboBox()
         self.inittempuser()
     def deletequestion(self):
         Session = sessionmaker(bind=engine)
@@ -45,23 +44,6 @@ class mywindow(QtWidgets.QMainWindow,Ui_MainWindow):
         self.ui=myform1()
         self.ui.setWindowModality(Qt.ApplicationModal)
         self.ui.show()
-
-    def initcomboBox(self):
-        Session = sessionmaker(bind=engine)
-        # 每次执行数据库操作时，都需要创建一个session
-        session = Session()
-        from model.question import courselist
-        try:
-            result = session.query(courselist).all()
-            # for single in result:
-            #     # print('username:%s' % single.coursename)
-            self.comboBox.addItems( i.coursename for i in result)
-        except:
-            pass
-        session.close()
-
-
-
     #定义槽函数
     @pyqtSlot()
     def impquefrmexl(self):
@@ -83,27 +65,19 @@ class mywindow(QtWidgets.QMainWindow,Ui_MainWindow):
     # 定义槽函数
     @pyqtSlot()
     def exam(self):
-        from controllers.exam import examfrom
-        self.examui = examfrom()
-        # self.examui.setWindowModality(Qt.ApplicationModal)
-        coursename=self.comboBox.currentText()
-        self.examui.coursename=coursename
+        from controllers.selectcourse import selectcourseform
+        self.examui = selectcourseform()
+        self.examui.state=1
+        self.examui.setWindowModality(Qt.ApplicationModal)
         self.examui.show()
-
-
-
-
-
-
 
     # 定义槽函数
     @pyqtSlot()
     def train(self):
-        from controllers.train import trainfrom
-        self.examui = trainfrom()
-        # self.examui.setWindowModality(Qt.ApplicationModal)
-        coursename = self.comboBox.currentText()
-        self.examui.coursename = coursename
+        from controllers.selectcourse import selectcourseform
+        self.examui = selectcourseform()
+        self.examui.state = 0
+        self.examui.setWindowModality(Qt.ApplicationModal)
         self.examui.show()
 
 

@@ -156,9 +156,13 @@ class displayques(object):
         flag = ['a', 'b', 'c', 'd', 'e', 'f']
         flag1 = 0
         for x in qlist:
-            x.setText(questionres.choice_a)
+            # x.setText(questionres.choice_a)
+
             tempstr = 'x.setText(questionres.choice_%s)' % flag[flag1]
-            exec(tempstr)
+            temstr1='if len(questionres.choice_%s) ' % flag[flag1] +' > 2 : '+tempstr+' '
+            temstr2 = 'if len(questionres.choice_%s) ' % flag[flag1] + ' <= 2 :   x.setHidden(True) '
+            exec(temstr1)
+            exec(temstr2)
             flag1 += 1
 
 

@@ -1,3 +1,5 @@
+from functools import partial
+
 from PyQt5 import QtWidgets
 from PyQt5.QtWidgets import QWidget
 from sqlalchemy import and_
@@ -11,24 +13,57 @@ class trainfrom(QWidget,Ui_Dialog):
         super().__init__()
         self.setupUi(self)
         self.coursename=""
+        self.zhangjie=None
         self.questionnowid=0
-        self.nowid =0
         self.pushButton.clicked.connect(self.shangyiti)
         self.pushButton_2.clicked.connect(self.xiayiti)
         self.gridtalLayout1 = QtWidgets.QGridLayout(self.groupBox_2)
         self.pushButton_5.clicked.connect(self.tijiaodaan)
-        self.lineEdit.textChanged.connect(self.changtihao1)
-        # self.xianshitimu()
+        # self.lineEdit.textChanged.connect(self.changtihao1)
+        self.pushButton_3.clicked.connect(self.inittimu)
+        self.tihaolayout = QtWidgets.QGridLayout(self.groupBox_3)
+        self.initbutton()
 
-    def changtihao1(self):
-        self.nowid = int(self.lineEdit.text())
+    def initbutton(self):
+        self.pushButton_2.setHidden(True)
+        self.pushButton_5.setHidden(True)
+        self.pushButton.setHidden(True)
+
+    def inittimu(self):
+        self.pushButton_3.setHidden(True)
+        self.pushButton_2.setHidden(False)
+        self.pushButton_5.setHidden(False)
+        self.pushButton.setHidden(True)
+        # 按章节训练
+        Session = sessionmaker(bind=engine)
+        session = Session()
+        if self.zhangjie:
+            self.questionresall = session.query(question.id).filter(
+            and_(question.zhangjie == self.zhangjie, question.course_name == self.coursename)).all()
+            self.inittihaodisplay()
+        else:
+            # 不按章节训练
+            self.questionresall = session.query(question.id).filter(
+            and_(question.course_name == self.coursename)).all()
+            self.groupBox_3.setHidden(True)
+        self.xianshitimu()
+        self.label.setText('共'+str(len(self.questionresall))+'题')
+
+
+    # def changtihao1(self):
+    #     try:
+    #         self.questionnowid = int(self.lineEdit.text())
+    #     except:
+    #         pass
     def tijiaodaan(self):
 
         Session = sessionmaker(bind=engine)
         session = Session()
-
+        questionid=self.questionresall[0].id
+        if self.questionnowid<len(self.questionresall):
+            questionid= self.questionresall[self.questionnowid].id
         questionres = session.query(question).filter(
-            and_(question.id ==self.questionnowid , question.course_name == self.coursename)).first()
+            and_(question.id ==questionid , question.course_name == self.coursename)).first()
 
         userdaan = ""
         if questionres.questionType == 'xz':
@@ -77,29 +112,44 @@ class trainfrom(QWidget,Ui_Dialog):
 
         self.label_2.setText("正确答案为："+anser+"   我的答案："+userdaan)
         session.close()
+        if userdaan:
+            self.shuaxingtihao()
 
-
+    def shuaxingtihao(self):
+        checkboxname = "tihao" + str(self.questionnowid+1)
+        qlist = self.findChildren(QtWidgets.QPushButton,checkboxname)
+        for i in  qlist:
+           i.setStyleSheet("background-color: green")
 
     def shangyiti(self):
-        self.nowid-=1
+        self.questionnowid-=1
 
-        self.changetihao()
+        # self.changetihao()
         self.xianshitimu()
         self.label_2.setText('')
+        if self.questionnowid <= len(self.questionresall) - 1:
+            self.pushButton_2.setHidden(False)
+        if self.questionnowid <= 0:
+            self.pushButton.setHidden(True)
 
     def xiayiti(self):
-        self.nowid+=1
-
-        self.changetihao()
+        self.questionnowid += 1
+        # self.changetihao()
         self.xianshitimu()
         self.label_2.setText('')
+
+        if self.questionnowid >= len(self.questionresall)-1:
+            self.pushButton_2.setHidden(True)
+        if self.questionnowid > 0:
+            self.pushButton.setHidden(False)
+
 
     def xianshitimu(self):
         #题目内容
         from controllers.utils.displayques import displayques
-
-        questionid=self.questionnowid
-        display = displayques(self,self.textBrowser, self.gridtalLayout1, questionid,self.coursename,self.nowid-1,20,self.gridtalLayout1)
+        questionid = self.questionresall[self.questionnowid].id
+        papernum=len(self.questionresall)
+        display = displayques(self,self.textBrowser, self.gridtalLayout1, questionid,self.coursename,self.questionnowid,papernum,self.tihaolayout)
         display.display()
     def changetihao(self):
         Session = sessionmaker(bind=engine)
@@ -132,4 +182,25 @@ class trainfrom(QWidget,Ui_Dialog):
         else:
             event.ignore()
 
+    def inittihaodisplay(self):
+        papernum = len(self.questionresall)
+        rownum=papernum//25+1
+        clonum=25
+        tihao=1
+        for i in range(rownum):
+            for j in range(clonum):
+                if tihao > papernum:
+                    break
+                checkboxname = "tihao" + str(tihao)
+                checkbox = QtWidgets.QPushButton()
+                checkbox.setFixedSize(60,25)
 
+                checkbox.setObjectName(checkboxname)
+                checkbox.setText(str(tihao))
+                self.tihaolayout.addWidget(checkbox, i,j)
+
+                checkbox.clicked.connect(partial(self.jumptihao, checkbox.text()))
+                tihao += 1
+    def jumptihao(self,buttext):
+        self.questionnowid=int(buttext)-1
+        self.xianshitimu()

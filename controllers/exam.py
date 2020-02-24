@@ -13,7 +13,9 @@ class examfrom(QWidget,Ui_Dialog):
     def __init__(self):
         super().__init__()
         self.setupUi(self)
+
         self.coursename=""
+        self.zhangjie = None
         self.questionnowid=0
         self.paperlist=[]
         self.kaoshishijian=60
@@ -107,23 +109,23 @@ class examfrom(QWidget,Ui_Dialog):
 
     def inittihaodisplay(self):
         papernum = len(self.paperlist)
-        clonum=papernum//3
-        rownum=4
+        rownum = papernum // 25 + 1
+        clonum = 25
         tihao=1
         for i in range(rownum):
-
             for j in range(clonum):
+                if tihao > papernum:
+                    break
                 checkboxname = "tihao" + str(tihao)
                 checkbox = QtWidgets.QPushButton()
+                checkbox.setFixedSize(60, 25)
                 checkbox.setObjectName(checkboxname)
                 checkbox.setText(str(tihao))
                 self.tihaolayout.addWidget(checkbox, i,j)
 
                 checkbox.clicked.connect(partial(self.jumptihao, checkbox.text()))
-
                 tihao += 1
-                if tihao > papernum :
-                    break
+
     def jumptihao(self,buttext):
         self.questionnowid=int(buttext)-1
         self.xianshitimu()
@@ -160,7 +162,7 @@ class examfrom(QWidget,Ui_Dialog):
         self.pushButton.setHidden(False)
         self.pushButton_4.setHidden(True)
         from controllers.utils.createpaper import createpaper
-        paper=createpaper(self.coursename)
+        paper=createpaper(self.coursename,self.zhangjie)
         self.paperlist=paper.createpaper()
         self.kaoshishijian=self.paperlist[-1]*60
         self.paperlist.pop()
@@ -173,7 +175,7 @@ class examfrom(QWidget,Ui_Dialog):
         papernum=len(self.paperlist)
         questionid=0
         try:
-            if self.questionnowid<20 and self.questionnowid>=0:
+            if self.questionnowid<papernum and self.questionnowid>=0:
                 questionid=self.paperlist[self.questionnowid][0]
             else:
                 questionid = self.paperlist[0][0]
