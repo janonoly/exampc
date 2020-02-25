@@ -1,6 +1,7 @@
 from functools import partial
 
 from PyQt5 import QtWidgets
+from PyQt5.QtCore import QEvent
 from PyQt5.QtWidgets import QWidget
 from sqlalchemy import and_
 from sqlalchemy.orm import sessionmaker
@@ -19,15 +20,29 @@ class trainfrom(QWidget,Ui_Dialog):
         self.pushButton_2.clicked.connect(self.xiayiti)
         self.gridtalLayout1 = QtWidgets.QGridLayout(self.groupBox_2)
         self.pushButton_5.clicked.connect(self.tijiaodaan)
-        # self.lineEdit.textChanged.connect(self.changtihao1)
+        self.lineEdit.installEventFilter(self)
         self.pushButton_3.clicked.connect(self.inittimu)
         self.tihaolayout = QtWidgets.QGridLayout(self.groupBox_3)
         self.initbutton()
 
+    def eventFilter(self, widget, event):
+        if widget == self.lineEdit:
+            if event.type() == QEvent.FocusOut:
+                try:
+                    self.questionnowid = int(self.lineEdit.text())-1
+                except:
+                    pass
+            # elif event.type() == QEvent.FocusIn:
+            #     pass# 当焦点再次落到edit输入框时，发送clicked信号出去
+            # else:
+            #     pass
+        return False
     def initbutton(self):
         self.pushButton_2.setHidden(True)
         self.pushButton_5.setHidden(True)
         self.pushButton.setHidden(True)
+        self.lineEdit.setHidden(True)
+        self.label_3.setHidden(True)
 
     def inittimu(self):
         self.pushButton_3.setHidden(True)
@@ -41,20 +56,20 @@ class trainfrom(QWidget,Ui_Dialog):
             self.questionresall = session.query(question.id).filter(
             and_(question.zhangjie == self.zhangjie, question.course_name == self.coursename)).all()
             self.inittihaodisplay()
+            self.lineEdit.setHidden(True)
+            self.label_3.setHidden(True)
         else:
             # 不按章节训练
             self.questionresall = session.query(question.id).filter(
             and_(question.course_name == self.coursename)).all()
             self.groupBox_3.setHidden(True)
+            self.lineEdit.setHidden(False)
+            self.label_3.setHidden(False)
         self.xianshitimu()
         self.label.setText('共'+str(len(self.questionresall))+'题')
 
 
-    # def changtihao1(self):
-    #     try:
-    #         self.questionnowid = int(self.lineEdit.text())
-    #     except:
-    #         pass
+
     def tijiaodaan(self):
 
         Session = sessionmaker(bind=engine)
