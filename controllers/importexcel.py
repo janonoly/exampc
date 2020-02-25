@@ -1,5 +1,6 @@
 import sys
 
+from PyQt5.QtGui import QPalette, QBrush, QPixmap, QPainter, QIcon
 from sqlalchemy.orm import sessionmaker
 from model.createdb import engine
 from PyQt5 import QtWidgets
@@ -15,20 +16,56 @@ class mywindow(QtWidgets.QMainWindow,Ui_MainWindow):
     def __init__(self):
         super(mywindow,self).__init__()
         self.setupUi(self)
+        self.setstyle()
         self.action_F.triggered.connect(self.impquefrmexl)
         self.action_K.triggered.connect(self.addcourse)
         self.action_D.triggered.connect(self.deletequestion)
         self.pushButton.clicked.connect(self.exam)
         self.pushButton_2.clicked.connect(self.train)
         self.inittempuser()
+    def setstyle(self):
+        # # self.setWindowFlags(Qt.FramelessWindowHint | Qt.WindowStaysOnTopHint)  # 无边框，置顶
+        # self.setAttribute(Qt.WA_TranslucentBackground)  # 透明背景色
+        self.setWindowIcon(QIcon('./resources/logo.jpg'))
+        # self.pushButton.setIcon(QIcon("./resources/logo.jpg"))
+        # self.pushButton.setIcon(QIcon("./resources/logo.jpg"))
+        self.pushButton.setStyleSheet("QPushButton{color:black}"
+                                      "QPushButton:hover{color:red}"
+                                      "QPushButton{background-color:lightgreen}"
+                                      "QPushButton{border:2px}"
+                                      "QPushButton{border-radius:10px}"
+                                      "QPushButton{padding:2px 4px}")
+        self.pushButton_2.setStyleSheet("QPushButton{color:black}"
+                                      "QPushButton:hover{color:red}"
+                                      "QPushButton{background-color:lightgreen}"
+                                      "QPushButton{border:2px}"
+                                      "QPushButton{border-radius:10px}"
+                                      "QPushButton{padding:2px 4px}")
+        self.label.setText("单机考试系统V1.0")
+
+    def paintEvent(self, event):  # set background_img
+        painter = QPainter(self)
+        painter.drawRect(self.rect())
+        pixmap = QPixmap("./resources/background.jpg")  # 换成自己的图片的相对路径
+        painter.drawPixmap(self.rect(), pixmap)
+
     def deletequestion(self):
         Session = sessionmaker(bind=engine)
         session = Session()
         from model.question import question
         # result = session.query(tempuserans).all()
         # session.delete(result)
-        session.query(question).filter().delete()
-        session.commit()
+        reply = QtWidgets.QMessageBox.question(self,
+                                               '删除题库',
+                                               "是否要删除题库？",
+                                               QtWidgets.QMessageBox.Yes | QtWidgets.QMessageBox.No,
+                                               QtWidgets.QMessageBox.No)
+        if reply == QtWidgets.QMessageBox.Yes:
+            session.query(question).filter().delete()
+            session.commit()
+        else:
+            pass
+
         session.close()
     def inittempuser(self):
         Session = sessionmaker(bind=engine)

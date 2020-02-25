@@ -6,12 +6,30 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>800</width>
+    <width>900</width>
     <height>600</height>
    </rect>
   </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>900</width>
+    <height>600</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>900</width>
+    <height>600</height>
+   </size>
+  </property>
   <property name="windowTitle">
-   <string>训练系统</string>
+   <string>考试系统</string>
   </property>
   <property name="unifiedTitleAndToolBarOnMac">
    <bool>false</bool>
@@ -20,7 +38,7 @@
    <widget class="QPushButton" name="pushButton">
     <property name="geometry">
      <rect>
-      <x>170</x>
+      <x>220</x>
       <y>250</y>
       <width>170</width>
       <height>40</height>
@@ -38,7 +56,7 @@
    <widget class="QPushButton" name="pushButton_2">
     <property name="geometry">
      <rect>
-      <x>440</x>
+      <x>490</x>
       <y>250</y>
       <width>170</width>
       <height>40</height>
@@ -53,13 +71,31 @@
      <string>训练</string>
     </property>
    </widget>
+   <widget class="QLabel" name="label">
+    <property name="geometry">
+     <rect>
+      <x>380</x>
+      <y>510</y>
+      <width>191</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>11</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>TextLabel</string>
+    </property>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>800</width>
+     <width>900</width>
      <height>26</height>
     </rect>
    </property>

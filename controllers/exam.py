@@ -2,7 +2,7 @@ import re
 from functools import partial
 from PyQt5 import QtWidgets
 from PyQt5.QtCore import  QTimer
-from PyQt5.QtWidgets import QWidget
+from PyQt5.QtWidgets import QWidget, QMessageBox
 from sqlalchemy import and_
 from sqlalchemy.orm import sessionmaker
 from model.createdb import engine
@@ -163,11 +163,18 @@ class examfrom(QWidget,Ui_Dialog):
         self.pushButton_4.setHidden(True)
         from controllers.utils.createpaper import createpaper
         paper=createpaper(self.coursename,self.zhangjie)
-        self.paperlist=paper.createpaper()
-        self.kaoshishijian=self.paperlist[-1]*60
-        self.paperlist.pop()
-        self.xianshitimu()
-        self.inittihaodisplay()
+        try:
+             self.paperlist=paper.createpaper()
+        except:
+            pass
+        if len(self.paperlist)>1:
+            self.kaoshishijian=self.paperlist[-1]*60
+            self.paperlist.pop()
+            self.xianshitimu()
+            self.inittihaodisplay()
+        else:
+            QMessageBox.information(self, '考试', '出题失败,请修改试卷设置')
+            self.close()
 
     def xianshitimu(self):
         #题目内容
