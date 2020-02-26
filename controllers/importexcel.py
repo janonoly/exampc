@@ -20,6 +20,7 @@ class mywindow(QtWidgets.QMainWindow,Ui_MainWindow):
         self.action_F.triggered.connect(self.impquefrmexl)
         self.action_K.triggered.connect(self.addcourse)
         self.action_D.triggered.connect(self.deletequestion)
+        self.action_word_O.triggered.connect(self.exportpaper)
         self.pushButton.clicked.connect(self.exam)
         self.pushButton_2.clicked.connect(self.train)
         self.inittempuser()
@@ -79,6 +80,12 @@ class mywindow(QtWidgets.QMainWindow,Ui_MainWindow):
     def addcourse(self):
         from controllers.addcourse import myform1
         self.ui=myform1()
+        self.ui.setWindowModality(Qt.ApplicationModal)
+        self.ui.show()
+
+    def exportpaper(self):
+        from controllers.exportpaper import exportpaperform
+        self.ui=exportpaperform()
         self.ui.setWindowModality(Qt.ApplicationModal)
         self.ui.show()
     #定义槽函数

@@ -148,6 +148,7 @@ class examfrom(QWidget,Ui_Dialog):
         if reply == QtWidgets.QMessageBox.Yes:
             self.pushButton_3.setHidden(True)
             # self.xianshitimu()
+            self.close()
             from controllers.jiaojuan import juaojuan
             self.juaojuan = juaojuan(self.paperlist,self.coursename)
 

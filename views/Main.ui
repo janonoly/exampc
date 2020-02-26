@@ -101,19 +101,26 @@
    </property>
    <widget class="QMenu" name="menu">
     <property name="title">
-     <string>导入题库</string>
+     <string>题库操作</string>
     </property>
     <addaction name="action_F"/>
     <addaction name="action_D"/>
    </widget>
    <widget class="QMenu" name="menu_3">
     <property name="title">
-     <string>增加科目</string>
+     <string>科目设置</string>
     </property>
     <addaction name="action_K"/>
    </widget>
+   <widget class="QMenu" name="menu_2">
+    <property name="title">
+     <string>出卷</string>
+    </property>
+    <addaction name="action_word_O"/>
+   </widget>
    <addaction name="menu_3"/>
    <addaction name="menu"/>
+   <addaction name="menu_2"/>
   </widget>
   <action name="menuimpexl">
    <property name="text">
@@ -138,6 +145,11 @@
   <action name="action_D">
    <property name="text">
     <string>删除题库&amp;D</string>
+   </property>
+  </action>
+  <action name="action_word_O">
+   <property name="text">
+    <string>试卷导出到word(O)</string>
    </property>
   </action>
  </widget>
