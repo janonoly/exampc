@@ -2,7 +2,7 @@ import os
 
 from PyQt5 import QtWidgets
 from docx.oxml.ns import qn
-from docx.shared import RGBColor, Inches, Pt, Cm
+from docx.shared import RGBColor, Pt, Cm
 from sqlalchemy.orm import sessionmaker
 from model.createdb import engine
 import docx
@@ -17,8 +17,76 @@ class exportpaperform(QWidget,Ui_Dialog):
         self.setupUi(self)
         self.initcomboBox()
         self.pushButton.clicked.connect(self.exportpapers)
+        self.pushButton_2.clicked.connect(self.exportpaperformat)
+    def exportpaperformat(self):
+        try:
+            startnum = int(self.lineEdit_2.text())-1
+            endnum = int(self.lineEdit_3.text())
+            self.coursename = self.comboBox_2.currentText()
+            paper = createpaper(self.coursename)
+
+            questionidformat = paper.createpaperformat(startnum,endnum)
+            self.exportpaper2(questionidformat,startnum)
+
+        except:
+            QtWidgets.QMessageBox.information(self, '出卷', '请输入正确数字')
+
+    def exportpaper2(self,questionidformat,papertihao):
+        self.file = docx.Document()  # 创建内存中的word文档对象
+
+        self.file.styles['Normal'].font.name = u'宋体'
+        tihao=papertihao
+        self.erjistyle('选择题')
+        for i in questionidformat:
+            single_question_set = self.gensinglequestion(i.id)
+            if single_question_set.questionType=='xz':
+                tihao += 1
+                self.genwordxzmxzstr(tihao, i.id)
+        self.erjistyle('多选题')
+        for i in questionidformat:
+            single_question_set = self.gensinglequestion(i.id)
+            if single_question_set.questionType == 'mxz':
+                tihao += 1
+                self.genwordxzmxzstr(tihao, i.id)
+        self.erjistyle('判断题')
+        for i in questionidformat:
+            single_question_set = self.gensinglequestion(i.id)
+            if single_question_set.questionType == 'pd':
+                tihao += 1
+                self.genwordpdjdstr(tihao, i.id)
+        self.erjistyle('填空题')
+        for i in questionidformat:
+            single_question_set = self.gensinglequestion(i.id)
+            if single_question_set.questionType == 'jd':
+                tihao += 1
+                self.genwordpdjdstr(tihao, i.id)
+        fileName, ok2 = QFileDialog.getSaveFileName(self,
+                                                    "文件保存",
+                                                    "./",
+                                                    "All Files (*);;Text Files (*.docx)")
+
+        self.filepath, self.filename = os.path.split(fileName)
+        self.file.save(fileName)  # 保存才能看到结果
+        filenameans= self.filepath+'/答案'+self.filename
+        self.exportpaper2ans(filenameans,questionidformat,papertihao)
+
+    def exportpaper2ans(self, filenameans,questionidformat, tihao):
+        self.file = docx.Document()  # 创建内存中的word文档对象
+
+        self.file.styles['Normal'].font.name = u'宋体'
+        tihao = tihao
+        xzstr=''
+        for i in questionidformat:
+            tihao += 1
+            single_question_set = self.gensinglequestion(i.id)
+            xzstr += str(tihao) + ':' + single_question_set.answer + '  '
+
+        self.contentstyle(xzstr)
+
+        self.file.save(filenameans)  # 保存才能看到结果
+
     def exportpapers(self):
-        papernum=1
+
         try:
              papernum=int(self.lineEdit.text())
              fileName, ok2 = QFileDialog.getSaveFileName(self,
@@ -26,11 +94,14 @@ class exportpaperform(QWidget,Ui_Dialog):
                                                          "./",
                                                          "All Files (*);;Text Files (*.docx)")
              self.filepath, self.filename = os.path.split(fileName)
+             self.coursename = self.comboBox.currentText()
+             for i in range(1, papernum + 1):
+                 paper = createpaper(self.coursename)
+                 questionidlist = paper.createpaper()
+                 questionidlist.pop()
+                 self.exportpaper(str(i), questionidlist)
         except:
-            QtWidgets.QMessageBox.information(self, '出卷', '请输入数字')
-
-        for i in range(1,papernum+1):
-            self.exportpaper(str(i))
+            QtWidgets.QMessageBox.information(self, '出卷', '请输入正确数字')
 
 
 
@@ -64,19 +135,37 @@ class exportpaperform(QWidget,Ui_Dialog):
         run._element.rPr.rFonts.set(qn('w:eastAsia'), u'宋体')
         run.font.color.rgb = RGBColor(0, 0, 0)
         p.alignment = WD_PARAGRAPH_ALIGNMENT.CENTER
-    def exportpaper(self,papername):
+    def genwordxzmxzstr(self,tihao,id):
+        single_question_set = self.gensinglequestion(id)
+        self.contentstyle(str(tihao) + ':' + single_question_set.content)
+        xuanxiangcontent = ''
+        if len(single_question_set.choice_a) > 2:
+            xuanxiangcontent += ' ' + single_question_set.choice_a
+        if len(single_question_set.choice_b) > 2:
+            xuanxiangcontent += ' ' + single_question_set.choice_b
+        if len(single_question_set.choice_c) > 2:
+            xuanxiangcontent += ' ' + single_question_set.choice_c
+        if len(single_question_set.choice_d) > 2:
+            xuanxiangcontent += ' ' + single_question_set.choice_d
+        if len(single_question_set.choice_e) > 2:
+            xuanxiangcontent += ' ' + single_question_set.choice_e
+        if len(single_question_set.choice_f) > 2:
+            xuanxiangcontent += ' ' + single_question_set.choice_f
+        self.contentstyle(xuanxiangcontent)
+    def genwordpdjdstr(self,tihao,id):
+        single_question_set = self.gensinglequestion(id)
+        self.contentstyle(str(tihao) + ':' + single_question_set.content)
+    def exportpaper(self,papername,questionidlist):
         self.file = docx.Document()  # 创建内存中的word文档对象
-        self.coursename=self.comboBox.currentText()
+
         self.file.styles['Normal'].font.name = u'宋体'
         # file.add_paragraph("窗前明月光")  # 写入若干段落
-
+        papertitle = self.comboBox.currentText() + '卷' + papername
         if self.comboBox.currentText() is not None:
 
-            paper=createpaper(self.coursename)
-            self.questionidlist=paper.createpaper()
-            self.questionidlist.pop()
-            self.papertitle=self.comboBox.currentText()+'卷'+papername
-            self.titlestyle( self.papertitle)
+
+
+            self.titlestyle( papertitle)
             # self.erjistyle('不知道')
             # self.contentstyle('内容')
             tihao=0
@@ -95,70 +184,40 @@ class exportpaperform(QWidget,Ui_Dialog):
             self.erjistyle('一、选择题（每题%s分）'%xzfenshu)
             for i in range(xznum):
                 tihao+=1
-                id=self.questionidlist[i].id
-                single_question_set=self.gensinglequestion(id)
-                self.contentstyle(str(tihao)+':'+single_question_set.content)
-                xuanxiangcontent=''
-                if len(single_question_set.choice_a)>2:
-                    xuanxiangcontent+= ' '+ single_question_set.choice_a
-                if len(single_question_set.choice_b)>2:
-                    xuanxiangcontent +=' '+ single_question_set.choice_b
-                if len(single_question_set.choice_c)>2:
-                    xuanxiangcontent +=' '+ single_question_set.choice_c
-                if len(single_question_set.choice_d)>2:
-                    xuanxiangcontent+= ' '+ single_question_set.choice_d
-                if len(single_question_set.choice_e)>2:
-                    xuanxiangcontent += ' '+single_question_set.choice_e
-                if len(single_question_set.choice_f)>2:
-                    xuanxiangcontent += ' '+single_question_set.choice_f
-                self.contentstyle(xuanxiangcontent)
+                id=questionidlist[i].id
+
+                self.genwordxzmxzstr(tihao,id)
+
             self.erjistyle('二、判断题（每题%s分）' % pdfenshu)
             for i in range(xznum,xznum+pdnum):
                 tihao += 1
-                id = self.questionidlist[i].id
-                single_question_set = self.gensinglequestion(id)
-                self.contentstyle(str(tihao) + ':' + single_question_set.content)
+                id = questionidlist[i].id
+                self.genwordpdjdstr(tihao,id)
             self.erjistyle('三、多选题（每题%s分）' % mxzfenshu)
             for i in range(xznum+pdnum,xznum+pdnum+mxznum):
                 tihao += 1
-                id = self.questionidlist[i].id
-                single_question_set = self.gensinglequestion(id)
-                self.contentstyle(str(tihao) + ':' + single_question_set.content)
-                xuanxiangcontent = ''
-                if len(single_question_set.choice_a) > 2:
-                    xuanxiangcontent += ' ' + single_question_set.choice_a
-                if len(single_question_set.choice_b) > 2:
-                    xuanxiangcontent += ' ' + single_question_set.choice_b
-                if len(single_question_set.choice_c) > 2:
-                    xuanxiangcontent += ' ' + single_question_set.choice_c
-                if len(single_question_set.choice_d) > 2:
-                    xuanxiangcontent += ' ' + single_question_set.choice_d
-                if len(single_question_set.choice_e) > 2:
-                    xuanxiangcontent += ' ' + single_question_set.choice_e
-                if len(single_question_set.choice_f) > 2:
-                    xuanxiangcontent += ' ' + single_question_set.choice_f
-                self.contentstyle(xuanxiangcontent)
+                id = questionidlist[i].id
+                self.genwordxzmxzstr(tihao,id)
             self.erjistyle('四、填空题（每题%s分）' % jdfenshu)
             for i in range(xznum+pdnum+mxznum, xznum+pdnum+mxznum+jdnum):
                 tihao += 1
-                id = self.questionidlist[i].id
-                single_question_set = self.gensinglequestion(id)
-                self.contentstyle(str(tihao) + ':' + single_question_set.content)
+                id = questionidlist[i].id
+                self.genwordpdjdstr(tihao,id)
 
 
 
-        filename = self.filepath + '/' +  self.papertitle+self.filename
+        filename = self.filepath + '/' +  papertitle+self.filename
         self.file.save(filename)  # 保存才能看到结果
-        self.exportpaperanswer()
-    def exportpaperanswer(self):
+        self.exportpaperanswer(papertitle,questionidlist)
+    def exportpaperanswer(self,papertitle,questionidlist):
         self.file = docx.Document()  # 创建内存中的word文档对象
-        self.coursename=self.comboBox.currentText()
+
         self.file.styles['Normal'].font.name = u'宋体'
         # file.add_paragraph("窗前明月光")  # 写入若干段落
 
 
 
-        self.titlestyle(self.papertitle+'答案')
+        self.titlestyle(papertitle+'答案')
         # self.erjistyle('不知道')
         # self.contentstyle('内容')
         tihao=0
@@ -176,7 +235,7 @@ class exportpaperform(QWidget,Ui_Dialog):
         self.erjistyle('一、选择题（每题%s分）' % xzfenshu)
         for i in range(xznum):
             tihao+=1
-            id=self.questionidlist[i].id
+            id=questionidlist[i].id
             single_question_set=self.gensinglequestion(id)
             xzstr+=str(tihao)+':'+single_question_set.answer+'  '
         self.contentstyle( xzstr)
@@ -184,7 +243,7 @@ class exportpaperform(QWidget,Ui_Dialog):
         self.erjistyle('二、判断题（每题%s分）' % pdfenshu)
         for i in range(xznum,xznum+pdnum):
             tihao += 1
-            id = self.questionidlist[i].id
+            id = questionidlist[i].id
             single_question_set = self.gensinglequestion(id)
             pdstr += str(tihao) + ':' + single_question_set.answer + '  '
         self.contentstyle( pdstr)
@@ -192,7 +251,7 @@ class exportpaperform(QWidget,Ui_Dialog):
         self.erjistyle('三、多选题（每题%s分）' % mxzfenshu)
         for i in range(xznum+pdnum,xznum+pdnum+mxznum):
             tihao += 1
-            id = self.questionidlist[i].id
+            id = questionidlist[i].id
             single_question_set = self.gensinglequestion(id)
             mxzstr += str(tihao) + ':' + single_question_set.answer + '  '
         self.contentstyle(mxzstr)
@@ -200,13 +259,13 @@ class exportpaperform(QWidget,Ui_Dialog):
         self.erjistyle('四、填空题（每题%s分）' % jdfenshu)
         for i in range(xznum+pdnum+mxznum, xznum+pdnum+mxznum+jdnum):
             tihao += 1
-            id = self.questionidlist[i].id
+            id = questionidlist[i].id
             single_question_set = self.gensinglequestion(id)
             jdstr += str(tihao) + ':' + single_question_set.answer + '  '
         self.contentstyle( jdstr)
 
 
-        filename = self.filepath + '/' + self.papertitle+'答案' + self.filename
+        filename = self.filepath + '/' + papertitle+'答案' + self.filename
         self.file.save(filename)  # 保存才能看到结果
 
     def getpaperset(self):
@@ -250,6 +309,7 @@ class exportpaperform(QWidget,Ui_Dialog):
             # for single in result:
             #     # print('username:%s' % single.coursename)
             self.comboBox.addItems( i.coursename for i in result)
+            self.comboBox_2.addItems( i.coursename for i in result)
         except:
             pass
         session.close()

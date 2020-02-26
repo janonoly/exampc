@@ -1,8 +1,8 @@
 import random
 from sqlalchemy.orm import sessionmaker
-
+from model.question import  PaperList,question
 from model.createdb import engine
-
+from sqlalchemy import and_
 class createpaper(object):
     def __init__(self,coursename,zhangjie=None):
         self.coursename=coursename
@@ -12,7 +12,7 @@ class createpaper(object):
         Session = sessionmaker(bind=engine)
         # 每次执行数据库操作时，都需要创建一个session
         session = Session()
-        from model.question import  PaperList,question
+
         coursename = self.coursename
         try:
             paperlist = session.query(PaperList).filter(PaperList.course_name == coursename).first()
@@ -27,7 +27,7 @@ class createpaper(object):
             # jds=paperlist.jd_choice_score
             # kssj=paperlist.kaoshishijian
 
-            from sqlalchemy import and_
+
             question_id_list=[]
             question_id_listxz=[]
             question_id_listpd =[]
@@ -83,6 +83,22 @@ class createpaper(object):
             pass
         finally:
             session.close()
+
+    def createpaperformat(self,startid,endid):
+        Session = sessionmaker(bind=engine)
+        # 每次执行数据库操作时，都需要创建一个session
+        session = Session()
+
+        coursename = self.coursename
+        try:
+            questionall_course = session.query(question.id).filter(
+                 question.course_name == coursename).all()
+            return questionall_course[startid:endid]
+
+
+        except:
+            pass
+        session.close()
 
 
 
