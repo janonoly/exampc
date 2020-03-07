@@ -36,7 +36,7 @@
        <widget class="QTextBrowser" name="textBrowser">
         <property name="font">
          <font>
-          <pointsize>14</pointsize>
+          <pointsize>15</pointsize>
          </font>
         </property>
        </widget>

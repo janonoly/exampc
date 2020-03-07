@@ -2,9 +2,12 @@ import re
 from functools import partial
 from PyQt5 import QtWidgets
 from PyQt5.QtCore import  QTimer
+from PyQt5.QtGui import QIcon
 from PyQt5.QtWidgets import QWidget, QMessageBox
 from sqlalchemy import and_
 from sqlalchemy.orm import sessionmaker
+
+from controllers.utils.loginutil import CommonUtil
 from model.createdb import engine
 from model.question import question,tempuserans
 from views.exam import Ui_Dialog
@@ -13,9 +16,10 @@ class examfrom(QWidget,Ui_Dialog):
     def __init__(self):
         super().__init__()
         self.setupUi(self)
-
+        self.setWindowIcon(QIcon(CommonUtil.APP_ICON))
         self.coursename=""
         self.zhangjie = None
+        self.curentusername=''
         self.questionnowid=0
         self.paperlist=[]
         self.kaoshishijian=60
@@ -118,6 +122,7 @@ class examfrom(QWidget,Ui_Dialog):
                     break
                 checkboxname = "tihao" + str(tihao)
                 checkbox = QtWidgets.QPushButton()
+                CommonUtil.set_button_style4(checkbox)
                 checkbox.setFixedSize(60, 25)
                 checkbox.setObjectName(checkboxname)
                 checkbox.setText(str(tihao))
@@ -150,9 +155,10 @@ class examfrom(QWidget,Ui_Dialog):
             # self.xianshitimu()
             self.close()
             from controllers.jiaojuan import juaojuan
-            self.juaojuan = juaojuan(self.paperlist,self.coursename)
+            self.juaojuan = juaojuan(self.paperlist,self.coursename,self.curentusername)
 
             self.juaojuan.show()
+
         else:
             pass
 
@@ -223,6 +229,11 @@ class examfrom(QWidget,Ui_Dialog):
 
 
     def inithidebutton(self):
+        CommonUtil.set_button_style3(self.pushButton)
+        CommonUtil.set_button_style3(self.pushButton_2)
+        CommonUtil.set_button_style3(self.pushButton_3)
+        CommonUtil.set_button_style3(self.pushButton_4)
+        CommonUtil.set_button_style3(self.pushButton_5)
         self.pushButton.hide()
         self.pushButton_2.hide()
         self.pushButton_3.hide()
@@ -252,8 +263,8 @@ class examfrom(QWidget,Ui_Dialog):
         :param event: close()触发的事件
         :return: None
         """
-
-        self.inittempuser()
+        pass
+        # self.inittempuser()
 
     def inittempuser(self):
         Session = sessionmaker(bind=engine)

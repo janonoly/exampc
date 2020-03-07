@@ -28,7 +28,7 @@ class Ui_Dialog(object):
         self.horizontalLayout_2.setObjectName("horizontalLayout_2")
         self.textBrowser = QtWidgets.QTextBrowser(self.groupBox)
         font = QtGui.QFont()
-        font.setPointSize(14)
+        font.setPointSize(15)
         self.textBrowser.setFont(font)
         self.textBrowser.setObjectName("textBrowser")
         self.horizontalLayout_2.addWidget(self.textBrowser)

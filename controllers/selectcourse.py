@@ -1,5 +1,9 @@
 import sys
+
+from PyQt5.QtGui import QIcon
 from sqlalchemy.orm import sessionmaker
+
+from controllers.utils.loginutil import CommonUtil
 from model.createdb import engine
 from PyQt5.QtCore import pyqtSlot
 from PyQt5.QtWidgets import QWidget
@@ -7,10 +11,12 @@ from views.selectcourse import  Ui_Dialog
 
 
 class selectcourseform(QWidget,Ui_Dialog):
-    def __init__(self):
+    def __init__(self,currentuser):
         super().__init__()
         self.setupUi(self)
+        self.setWindowIcon(QIcon(CommonUtil.APP_ICON))
         self.state=0 #0考试1位训练
+        self.currentuser=currentuser
         self.initcomboBox()
         self.initcombzhangjie()
         self.comboBox.currentTextChanged.connect(self.initcombzhangjie)
@@ -57,7 +63,7 @@ class selectcourseform(QWidget,Ui_Dialog):
             coursename=self.comboBox.currentText()
             hznagjie = self.comboBox_2.currentText()
             self.examui.coursename=coursename
-
+            self.examui.curentusername = self.currentuser
             if self.radioButton_2.isChecked():
                 pass
             else:
@@ -68,7 +74,7 @@ class selectcourseform(QWidget,Ui_Dialog):
             self.examui.showMaximized()
             self.close()
         else:
-            from controllers.train import trainfrom
+            from controllers.train1 import trainfrom
             self.trainfromui = trainfrom()
             # self.examui.setWindowModality(Qt.ApplicationModal)
             coursename = self.comboBox.currentText()

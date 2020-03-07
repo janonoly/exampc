@@ -1,9 +1,12 @@
 import os
 
 from PyQt5 import QtWidgets
+from PyQt5.QtGui import QIcon
 from docx.oxml.ns import qn
 from docx.shared import RGBColor, Pt, Cm
 from sqlalchemy.orm import sessionmaker
+
+from controllers.utils.loginutil import CommonUtil
 from model.createdb import engine
 import docx
 from PyQt5.QtWidgets import QWidget, QFileDialog
@@ -15,6 +18,7 @@ class exportpaperform(QWidget,Ui_Dialog):
     def __init__(self):
         super().__init__()
         self.setupUi(self)
+        self.setWindowIcon(QIcon(CommonUtil.APP_ICON))
         self.initcomboBox()
         self.pushButton.clicked.connect(self.exportpapers)
         self.pushButton_2.clicked.connect(self.exportpaperformat)

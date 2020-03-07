@@ -1,6 +1,9 @@
 from PyQt5.QtCore import pyqtSlot
+from PyQt5.QtGui import QIcon
 from PyQt5.QtWidgets import QWidget, QMessageBox
 from sqlalchemy.orm import sessionmaker
+
+from controllers.utils.loginutil import CommonUtil
 from model.createdb import engine
 
 from views.addcourseview import Ui_Dialog
@@ -9,6 +12,7 @@ class myform1(QWidget,Ui_Dialog):
     def __init__(self):
         super().__init__()
         self.setupUi(self)
+        self.setWindowIcon(QIcon(CommonUtil.APP_ICON))
         self.pushButton.clicked.connect(self.addcourse)
         self.pushButton_2.clicked.connect(self.updateshezhi)
         self.pushButton_3.clicked.connect(self.delcource)

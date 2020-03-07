@@ -1,16 +1,21 @@
 from PyQt5 import QtWidgets
+from PyQt5.QtGui import QIcon
 from PyQt5.QtWidgets import QWidget
 from sqlalchemy import and_
 from sqlalchemy.orm import sessionmaker
 
+from controllers.utils.loginutil import CommonUtil
+from controllers.utils.modeutil import ModelUtil
 from views.jiaojuan import Ui_Dialog
 from model.createdb import engine
 from model.question import tempuserans,question
 class juaojuan(QWidget,Ui_Dialog):
-    def __init__(self,paperlist,course):
+    def __init__(self,paperlist,course,curentusername):
         super().__init__()
         self.setupUi(self)
+        self.setWindowIcon(QIcon(CommonUtil.APP_ICON))
         self.course=course
+        self.curentusername=curentusername
         self.questionidlist=paperlist
         self.jishuadefen()
 
@@ -145,6 +150,14 @@ class juaojuan(QWidget,Ui_Dialog):
         # self.textBrowser.setHtml("<font color='red'>hell</font>")
         self.textBrowser.setHtml(yemian)
         session.close()
+
+        #写入得分
+        if zhongfen>0:
+            modelutil=ModelUtil()
+            modelutil.save_score(self.curentusername,zhongfen,self.course)
+            modelutil.session_close()
+
+
     def closeEvent(self, event):
         """
         重写closeEvent方法，实现dialog窗体关闭时执行一些代码

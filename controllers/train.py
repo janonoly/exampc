@@ -2,9 +2,12 @@ from functools import partial
 
 from PyQt5 import QtWidgets
 from PyQt5.QtCore import QEvent
+from PyQt5.QtGui import QIcon
 from PyQt5.QtWidgets import QWidget
 from sqlalchemy import and_
 from sqlalchemy.orm import sessionmaker
+
+from controllers.utils.loginutil import CommonUtil
 from model.createdb import engine
 from model.question import question,tempuserans
 from views.train import Ui_Dialog
@@ -13,6 +16,7 @@ class trainfrom(QWidget,Ui_Dialog):
     def __init__(self):
         super().__init__()
         self.setupUi(self)
+        self.setWindowIcon(QIcon(CommonUtil.APP_ICON))
         self.coursename=""
         self.zhangjie=None
         self.questionnowid=0

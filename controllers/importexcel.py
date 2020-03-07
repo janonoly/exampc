@@ -8,13 +8,14 @@ from xlrd import open_workbook
 from PyQt5.QtCore import pyqtSlot, Qt
 from PyQt5.QtWidgets import QMessageBox, QDialog, QFileDialog
 from views.Main import  Ui_MainWindow
-
+from controllers.utils.loginutil import CommonUtil
 
 
 
 class mywindow(QtWidgets.QMainWindow,Ui_MainWindow):
     def __init__(self):
         super(mywindow,self).__init__()
+        self.currentuser=None
         self.setupUi(self)
         self.setstyle()
         self.action_F.triggered.connect(self.impquefrmexl)
@@ -23,25 +24,21 @@ class mywindow(QtWidgets.QMainWindow,Ui_MainWindow):
         self.action_word_O.triggered.connect(self.exportpaper)
         self.pushButton.clicked.connect(self.exam)
         self.pushButton_2.clicked.connect(self.train)
+        self.pushButton_3.clicked.connect(self.history)
+        self.pushButton_5.clicked.connect(self.exportpaper)
+        self.pushButton_4.clicked.connect(self.impquefrmexl)
+        self.pushButton_6.clicked.connect(self.addcourse)
         self.inittempuser()
     def setstyle(self):
-        # # self.setWindowFlags(Qt.FramelessWindowHint | Qt.WindowStaysOnTopHint)  # 无边框，置顶
-        # self.setAttribute(Qt.WA_TranslucentBackground)  # 透明背景色
-        self.setWindowIcon(QIcon('./resources/logo.jpg'))
-        # self.pushButton.setIcon(QIcon("./resources/logo.jpg"))
-        # self.pushButton.setIcon(QIcon("./resources/logo.jpg"))
-        self.pushButton.setStyleSheet("QPushButton{color:black}"
-                                      "QPushButton:hover{color:red}"
-                                      "QPushButton{background-color:lightgreen}"
-                                      "QPushButton{border:2px}"
-                                      "QPushButton{border-radius:10px}"
-                                      "QPushButton{padding:2px 4px}")
-        self.pushButton_2.setStyleSheet("QPushButton{color:black}"
-                                      "QPushButton:hover{color:red}"
-                                      "QPushButton{background-color:lightgreen}"
-                                      "QPushButton{border:2px}"
-                                      "QPushButton{border-radius:10px}"
-                                      "QPushButton{padding:2px 4px}")
+
+        self.setWindowIcon(QIcon(CommonUtil.APP_ICON))
+        CommonUtil.set_button_style1( self.pushButton,'./resources/exam.png')
+        CommonUtil.set_button_style1(self.pushButton_2,'./resources/train.png')
+        CommonUtil.set_button_style1(self.pushButton_3, './resources/history.png')
+        CommonUtil.set_button_style1(self.pushButton_5, './resources/error.png')
+        CommonUtil.set_button_style1(self.pushButton_4, './resources/import.png')
+        CommonUtil.set_button_style1(self.pushButton_6, './resources/center.png')
+
         self.label.setText("单机考试系统V1.0")
 
     def paintEvent(self, event):  # set background_img
@@ -110,19 +107,35 @@ class mywindow(QtWidgets.QMainWindow,Ui_MainWindow):
     @pyqtSlot()
     def exam(self):
         from controllers.selectcourse import selectcourseform
-        self.examui = selectcourseform()
-        self.examui.state=1
+        self.examui = selectcourseform(self.currentuser)
+
+        self.examui.setWindowModality(Qt.ApplicationModal)
+        self.examui.show()
+        self.examui.state = 1
+
+    def history(self):
+        from controllers.history import Historyfrom
+        self.examui = Historyfrom(self.currentuser)
+        self.examui.showMaximized()
         self.examui.setWindowModality(Qt.ApplicationModal)
         self.examui.show()
 
     # 定义槽函数
     @pyqtSlot()
     def train(self):
-        from controllers.selectcourse import selectcourseform
-        self.examui = selectcourseform()
-        self.examui.state = 0
-        self.examui.setWindowModality(Qt.ApplicationModal)
-        self.examui.show()
+        # from controllers.selectcourse import selectcourseform
+        # self.examui = selectcourseform()
+        # self.examui.state = 0
+        # self.examui.setWindowModality(Qt.ApplicationModal)
+        # self.examui.show()
+
+        from controllers.train1 import trainfrom
+        self.trainfromui = trainfrom()
+        self.trainfromui.show()
+        self.trainfromui.current_username = self.currentuser
+        self.trainfromui.showMaximized()
+        self.trainfromui.setWindowModality(Qt.ApplicationModal)
+
 
 
 

@@ -1,6 +1,6 @@
 from sqlalchemy import and_
 from sqlalchemy.orm import sessionmaker
-from PyQt5 import QtWidgets
+from PyQt5 import QtWidgets, QtGui
 from model.createdb import engine
 from model.question import question,tempuserans
 from PyQt5.QtCore import pyqtSlot
@@ -18,6 +18,9 @@ class displayques(object):
         self.tihaolayout=tihaolayout
         # self.inittihaodisplay()
         self.userans=self.getuseran()
+        self.font = QtGui.QFont()
+        self.font.setFamily("Arial")
+        self.font.setPointSize(14)
 
 
 
@@ -38,6 +41,7 @@ class displayques(object):
             checkboxname = "daan" + str(i)
             checkbox = QtWidgets.QCheckBox()
             checkbox.setObjectName(checkboxname)
+            checkbox.setFont(self.font)
             checkbox.resize(20, 10)
             tempkeyl=tempkey[i]
             if tempkeyl in self.userans:
@@ -53,12 +57,15 @@ class displayques(object):
             checkboxname = "daan" + str(i)
             checkbox = QtWidgets.QRadioButton()
             checkbox.setObjectName(checkboxname)
+            checkbox.setFont(self.font)
             checkbox.resize(20, 10)
             tempkeyl=tempkey[i]
             if tempkeyl in self.userans:
                 checkbox.setChecked(True)
             labelname = "xzl" + str(i)
             label = QtWidgets.QLabel()
+
+            label.setFont(self.font)
             label.setObjectName(labelname)
             self.quesoptionlayout.addWidget(checkbox, i, 1)
             self.quesoptionlayout.addWidget(label, i, 2, 1, 200)
@@ -77,6 +84,8 @@ class displayques(object):
 
             labelname = "pdl" + str(i)
             label = QtWidgets.QLabel()
+
+            label.setFont(self.font)
             label.setObjectName(labelname)
             if i==0:
                 label.setText('对')
@@ -89,6 +98,7 @@ class displayques(object):
             checkbox = QtWidgets.QTextEdit()
             checkbox.setObjectName(checkboxname)
             checkbox.resize(20, 10)
+            checkbox.setFont(self.font)
             checkbox.setText(self.userans)
             self.quesoptionlayout.addWidget(checkbox)
 
@@ -106,6 +116,7 @@ class displayques(object):
                 checkboxname = "tihao" + str(tihao)
                 checkbox = QtWidgets.QPushButton()
                 checkbox.setObjectName(checkboxname)
+                checkbox.setFont(self.font)
                 checkbox.setText(str(tihao))
                 self.tihaolayout.addWidget(checkbox, i,j)
                 checkbox.clicked.connect(self.jumptihao)
