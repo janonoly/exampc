@@ -1,11 +1,11 @@
 import sys
 
-from PyQt5.QtGui import QIcon
+from PyQt5.QtGui import QIcon, QPainter, QPixmap
 from sqlalchemy.orm import sessionmaker
 
 from controllers.utils.loginutil import CommonUtil
 from model.createdb import engine
-from PyQt5.QtCore import pyqtSlot
+from PyQt5.QtCore import pyqtSlot, Qt
 from PyQt5.QtWidgets import QWidget
 from views.selectcourse import  Ui_Dialog
 
@@ -17,89 +17,67 @@ class selectcourseform(QWidget,Ui_Dialog):
         self.setWindowIcon(QIcon(CommonUtil.APP_ICON))
         self.state=0 #0考试1位训练
         self.currentuser=currentuser
-        self.initcomboBox()
-        self.initcombzhangjie()
-        self.comboBox.currentTextChanged.connect(self.initcombzhangjie)
-        self.pushButton.clicked.connect(self.exam)
+        self.init_style()
+        self.initcombobox_leibie()
 
-
-    def initcomboBox(self):
+        self.comboBox_3.currentTextChanged.connect(self.initcombobox_zhuanye)
+        self.pushButton_8.clicked.connect(self.train)
+        self.comboBox.currentTextChanged.connect(self.initpushbotton)
+        # self.pushButton.clicked.connect(self.exam)
+    def initpushbotton(self):
+        self.pushButton_8.setHidden(False)
+    def init_style(self):
+        self.pushButton_8.setHidden(True)
+        CommonUtil.set_combobox_style1(self.comboBox)
+        CommonUtil.set_combobox_style1(self.comboBox_3)
+        CommonUtil.set_groupbox_style(self.groupBox)
+        CommonUtil.set_groupbox_style(self.groupBox_2)
+        CommonUtil.set_button_style1(self.pushButton_8)
+    def paintEvent(self, event):  # set background_img
+        painter = QPainter(self)
+        painter.drawRect(self.rect())
+        pixmap = QPixmap("./resources/background.jpg")  # 换成自己的图片的相对路径
+        painter.drawPixmap(self.rect(), pixmap)
+    def initcombobox_leibie(self):
         Session = sessionmaker(bind=engine)
         # 每次执行数据库操作时，都需要创建一个session
         session = Session()
         from model.question import courselist
         try:
-            result = session.query(courselist).all()
-            # for single in result:
-            #     # print('username:%s' % single.coursename)
-            self.comboBox.addItems( i.coursename for i in result)
+            result = session.query(courselist.leibiename).distinct().all()
+            self.comboBox_3.addItems( i.leibiename for i in result)
+
         except:
             pass
         session.close()
-    def initcombzhangjie(self):
+
+    def initcombobox_zhuanye(self):
         #清空
-        self.comboBox_2.clear()
+        self.comboBox.clear()
         Session = sessionmaker(bind=engine)
         # 每次执行数据库操作时，都需要创建一个session
         session = Session()
-        from model.question import question
+        from model.question import courselist
         try:
-            result = session.query(question.zhangjie).filter(question.course_name==
-            self.comboBox.currentText()).distinct().all()
-            # for single in result:
-            #     # print('username:%s' % single.coursename)
-            # self.comboBox_2.addItems(  '第'+str(i.zhangjie)+'章'  for i in result)
-            self.comboBox_2.addItems(str(i.zhangjie) for i in result)
+
+            result = session.query(courselist.coursename).filter(courselist.leibiename==
+            self.comboBox_3.currentText()).distinct().all()
+            self.comboBox.addItems(str(i.coursename) for i in result)
         except:
             pass
-        session.close()
+        finally:
+            session.close()
+
     # 定义槽函数
     @pyqtSlot()
-    def exam(self):
-        if self.state:
-            from controllers.exam import examfrom
-            self.examui = examfrom()
-            # self.examui.setWindowModality(Qt.ApplicationModal)
-            coursename=self.comboBox.currentText()
-            hznagjie = self.comboBox_2.currentText()
-            self.examui.coursename=coursename
-            self.examui.curentusername = self.currentuser
-            if self.radioButton_2.isChecked():
-                pass
-            else:
-                self.examui.zhangjie = int(hznagjie)
+    def train(self):
 
-            self.examui.show()
-            # self.examui.showFullScreen()
-            self.examui.showMaximized()
-            self.close()
-        else:
-            from controllers.train1 import trainfrom
-            self.trainfromui = trainfrom()
-            # self.examui.setWindowModality(Qt.ApplicationModal)
-            coursename = self.comboBox.currentText()
-            hznagjie = self.comboBox_2.currentText()
-            self.trainfromui.coursename = coursename
-            if self.radioButton_2.isChecked():
-                pass
-            else:
-                self.trainfromui.zhangjie = int(hznagjie)
+        from controllers.train1 import trainfrom
+        self.trainfromui = trainfrom(self.currentuser,self.comboBox.currentText())
+        self.trainfromui.show()
 
-            self.trainfromui.show()
-            # self.examui.showFullScreen()
-            self.trainfromui.showMaximized()
-            self.close()
-
-    # # 定义槽函数
-    # @pyqtSlot()
-    # def train(self):
-    #     from controllers.train import trainfrom
-    #     self.examui = trainfrom()
-    #     # self.examui.setWindowModality(Qt.ApplicationModal)
-    #     coursename = self.comboBox.currentText()
-    #     self.examui.coursename = coursename
-    #     self.examui.show()
-
+        self.trainfromui.showMaximized()
+        self.close()
 
 
 
