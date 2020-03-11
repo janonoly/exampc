@@ -1,0 +1,1 @@
+pyinstaller  -D  --icon="resources/exam.ico"  -w  main.py

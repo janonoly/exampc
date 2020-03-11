@@ -2,6 +2,8 @@ import sys
 
 from PyQt5.QtGui import QPalette, QBrush, QPixmap, QPainter, QIcon
 from sqlalchemy.orm import sessionmaker
+
+from controllers.utils.modeutil import ModelUtil
 from model.createdb import engine
 from PyQt5 import QtWidgets
 from xlrd import open_workbook
@@ -28,7 +30,8 @@ class mywindow(QtWidgets.QMainWindow,Ui_MainWindow):
         self.pushButton_5.clicked.connect(self.exportpaper)
         self.pushButton_4.clicked.connect(self.impquefrmexl)
         self.pushButton_6.clicked.connect(self.addcourse)
-        self.inittempuser()
+        modelutil=ModelUtil()
+        modelutil.inittempuser()
     def setstyle(self):
 
         self.setWindowIcon(QIcon(CommonUtil.APP_ICON))
@@ -39,7 +42,7 @@ class mywindow(QtWidgets.QMainWindow,Ui_MainWindow):
         CommonUtil.set_button_style1(self.pushButton_4, './resources/import.png')
         CommonUtil.set_button_style1(self.pushButton_6, './resources/center.png')
 
-        self.label.setText("单机考试系统V1.0")
+        self.label.setText("理论知识学习系统")
 
     def paintEvent(self, event):  # set background_img
         painter = QPainter(self)
@@ -65,15 +68,7 @@ class mywindow(QtWidgets.QMainWindow,Ui_MainWindow):
             pass
 
         session.close()
-    def inittempuser(self):
-        Session = sessionmaker(bind=engine)
-        session = Session()
-        from model.question import tempuserans
-        # result = session.query(tempuserans).all()
-        # session.delete(result)
-        session.query(tempuserans).filter().delete()
-        session.commit()
-        session.close()
+
     def addcourse(self):
         from controllers.addcourse import myform1
         self.ui=myform1()

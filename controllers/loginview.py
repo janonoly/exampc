@@ -20,6 +20,7 @@ class LoginWindow( QWidget,  Ui_Dialog):
         self.pushButton_2.clicked.connect(self.register)
         self.pushButton.clicked.connect(self.login)
 
+
     def init_ui(self):
         self.setWindowIcon(QIcon(CommonUtil.APP_ICON))
         CommonUtil.set_button_style2(self.pushButton_2)

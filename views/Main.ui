@@ -38,7 +38,7 @@
    <widget class="QPushButton" name="pushButton">
     <property name="geometry">
      <rect>
-      <x>170</x>
+      <x>70</x>
       <y>90</y>
       <width>170</width>
       <height>131</height>
@@ -56,7 +56,7 @@
    <widget class="QPushButton" name="pushButton_2">
     <property name="geometry">
      <rect>
-      <x>360</x>
+      <x>260</x>
       <y>90</y>
       <width>170</width>
       <height>131</height>
@@ -92,8 +92,8 @@
    <widget class="QPushButton" name="pushButton_3">
     <property name="geometry">
      <rect>
-      <x>550</x>
-      <y>90</y>
+      <x>70</x>
+      <y>250</y>
       <width>170</width>
       <height>131</height>
      </rect>
@@ -110,7 +110,7 @@
    <widget class="QPushButton" name="pushButton_4">
     <property name="geometry">
      <rect>
-      <x>360</x>
+      <x>450</x>
       <y>250</y>
       <width>170</width>
       <height>131</height>
@@ -122,13 +122,13 @@
      </font>
     </property>
     <property name="text">
-     <string>题库操作</string>
+     <string>导入题库</string>
     </property>
    </widget>
    <widget class="QPushButton" name="pushButton_5">
     <property name="geometry">
      <rect>
-      <x>170</x>
+      <x>260</x>
       <y>250</y>
       <width>170</width>
       <height>131</height>
@@ -146,7 +146,7 @@
    <widget class="QPushButton" name="pushButton_6">
     <property name="geometry">
      <rect>
-      <x>550</x>
+      <x>640</x>
       <y>250</y>
       <width>170</width>
       <height>131</height>
@@ -159,6 +159,42 @@
     </property>
     <property name="text">
      <string>科目设置</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButton_7">
+    <property name="geometry">
+     <rect>
+      <x>640</x>
+      <y>90</y>
+      <width>170</width>
+      <height>131</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>13</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>党员应知应会</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButton_8">
+    <property name="geometry">
+     <rect>
+      <x>450</x>
+      <y>90</y>
+      <width>170</width>
+      <height>131</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>13</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>条令条例</string>
     </property>
    </widget>
   </widget>
