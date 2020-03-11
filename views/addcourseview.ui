@@ -35,13 +35,13 @@
       </sizepolicy>
      </property>
      <property name="title">
-      <string>添加科目名称</string>
+      <string>添加专业</string>
      </property>
      <widget class="QLineEdit" name="lineEdit">
       <property name="geometry">
        <rect>
-        <x>130</x>
-        <y>20</y>
+        <x>420</x>
+        <y>30</y>
         <width>151</width>
         <height>31</height>
        </rect>
@@ -50,14 +50,50 @@
      <widget class="QPushButton" name="pushButton">
       <property name="geometry">
        <rect>
-        <x>340</x>
-        <y>20</y>
+        <x>630</x>
+        <y>30</y>
         <width>93</width>
         <height>28</height>
        </rect>
       </property>
       <property name="text">
        <string>确定</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_10">
+      <property name="geometry">
+       <rect>
+        <x>310</x>
+        <y>30</y>
+        <width>75</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>专业名称：</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_11">
+      <property name="geometry">
+       <rect>
+        <x>30</x>
+        <y>30</y>
+        <width>75</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>类别名称：</string>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="lineEdit_11">
+      <property name="geometry">
+       <rect>
+        <x>140</x>
+        <y>30</y>
+        <width>151</width>
+        <height>31</height>
+       </rect>
       </property>
      </widget>
     </widget>

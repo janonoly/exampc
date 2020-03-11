@@ -5,8 +5,9 @@ from sqlalchemy_utils.types.choice import ChoiceType
 
 class courselist(Base):
   __tablename__ = "courselist"
-
-  coursename = Column(String(255),primary_key=True)
+  id = Column(Integer, primary_key=True, autoincrement=True)
+  coursename = Column(String(255))
+  leibiename = Column(String(255))
 
 
   def __repr__(self):
@@ -40,8 +41,8 @@ class question(Base):
 
 class PaperList(Base):#用于查看往期考试题目可能不用
     __tablename__ = "paperList"
-    id = Column(Integer, primary_key=True)
-    course_name = Column(String(255) , ForeignKey("courselist.coursename"))
+
+    course_name = Column(String(255) , primary_key=True)
     name = Column(String(255), name=u"试卷名", default=u"")
     single_choice_num = Column(Integer, name=u"单选题数", default=40)
     single_choice_score = Column(Integer, name=u"单选分值", default=1)

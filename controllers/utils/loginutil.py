@@ -1,7 +1,7 @@
 import configparser
 
 from PyQt5 import QtGui, QtCore
-from PyQt5.QtGui import QIcon
+from PyQt5.QtGui import QIcon, QPalette, QBrush, QPixmap, QPainter
 from PyQt5.QtWidgets import QMessageBox, QWidget
 
 class CommonUtil(object):
@@ -24,7 +24,7 @@ class CommonUtil(object):
             pass
         else:
             return
-    def set_button_style1(widget: QWidget, filepath):
+    def set_button_style1_withimage(widget: QWidget, filepath):
         widget.setStyleSheet("QPushButton{color:black}"
                                       "QPushButton:hover{color:red}"
                                       "QPushButton{background :transparent}"
@@ -36,6 +36,28 @@ class CommonUtil(object):
         widget.setIcon(icon)
         widget.setIconSize(QtCore.QSize(60,60))
         widget.setAutoRepeatDelay(200)
+
+    def set_combobox_style1(widget: QWidget):
+        widget.setStyleSheet("QComboBox{color:black}"
+                             "QComboBox{border:4px}"
+                             "QComboBox{background :#5aabe3}"
+                             "QComboBox{font-family:宋体}"
+                             "QComboBox{font-size:22px}"
+                             "QComboBox{padding:2px 2px}")
+
+    def set_button_style1(widget: QWidget):
+        widget.setStyleSheet("QPushButton{color:white}"
+                             "QPushButton:hover{color:red}"
+                             "QPushButton{background :#5aabe3}"
+                             "QPushButton{border:2px}"
+                             "QPushButton{font-family:宋体}"
+                             "QPushButton{border-radius:10px}"
+                             "QPushButton{padding:2px 4px}")
+
+    def set_horizontalline_style(widget: QWidget):
+        widget.setStyleSheet("QHorizontalLine{color:black}"
+                             "QHorizontalLine{background :green}"
+                             )
 
     def set_treewiget_style1(widget: QWidget):
         widget.setStyleSheet("QTreeWidget{color:black}"
@@ -98,6 +120,32 @@ class CommonUtil(object):
                              "QCheckBox{border:2px}"
                              "QCheckBox{border-radius:10px}"
                              "QCheckBox{padding:2px 4px}")
+
+    def set_groupbox_style_withimage(widget: QWidget,filepath=''):
+        widget.setStyleSheet("QGroupBox{color:transparent}"
+                             "QGroupBox{border:none}"
+                             "QGroupBox{background :transparent}"
+                             "QGroupBox{border-radius:10px}"
+                             "QGroupBox{padding:2px 4px}"
+                             "QGroupBox{background-image: url("+filepath+")}"
+
+                            )
+        # palette = QPalette()
+        # palette.setBrush(QPalette.Background, QBrush(QPixmap(filepath)))
+        # widget.setPalette(palette)
+        # widget.setStyleSheet()
+        # painter = QPainter(widget)
+        # painter.drawRect(widget.rect())
+        # pixmap = QPixmap(filepath)  # 换成自己的图片的相对路径
+        # painter.drawPixmap(widget.rect(), pixmap)
+    def set_groupbox_style(widget: QWidget):
+        widget.setStyleSheet("QGroupBox{color:transparent}"
+                             "QGroupBox{border:none}"
+                             "QGroupBox{background :transparent}"
+                             "QGroupBox{border-radius:10px}"
+                             "QGroupBox{padding:2px 4px}"
+
+                             )
 class ConfigParser(object):
     def __init__(self):
         self.conf = configparser.ConfigParser()

@@ -16,13 +16,13 @@ from model.user import Collects, user, Errors
 
 
 class trainfrom(QWidget,Ui_Dialog):
-    def __init__(self):
+    def __init__(self,current_username,coursename):
         super().__init__()
         self.setupUi(self)
         self.setWindowIcon(QIcon(CommonUtil.APP_ICON))
         CommonUtil.set_treewiget_style1(self.treeWidget)
-        self.coursename=""
-        self.current_username=''
+        self.coursename=coursename
+        self.current_username=current_username
         self.zhangjie=None
         self.xunlianmoshi=0
         self.questionnowid=0
@@ -120,9 +120,35 @@ class trainfrom(QWidget,Ui_Dialog):
                 self.questionnowid = 0
                 self.xunlianmoshi = 3
                 self.inittimu()
+            elif text == '正式考试':
+                # try:
+                self.close()
+                self.exam()
+                # except:
+                #     QMessageBox.information(self, '提示', '当前题目为空')
+
+
         except:
             pass
 
+
+    def exam(self):
+            from controllers.exam import examfrom
+            self.examui = examfrom()
+            # self.examui.setWindowModality(Qt.ApplicationModal)
+            coursename=self.coursename
+            hznagjie = self.zhangjie
+            self.examui.coursename=coursename
+            self.examui.curentusername = self.current_username
+            if hznagjie:
+                self.examui.zhangjie = int(hznagjie)
+            else:
+                pass
+
+            self.examui.show()
+            # self.examui.showFullScreen()
+            self.examui.showMaximized()
+            self.close()
 
 
 
@@ -168,15 +194,15 @@ class trainfrom(QWidget,Ui_Dialog):
         session = Session()
         self.treeWidget.setColumnCount(1)
         # self.treeWidget.setHeaderLabels()
-        kemuroot = QTreeWidgetItem(self.treeWidget)
-        kemuroot.setText(0, '选择科目')
-        kemuroot.setIcon(0, QIcon('./resources/xuanzhe.png'))
+        # kemuroot = QTreeWidgetItem(self.treeWidget)
+        # kemuroot.setText(0, '选择科目')
+        # kemuroot.setIcon(0, QIcon('./resources/xuanzhe.png'))
 
-        result = session.query(courselist).all()
-        for i in result :
-            child1 = QTreeWidgetItem(kemuroot)
-            child1.setText(0,i.coursename)
-            child1.setCheckState(0,not Qt.CheckState)
+        # result = session.query(courselist).all()
+        # for i in result :
+        #     child1 = QTreeWidgetItem(kemuroot)
+        #     child1.setText(0,i.coursename)
+        #     child1.setCheckState(0,not Qt.CheckState)
 
 
 
@@ -186,7 +212,7 @@ class trainfrom(QWidget,Ui_Dialog):
         zhangjieroot.setIcon(0,QIcon('./resources/saixuan1.png'))
 
         try:
-            coursenamedefault=kemuroot.child(0).text(0)
+            coursenamedefault=self.coursename
             zhangjieresult = session.query(question.zhangjie).filter(question.course_name == coursenamedefault).distinct().all()
             for i in zhangjieresult:
                 child1 = QTreeWidgetItem(zhangjieroot)
@@ -199,9 +225,9 @@ class trainfrom(QWidget,Ui_Dialog):
         shaixuanroot.setText(0, '模拟考试')
         shaixuanroot.setIcon(0, QIcon('./resources/monikaoshi.png'))
         #
-        # shaixuanroot = QTreeWidgetItem(self.treeWidget)
-        # shaixuanroot.setText(0, '筛选训练')
-        # shaixuanroot.setIcon(0, QIcon('./resources/saixuan1.png'))
+        shaixuanroot = QTreeWidgetItem(self.treeWidget)
+        shaixuanroot.setText(0, '正式考试')
+        shaixuanroot.setIcon(0, QIcon('./resources/saixuan1.png'))
 
         cuotiroot = QTreeWidgetItem(self.treeWidget)
         cuotiroot.setText(0, '错题训练')

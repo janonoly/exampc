@@ -23,26 +23,26 @@ class mywindow(QtWidgets.QMainWindow,Ui_MainWindow):
         self.action_F.triggered.connect(self.impquefrmexl)
         self.action_K.triggered.connect(self.addcourse)
         self.action_D.triggered.connect(self.deletequestion)
+        self.action_L.triggered.connect(self.history)
         self.action_word_O.triggered.connect(self.exportpaper)
         self.pushButton.clicked.connect(self.exam)
-        self.pushButton_2.clicked.connect(self.train)
-        self.pushButton_3.clicked.connect(self.history)
-        self.pushButton_5.clicked.connect(self.exportpaper)
-        self.pushButton_4.clicked.connect(self.impquefrmexl)
-        self.pushButton_6.clicked.connect(self.addcourse)
+        self.pushButton_2.clicked.connect(self.traintl)
+        self.pushButton_8.clicked.connect(self.trainyzyh)
+        self.pushButton_7.clicked.connect(self.trainfgzd)
         modelutil=ModelUtil()
         modelutil.inittempuser()
     def setstyle(self):
 
         self.setWindowIcon(QIcon(CommonUtil.APP_ICON))
-        CommonUtil.set_button_style1( self.pushButton,'./resources/exam.png')
-        CommonUtil.set_button_style1(self.pushButton_2,'./resources/train.png')
-        CommonUtil.set_button_style1(self.pushButton_3, './resources/history.png')
-        CommonUtil.set_button_style1(self.pushButton_5, './resources/error.png')
-        CommonUtil.set_button_style1(self.pushButton_4, './resources/import.png')
-        CommonUtil.set_button_style1(self.pushButton_6, './resources/center.png')
+        CommonUtil.set_button_style1( self.pushButton )
+        CommonUtil.set_button_style1(self.pushButton_2 )
+        CommonUtil.set_button_style1(self.pushButton_7 )
+        CommonUtil.set_button_style1(self.pushButton_8 )
+        CommonUtil.set_groupbox_style(self.groupBox)
+        CommonUtil.set_groupbox_style_withimage(self.groupBox_2,'')
+        CommonUtil.set_horizontalline_style(self.line)
+        self.label.setText("理论知识学习系统")
 
-        self.label.setText("理论知识学习系")
 
     def paintEvent(self, event):  # set background_img
         painter = QPainter(self)
@@ -103,7 +103,6 @@ class mywindow(QtWidgets.QMainWindow,Ui_MainWindow):
     def exam(self):
         from controllers.selectcourse import selectcourseform
         self.examui = selectcourseform(self.currentuser)
-
         self.examui.setWindowModality(Qt.ApplicationModal)
         self.examui.show()
         self.examui.state = 1
@@ -117,20 +116,32 @@ class mywindow(QtWidgets.QMainWindow,Ui_MainWindow):
 
     # 定义槽函数
     @pyqtSlot()
-    def train(self):
-        # from controllers.selectcourse import selectcourseform
-        # self.examui = selectcourseform()
-        # self.examui.state = 0
-        # self.examui.setWindowModality(Qt.ApplicationModal)
-        # self.examui.show()
-
+    def traintl(self):
         from controllers.train1 import trainfrom
-        self.trainfromui = trainfrom()
+        self.trainfromui = trainfrom(self.currentuser, '条令条例')
         self.trainfromui.show()
-        self.trainfromui.current_username = self.currentuser
-        self.trainfromui.showMaximized()
-        self.trainfromui.setWindowModality(Qt.ApplicationModal)
 
+        self.trainfromui.showMaximized()
+        self.close()
+        # 定义槽函数
+
+    @pyqtSlot()
+    def trainyzyh(self):
+        from controllers.train1 import trainfrom
+        self.trainfromui = trainfrom(self.currentuser, '应知应会')
+        self.trainfromui.show()
+
+        self.trainfromui.showMaximized()
+        self.close()
+  # 定义槽函数
+    @pyqtSlot()
+    def trainfgzd(self):
+        from controllers.train1 import trainfrom
+        self.trainfromui = trainfrom(self.currentuser, '法规制度')
+        self.trainfromui.show()
+
+        self.trainfromui.showMaximized()
+        self.close()
 
 
 

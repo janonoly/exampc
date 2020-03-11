@@ -32,7 +32,7 @@ class myform1(QWidget,Ui_Dialog):
             # for single in result:
             #     # print('username:%s' % single.coursename)
             self.comboBox.clear()
-            self.comboBox.addItems( i.coursename for i in result)
+            self.comboBox.addItems(i.leibiename+'.'+ i.coursename for i in result)
         except:
             pass
 
@@ -67,7 +67,7 @@ class myform1(QWidget,Ui_Dialog):
         session = Session()
         from model.question import PaperList
 
-        cousrcename=self.comboBox.currentText()
+        cousrcename=self.comboBox.currentText().split('.')[-1]
         try:
             result = session.query(PaperList).filter(PaperList.course_name == cousrcename).all()
             for paperlistre in result:
@@ -125,6 +125,7 @@ class myform1(QWidget,Ui_Dialog):
     @pyqtSlot()
     def addcourse(self):
         coursename=self.lineEdit.text()
+        leibiename = self.lineEdit_11.text()
         from  model.createdb import engine
         from model.question import courselist,PaperList
         Session = sessionmaker(bind=engine)
@@ -132,15 +133,22 @@ class myform1(QWidget,Ui_Dialog):
         # 每次执行数据库操作时，都需要创建一个session
         session = Session()
         obj=courselist()
-        obj.coursename=coursename
-        obj1 = PaperList()
-        obj1.course_name = coursename
+        obj.coursename = coursename
+        obj.leibiename = leibiename
+
 
         try:
-            session.add(obj1)
+
             session.add(obj)
             session.commit()
             QMessageBox.information(self, '导入', '导入成功')
+            try:
+                obj1 = PaperList()
+                obj1.course_name = coursename
+                session.add(obj1)
+                session.commit()
+            except:
+                pass
         except:
             QMessageBox.information(self, '导入', '导入失败')
         finally:

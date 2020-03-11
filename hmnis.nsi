@@ -835,7 +835,9 @@ Section "MainSection" SEC01
   File "dist\main\resources\collect1.png"
   File "dist\main\resources\error.png"
   File "dist\main\resources\error1.png"
- 
+  SetOverwrite off
+  File "dist\main\resources\exam.db"
+  SetOverwrite on
   File "dist\main\resources\exam.png"
   File "dist\main\resources\history.png"
   File "dist\main\resources\import.png"
@@ -882,13 +884,7 @@ Section "MainSection" SEC01
   !insertmacro MUI_STARTMENU_WRITE_END
 SectionEnd
 
-Section
-  IfFileExists "dist\main\resources\exam.db" 0 +3
-  SetOverwrite on
-  File "dist\main\resources\exam.db"
-  SetOverwrite off
-  File "dist\main\resources\exam.db"
-SectionEnd
+
 
 
 Section -AdditionalIcons

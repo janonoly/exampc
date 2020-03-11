@@ -173,8 +173,8 @@ class examfrom(QWidget,Ui_Dialog):
         try:
              self.paperlist=paper.createpaper()
         except:
-            pass
-        if len(self.paperlist)>1:
+            QMessageBox.information(self, '考试', '出题失败')
+        if self.paperlist:
             self.kaoshishijian=self.paperlist[-1]*60
             self.paperlist.pop()
             self.xianshitimu()
