@@ -1,4 +1,5 @@
 pyinstaller  -D  --icon="resources/exam.ico"  -w  main.py
+<<<<<<< HEAD
 Section
   IfFileExists "dist\main\resources\exam.db" 0 +3
   SetOverwrite on
@@ -6,3 +7,7 @@ Section
   SetOverwrite off
   File "dist\main\resources\exam.db"
 SectionEnd
+=======
+git checkout examlayout2切换到当前分支
+git push
+>>>>>>> examlayout2

@@ -14,7 +14,11 @@
 
 ; MUI Settings
 !define MUI_ABORTWARNING
+<<<<<<< HEAD:exam.nsi
 !define MUI_ICON "${NSISDIR}\Contrib\Graphics\Icons\modern-install.ico"
+=======
+!define MUI_ICON "resources\exam2.ico"
+>>>>>>> examlayout2:hmnis.nsi
 !define MUI_UNICON "${NSISDIR}\Contrib\Graphics\Icons\modern-uninstall.ico"
 
 ; Welcome page
