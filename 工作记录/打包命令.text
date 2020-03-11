@@ -1,1 +1,8 @@
 pyinstaller  -D  --icon="resources/exam.ico"  -w  main.py
+Section
+  IfFileExists "dist\main\resources\exam.db" 0 +3
+  SetOverwrite on
+  File "dist\main\resources\exam.db"
+  SetOverwrite off
+  File "dist\main\resources\exam.db"
+SectionEnd
