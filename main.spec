@@ -1,4 +1,4 @@
-# -*- mode: python ; coding: utf-8 -*-
+# -*- mode: python -*-
 
 block_cipher = None
 
@@ -26,12 +26,11 @@ exe = EXE(pyz,
           bootloader_ignore_signals=False,
           strip=False,
           upx=True,
-          console=False , icon='resources\\exam.ico')
+          console=False , icon='resources\\exam2.ico')
 coll = COLLECT(exe,
                a.binaries,
                a.zipfiles,
                a.datas,
                strip=False,
                upx=True,
-               upx_exclude=[],
                name='main')

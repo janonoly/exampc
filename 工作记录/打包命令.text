@@ -1,1 +1,3 @@
 pyinstaller  -D  --icon="resources/exam.ico"  -w  main.py
+git checkout examlayout2切换到当前分支
+git push

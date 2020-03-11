@@ -42,7 +42,7 @@ class mywindow(QtWidgets.QMainWindow,Ui_MainWindow):
         CommonUtil.set_button_style1(self.pushButton_4, './resources/import.png')
         CommonUtil.set_button_style1(self.pushButton_6, './resources/center.png')
 
-        self.label.setText("理论知识学习系统1")
+        self.label.setText("理论知识学习系")
 
     def paintEvent(self, event):  # set background_img
         painter = QPainter(self)
