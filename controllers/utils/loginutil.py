@@ -99,7 +99,7 @@ class CommonUtil(object):
                                  "QLabel{border-radius:10px}"
                                  "QLabel{font-family:宋体}"
                                  "QLabel{word-wrap:true}"
-                                 "QLabel{font-size:25px}"
+                                 "QLabel{font-size:30px}"
                                  "QLabel{padding:2px 2px}")
 
     def set_label_style2(widget: QWidget):

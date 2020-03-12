@@ -105,13 +105,14 @@ class mywindow(QtWidgets.QMainWindow,Ui_MainWindow):
         self.examui = selectcourseform(self.currentuser)
         self.examui.setWindowModality(Qt.ApplicationModal)
         self.examui.show()
-        self.examui.state = 1
+
 
     def history(self):
         from controllers.history import Historyfrom
         self.examui = Historyfrom(self.currentuser)
         self.examui.showMaximized()
         self.examui.setWindowModality(Qt.ApplicationModal)
+        self.examui.setWindowTitle('历史成绩')
         self.examui.show()
 
     # 定义槽函数
@@ -119,29 +120,31 @@ class mywindow(QtWidgets.QMainWindow,Ui_MainWindow):
     def traintl(self):
         from controllers.train1 import trainfrom
         self.trainfromui = trainfrom(self.currentuser, '条令条例')
+        self.trainfromui.setWindowTitle('条令条例')
         self.trainfromui.show()
-
         self.trainfromui.showMaximized()
-        self.close()
+
         # 定义槽函数
 
     @pyqtSlot()
     def trainyzyh(self):
         from controllers.train1 import trainfrom
         self.trainfromui = trainfrom(self.currentuser, '应知应会')
+        self.trainfromui.setWindowTitle('应知应会')
         self.trainfromui.show()
 
         self.trainfromui.showMaximized()
-        self.close()
+
   # 定义槽函数
     @pyqtSlot()
     def trainfgzd(self):
         from controllers.train1 import trainfrom
         self.trainfromui = trainfrom(self.currentuser, '法规制度')
+        self.trainfromui.setWindowTitle('法规制度')
         self.trainfromui.show()
 
         self.trainfromui.showMaximized()
-        self.close()
+
 
 
 

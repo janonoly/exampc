@@ -1,6 +1,7 @@
 from PyQt5.QtCore import pyqtSlot
 from PyQt5.QtGui import QIcon
 from PyQt5.QtWidgets import QWidget, QMessageBox
+from sqlalchemy import and_
 from sqlalchemy.orm import sessionmaker
 
 from controllers.utils.loginutil import CommonUtil
@@ -43,7 +44,8 @@ class myform1(QWidget,Ui_Dialog):
         # 每次执行数据库操作时，都需要创建一个session
         session = Session()
         from model.question import courselist,PaperList
-        coursename=self.comboBox.currentText()
+        leibie=self.comboBox.currentText().split('.')[0]
+        coursename = self.comboBox.currentText().split('.')[1]
         try:
             result = session.query(PaperList).filter(PaperList.course_name == coursename).first()
             session.delete(result)
@@ -51,7 +53,7 @@ class myform1(QWidget,Ui_Dialog):
         except:
             pass
         try:
-            result1 = session.query(courselist).filter(courselist.coursename == coursename).first()
+            result1 = session.query(courselist).filter(and_(courselist.coursename == coursename,courselist.leibiename == leibie)).first()
             session.delete(result1)
             session.commit()
             QMessageBox.information(self, '删除', '删除成功')

@@ -16,14 +16,15 @@ from model.user import Collects, user, Errors
 
 
 class trainfrom(QWidget,Ui_Dialog):
-    def __init__(self,current_username,coursename):
+    def __init__(self,current_username,coursename,zhangjie='',dengji=''):
         super().__init__()
         self.setupUi(self)
         self.setWindowIcon(QIcon(CommonUtil.APP_ICON))
         CommonUtil.set_treewiget_style1(self.treeWidget)
         self.coursename=coursename
+        self.zhangjie = zhangjie
+        self.dengji = dengji
         self.current_username=current_username
-        self.zhangjie=None
         self.xunlianmoshi=0
         self.questionnowid=0
         self.pushButton.clicked.connect(self.shangyiti)
@@ -41,7 +42,7 @@ class trainfrom(QWidget,Ui_Dialog):
     #收藏题目功能
     def jiaojuan(self):
         from controllers.jiaojuan import juaojuan
-        self.juaojuan = juaojuan(self.paperlist, self.coursename)
+        self.juaojuan = juaojuan(self.paperlist, self.coursename,self.current_username)
         self.juaojuan.show()
     def collecttimu(self):
         modelutil = ModelUtil()
@@ -193,33 +194,23 @@ class trainfrom(QWidget,Ui_Dialog):
         # 每次执行数据库操作时，都需要创建一个session
         session = Session()
         self.treeWidget.setColumnCount(1)
-        # self.treeWidget.setHeaderLabels()
-        # kemuroot = QTreeWidgetItem(self.treeWidget)
-        # kemuroot.setText(0, '选择科目')
-        # kemuroot.setIcon(0, QIcon('./resources/xuanzhe.png'))
 
-        # result = session.query(courselist).all()
-        # for i in result :
-        #     child1 = QTreeWidgetItem(kemuroot)
-        #     child1.setText(0,i.coursename)
-        #     child1.setCheckState(0,not Qt.CheckState)
-
-
-
-
+        # zhangjieroot = QTreeWidgetItem(self.treeWidget)
+        # zhangjieroot.setText(0,'选择章节')
+        # zhangjieroot.setIcon(0,QIcon('./resources/saixuan1.png'))
         zhangjieroot = QTreeWidgetItem(self.treeWidget)
-        zhangjieroot.setText(0,'选择章节')
+        zhangjieroot.setText(0,'训练模式')
         zhangjieroot.setIcon(0,QIcon('./resources/saixuan1.png'))
-
-        try:
-            coursenamedefault=self.coursename
-            zhangjieresult = session.query(question.zhangjie).filter(question.course_name == coursenamedefault).distinct().all()
-            for i in zhangjieresult:
-                child1 = QTreeWidgetItem(zhangjieroot)
-                child1.setText(0, '第'+str(i.zhangjie)+'章')
-                child1.setCheckState(0, not Qt.CheckState)
-        except:
-            pass
+        #
+        # try:
+        #     coursenamedefault=self.coursename
+        #     zhangjieresult = session.query(question.zhangjie).filter(question.course_name == coursenamedefault).distinct().all()
+        #     for i in zhangjieresult:
+        #         child1 = QTreeWidgetItem(zhangjieroot)
+        #         child1.setText(0, '第'+str(i.zhangjie)+'章')
+        #         child1.setCheckState(0, not Qt.CheckState)
+        # except:
+        #     pass
 
         shaixuanroot = QTreeWidgetItem(self.treeWidget)
         shaixuanroot.setText(0, '模拟考试')
@@ -321,9 +312,18 @@ class trainfrom(QWidget,Ui_Dialog):
                 and_(question.zhangjie == self.zhangjie, question.course_name == self.coursename)).all()
 
         else: # 不按章节训练
-            self.questionresall = session.query(question.id).filter(
-            and_(question.course_name == self.coursename)).all()
-
+            if self.zhangjie and self.dengji:
+                self.questionresall = session.query(question.id).filter(
+                and_(question.course_name == self.coursename,question.zhangjie==self.zhangjie,question.dengji==self.dengji)).all()
+            elif self.zhangjie and not self.dengji:
+                self.questionresall = session.query(question.id).filter(
+                    and_(question.course_name == self.coursename, question.zhangjie == self.zhangjie)).all()
+            elif not self.zhangjie and  self.dengji:
+                self.questionresall = session.query(question.id).filter(
+                    and_(question.course_name == self.coursename, question.dengji == self.dengji)).all()
+            else:
+                self.questionresall = session.query(question.id).filter(
+                     question.course_name == self.coursename ).all()
         if len(self.questionresall)==0:
 
             QMessageBox.information(self, '提示', '当前题目为空')

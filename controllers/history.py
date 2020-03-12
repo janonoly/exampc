@@ -4,7 +4,7 @@ from PyQt5 import QtCore
 from PyQt5.QtChart import QChartView, QLineSeries, QValueAxis, QChart, QCategoryAxis
 from PyQt5.QtCore import Qt, QPointF
 from PyQt5.QtGui import QIcon, QBrush, QPainter, QColor, QCursor, QFont
-from PyQt5.QtWidgets import QWidget, QToolTip, QApplication, QStyle
+from PyQt5.QtWidgets import QWidget, QToolTip, QApplication, QStyle, QMessageBox
 from controllers.utils.modeutil import ModelUtil
 
 
@@ -17,20 +17,28 @@ class Historyfrom(QWidget,Ui_Dialog):
         self.setupUi(self)
         self.setWindowIcon(QIcon(CommonUtil.APP_ICON))
         self.username=username
+        try:
+            self.create_chart()
+        except:
+            QMessageBox.information(self, '提示', '没有历史成绩')
 
-        self.create_chart()
 
 
     def create_chart(self):
         # 创建折线视图窗口
         modelutil = ModelUtil()
+
         dataTable = modelutil.get_score(self.username)
+
 
         chart = QChartView(self)
         #获取显示器高宽
         screeRect=QApplication.desktop().screenGeometry()
+        height=screeRect.height()*4/5
+        whidth = screeRect.width()*9/10
+        padding=screeRect.width()*1/20
         chart.setGeometry(
-            QtCore.QRect(screeRect))
+            QtCore.QRect(padding,10,whidth,height))
         chart.setRenderHint(QPainter.Antialiasing)  # 抗锯齿
         chart.raise_()
 

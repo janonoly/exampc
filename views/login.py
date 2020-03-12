@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'login.ui'
 #
-# Created by: PyQt5 UI code generator 5.13.0
+# Created by: PyQt5 UI code generator 5.14.1
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -59,7 +59,7 @@ class Ui_Dialog(object):
         self.pushButton_2.setFont(font)
         self.pushButton_2.setObjectName("pushButton_2")
         self.label_3 = QtWidgets.QLabel(Dialog)
-        self.label_3.setGeometry(QtCore.QRect(480, 30, 191, 51))
+        self.label_3.setGeometry(QtCore.QRect(420, 110, 261, 51))
         font = QtGui.QFont()
         font.setPointSize(13)
         self.label_3.setFont(font)
@@ -76,4 +76,4 @@ class Ui_Dialog(object):
         self.checkBox.setText(_translate("Dialog", "记住密码"))
         self.pushButton.setText(_translate("Dialog", "登录"))
         self.pushButton_2.setText(_translate("Dialog", "注册"))
-        self.label_3.setText(_translate("Dialog", "单机考试系统"))
+        self.label_3.setText(_translate("Dialog", "理论知识考核系统"))

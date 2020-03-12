@@ -172,6 +172,9 @@ class examfrom(QWidget,Ui_Dialog):
         paper=createpaper(self.coursename,self.zhangjie)
         try:
              self.paperlist=paper.createpaper()
+             if len( self.paperlist)<=1:
+                 QMessageBox.information(self, '考试', '出题失败')
+                 self.close()
         except:
             QMessageBox.information(self, '考试', '出题失败')
         if self.paperlist:

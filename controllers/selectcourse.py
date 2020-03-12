@@ -1,6 +1,7 @@
 import sys
 
 from PyQt5.QtGui import QIcon, QPainter, QPixmap
+from sqlalchemy import and_
 from sqlalchemy.orm import sessionmaker
 
 from controllers.utils.loginutil import CommonUtil
@@ -15,21 +16,24 @@ class selectcourseform(QWidget,Ui_Dialog):
         super().__init__()
         self.setupUi(self)
         self.setWindowIcon(QIcon(CommonUtil.APP_ICON))
-        self.state=0 #0考试1位训练
+
         self.currentuser=currentuser
         self.init_style()
         self.initcombobox_leibie()
 
         self.comboBox_3.currentTextChanged.connect(self.initcombobox_zhuanye)
+        self.comboBox.currentTextChanged.connect(self.initcombobox_zhangjie)
+        self.comboBox_2.currentTextChanged.connect(self.initcombobox_dengji)
         self.pushButton_8.clicked.connect(self.train)
-        self.comboBox.currentTextChanged.connect(self.initpushbotton)
+
         # self.pushButton.clicked.connect(self.exam)
-    def initpushbotton(self):
-        self.pushButton_8.setHidden(False)
+
     def init_style(self):
         self.pushButton_8.setHidden(True)
         CommonUtil.set_combobox_style1(self.comboBox)
         CommonUtil.set_combobox_style1(self.comboBox_3)
+        CommonUtil.set_combobox_style1(self.comboBox_2)
+        CommonUtil.set_combobox_style1(self.comboBox_4)
         CommonUtil.set_groupbox_style(self.groupBox)
         CommonUtil.set_groupbox_style(self.groupBox_2)
         CommonUtil.set_button_style1(self.pushButton_8)
@@ -45,12 +49,45 @@ class selectcourseform(QWidget,Ui_Dialog):
         from model.question import courselist
         try:
             result = session.query(courselist.leibiename).distinct().all()
-            self.comboBox_3.addItems( i.leibiename for i in result)
 
+            self.comboBox_3.addItems( i.leibiename for i in result)
         except:
             pass
         session.close()
 
+    def initcombobox_dengji(self):
+        self.comboBox_4.clear()
+        Session = sessionmaker(bind=engine)
+        # 每次执行数据库操作时，都需要创建一个session
+        session = Session()
+        from model.question import question
+        try:
+
+            result = session.query(question.dengji).filter(question.course_name ==
+                                                             self.comboBox.currentText()).distinct().all()
+            self.comboBox_4.addItem('')
+            self.comboBox_4.addItems(str(i.dengji) for i in result)
+        except:
+            pass
+        finally:
+            session.close()
+    def initcombobox_zhangjie(self):
+        self.pushButton_8.setHidden(False)
+        self.comboBox_2.clear()
+        Session = sessionmaker(bind=engine)
+        # 每次执行数据库操作时，都需要创建一个session
+        session = Session()
+        from model.question import question
+        try:
+
+            result = session.query(question.zhangjie).filter(question.course_name ==
+                                                                 self.comboBox.currentText()).distinct().all()
+            self.comboBox_2.addItem('')
+            self.comboBox_2.addItems(str(i.zhangjie) for i in result)
+        except:
+            pass
+        finally:
+            session.close()
     def initcombobox_zhuanye(self):
         #清空
         self.comboBox.clear()
@@ -73,7 +110,19 @@ class selectcourseform(QWidget,Ui_Dialog):
     def train(self):
 
         from controllers.train1 import trainfrom
-        self.trainfromui = trainfrom(self.currentuser,self.comboBox.currentText())
+        zhuanye=self.comboBox.currentText()
+        zhangjie = self.comboBox_2.currentText().strip()
+        dengji = self.comboBox_4.currentText().strip()
+        # if zhangjie:
+        #     pass
+        # else:
+        #     zhangjie=None
+        # if dengji:
+        #     pass
+        # else:
+        #     dengji = None
+        self.trainfromui = trainfrom(self.currentuser,zhuanye,zhangjie,dengji)
+        self.trainfromui.setWindowTitle(zhuanye)
         self.trainfromui.show()
 
         self.trainfromui.showMaximized()
