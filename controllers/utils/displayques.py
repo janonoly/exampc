@@ -101,7 +101,14 @@ class displayques(object):
             checkbox.setFont(self.font)
             checkbox.setText(self.userans)
             self.quesoptionlayout.addWidget(checkbox)
-
+    def inittkdisplay(self):
+            checkboxname = "daan"
+            checkbox = QtWidgets.QTextEdit()
+            checkbox.setObjectName(checkboxname)
+            checkbox.resize(20, 10)
+            checkbox.setFont(self.font)
+            checkbox.setText(self.userans)
+            self.quesoptionlayout.addWidget(checkbox)
 
     def removeallwiget(self):
         for i in range(self.quesoptionlayout.count()):
@@ -137,7 +144,13 @@ class displayques(object):
         session = Session()
         questionres = session.query(question).filter(and_(question.id ==self.questionid , question.course_name == self.coursename)).first()
         #显示题目内容
-        tempstr=str(self.tihao+1)+': '+questionres.content
+        dictquestiontype={ 'xz':'选择题','mxz':'多选题', 'jd':'简答题', 'tk':'填空题', 'pd':'判断题' }
+        timuleixing =''
+        try:
+            timuleixing = dictquestiontype[questionres.questionType]
+        except:
+            pass
+        tempstr='('+timuleixing+')'+str(self.tihao+1)+': '+questionres.content
         self.quescontentlabel.setText(tempstr)
 
         # labelname = "labelname" + str(1)
@@ -159,6 +172,8 @@ class displayques(object):
             self.displayoption(questionres, qlist)
         elif questionres.questionType == 'jd':
             self.initjddisplay()
+        elif questionres.questionType == 'tk':
+            self.inittkdisplay()
 
 
 

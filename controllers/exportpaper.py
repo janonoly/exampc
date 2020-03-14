@@ -161,7 +161,6 @@ class exportpaperform(QWidget,Ui_Dialog):
         self.contentstyle(str(tihao) + ':' + single_question_set.content)
     def exportpaper(self,papername,questionidlist):
         self.file = docx.Document()  # 创建内存中的word文档对象
-
         self.file.styles['Normal'].font.name = u'宋体'
         # file.add_paragraph("窗前明月光")  # 写入若干段落
         papertitle = self.comboBox.currentText() + '卷' + papername

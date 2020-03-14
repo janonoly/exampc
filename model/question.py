@@ -21,7 +21,8 @@ class question(Base):
     (u'xz', u'单选题'),
     (u'pd', u'判断题'),
     (u'mxz', u'多选题'),
-    (u'jd', u'填空题')
+    (u'tk', u'填空题'),
+    (u'jd', u'简答题')
   ]
   id = Column(Integer, primary_key=True,autoincrement=True)
   course_name= Column(String(255), ForeignKey("courselist.coursename"),name=u"考试科目" )
@@ -51,8 +52,10 @@ class PaperList(Base):#用于查看往期考试题目可能不用
     judgment_score = Column(Integer, name=u"判断分值", default=1)
     multiple_choice_num = Column(Integer, name=u"多选题数", default=20)
     multiple_choice_score = Column(Integer, name=u"多选分值", default=1)
-    jd_choice_num = Column(Integer, name=u"填空题数", default=20)
-    jd_choice_score = Column(Integer, name=u"填空分值", default=1)
+    tk_choice_num = Column(Integer, name=u"填空题数", default=20)
+    tk_choice_score = Column(Integer, name=u"填空分值", default=1)
+    jd_choice_num = Column(Integer, name=u"简答题数", default=20)
+    jd_choice_score = Column(Integer, name=u"简答分值", default=1)
     kaoshishijian=Column(Integer, name=u"考试时间", default=60)
 
 class tempuserans(Base):

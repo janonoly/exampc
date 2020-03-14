@@ -29,6 +29,7 @@ class mywindow(QtWidgets.QMainWindow,Ui_MainWindow):
         self.pushButton_2.clicked.connect(self.traintl)
         self.pushButton_8.clicked.connect(self.trainyzyh)
         self.pushButton_7.clicked.connect(self.trainfgzd)
+        self.pushButton_9.clicked.connect(self.trainzsjh)
         modelutil=ModelUtil()
         modelutil.inittempuser()
     def setstyle(self):
@@ -38,6 +39,7 @@ class mywindow(QtWidgets.QMainWindow,Ui_MainWindow):
         CommonUtil.set_button_style1(self.pushButton_2 )
         CommonUtil.set_button_style1(self.pushButton_7 )
         CommonUtil.set_button_style1(self.pushButton_8 )
+        CommonUtil.set_button_style1(self.pushButton_9)
         CommonUtil.set_groupbox_style(self.groupBox)
         CommonUtil.set_groupbox_style_withimage(self.groupBox_2,'')
         CommonUtil.set_horizontalline_style(self.line)
@@ -76,8 +78,12 @@ class mywindow(QtWidgets.QMainWindow,Ui_MainWindow):
         self.ui.show()
 
     def exportpaper(self):
-        from controllers.exportpaper import exportpaperform
-        self.ui=exportpaperform()
+        # from controllers.exportpaper import exportpaperform
+        # self.ui=exportpaperform()
+        # self.ui.setWindowModality(Qt.ApplicationModal)
+        # self.ui.show()
+        from controllers.chujuan import chujuanform
+        self.ui = chujuanform()
         self.ui.setWindowModality(Qt.ApplicationModal)
         self.ui.show()
     #定义槽函数
@@ -145,6 +151,15 @@ class mywindow(QtWidgets.QMainWindow,Ui_MainWindow):
 
         self.trainfromui.showMaximized()
 
+  # 定义槽函数
+    @pyqtSlot()
+    def trainzsjh(self):
+        from controllers.train1 import trainfrom
+        self.trainfromui = trainfrom(self.currentuser, '战伤救护')
+        self.trainfromui.setWindowTitle('战伤救护')
+        self.trainfromui.show()
+
+        self.trainfromui.showMaximized()
 
 
 

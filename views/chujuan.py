@@ -1,0 +1,95 @@
+# -*- coding: utf-8 -*-
+
+# Form implementation generated from reading ui file 'chujuan.ui'
+#
+# Created by: PyQt5 UI code generator 5.14.1
+#
+# WARNING! All changes made in this file will be lost!
+
+
+from PyQt5 import QtCore, QtGui, QtWidgets
+
+
+class Ui_Dialog(object):
+    def setupUi(self, Dialog):
+        Dialog.setObjectName("Dialog")
+        Dialog.resize(1032, 640)
+        self.tableWidget = QtWidgets.QTableWidget(Dialog)
+        self.tableWidget.setGeometry(QtCore.QRect(410, 80, 271, 431))
+        self.tableWidget.setObjectName("tableWidget")
+        self.tableWidget.setColumnCount(2)
+        self.tableWidget.setRowCount(0)
+        item = QtWidgets.QTableWidgetItem()
+        self.tableWidget.setHorizontalHeaderItem(0, item)
+        item = QtWidgets.QTableWidgetItem()
+        self.tableWidget.setHorizontalHeaderItem(1, item)
+        self.tableWidget_2 = QtWidgets.QTableWidget(Dialog)
+        self.tableWidget_2.setGeometry(QtCore.QRect(700, 80, 301, 431))
+        self.tableWidget_2.setObjectName("tableWidget_2")
+        self.tableWidget_2.setColumnCount(2)
+        self.tableWidget_2.setRowCount(5)
+        item = QtWidgets.QTableWidgetItem()
+        self.tableWidget_2.setVerticalHeaderItem(0, item)
+        item = QtWidgets.QTableWidgetItem()
+        self.tableWidget_2.setVerticalHeaderItem(1, item)
+        item = QtWidgets.QTableWidgetItem()
+        self.tableWidget_2.setVerticalHeaderItem(2, item)
+        item = QtWidgets.QTableWidgetItem()
+        self.tableWidget_2.setVerticalHeaderItem(3, item)
+        item = QtWidgets.QTableWidgetItem()
+        self.tableWidget_2.setVerticalHeaderItem(4, item)
+        item = QtWidgets.QTableWidgetItem()
+        self.tableWidget_2.setHorizontalHeaderItem(0, item)
+        item = QtWidgets.QTableWidgetItem()
+        self.tableWidget_2.setHorizontalHeaderItem(1, item)
+        item = QtWidgets.QTableWidgetItem()
+        self.tableWidget_2.setItem(0, 0, item)
+        item = QtWidgets.QTableWidgetItem()
+        self.tableWidget_2.setItem(1, 0, item)
+        self.pushButton = QtWidgets.QPushButton(Dialog)
+        self.pushButton.setGeometry(QtCore.QRect(560, 550, 181, 41))
+        self.pushButton.setObjectName("pushButton")
+        self.treeWidget_2 = QtWidgets.QTreeWidget(Dialog)
+        self.treeWidget_2.setGeometry(QtCore.QRect(10, 80, 221, 431))
+        self.treeWidget_2.setObjectName("treeWidget_2")
+        self.treeWidget_3 = QtWidgets.QTreeWidget(Dialog)
+        self.treeWidget_3.setGeometry(QtCore.QRect(250, 80, 141, 431))
+        self.treeWidget_3.setObjectName("treeWidget_3")
+        self.label = QtWidgets.QLabel(Dialog)
+        self.label.setGeometry(QtCore.QRect(100, 560, 72, 15))
+        self.label.setObjectName("label")
+        self.lineEdit = QtWidgets.QLineEdit(Dialog)
+        self.lineEdit.setGeometry(QtCore.QRect(230, 560, 113, 21))
+        self.lineEdit.setObjectName("lineEdit")
+
+        self.retranslateUi(Dialog)
+        QtCore.QMetaObject.connectSlotsByName(Dialog)
+
+    def retranslateUi(self, Dialog):
+        _translate = QtCore.QCoreApplication.translate
+        Dialog.setWindowTitle(_translate("Dialog", "随机出题"))
+        item = self.tableWidget.horizontalHeaderItem(0)
+        item.setText(_translate("Dialog", "专业名称"))
+        item = self.tableWidget.horizontalHeaderItem(1)
+        item.setText(_translate("Dialog", "科目名称"))
+        item = self.tableWidget_2.verticalHeaderItem(0)
+        item.setText(_translate("Dialog", "单选题"))
+        item = self.tableWidget_2.verticalHeaderItem(1)
+        item.setText(_translate("Dialog", "多选题"))
+        item = self.tableWidget_2.verticalHeaderItem(2)
+        item.setText(_translate("Dialog", "判断题"))
+        item = self.tableWidget_2.verticalHeaderItem(3)
+        item.setText(_translate("Dialog", "填空题"))
+        item = self.tableWidget_2.verticalHeaderItem(4)
+        item.setText(_translate("Dialog", "简答题"))
+        item = self.tableWidget_2.horizontalHeaderItem(0)
+        item.setText(_translate("Dialog", "出题数"))
+        item = self.tableWidget_2.horizontalHeaderItem(1)
+        item.setText(_translate("Dialog", "分值"))
+        __sortingEnabled = self.tableWidget_2.isSortingEnabled()
+        self.tableWidget_2.setSortingEnabled(False)
+        self.tableWidget_2.setSortingEnabled(__sortingEnabled)
+        self.pushButton.setText(_translate("Dialog", "出卷"))
+        self.treeWidget_2.headerItem().setText(0, _translate("Dialog", "请选择出卷范围"))
+        self.treeWidget_3.headerItem().setText(0, _translate("Dialog", "请选择等级"))
+        self.label.setText(_translate("Dialog", "TextLabel"))

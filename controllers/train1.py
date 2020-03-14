@@ -142,7 +142,7 @@ class trainfrom(QWidget,Ui_Dialog):
             self.examui.coursename=coursename
             self.examui.curentusername = self.current_username
             if hznagjie:
-                self.examui.zhangjie = int(hznagjie)
+                self.examui.zhangjie = hznagjie
             else:
                 pass
 
@@ -382,12 +382,16 @@ class trainfrom(QWidget,Ui_Dialog):
                 num += 1
 
 
-        elif questionres.questionType == 'jd':
+        elif questionres.questionType == 'tk':
 
             qlist = self.findChildren(QtWidgets.QTextEdit)
             for i in qlist:
                 userdaan=i.toPlainText()
+        elif questionres.questionType == 'jd':
 
+            qlist = self.findChildren(QtWidgets.QTextEdit)
+            for i in qlist:
+                userdaan = i.toPlainText()
         #考试模式
         if self.xunlianmoshi==1:
             if userdaan!='':

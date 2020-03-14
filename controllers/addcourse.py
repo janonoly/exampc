@@ -44,15 +44,18 @@ class myform1(QWidget,Ui_Dialog):
         # 每次执行数据库操作时，都需要创建一个session
         session = Session()
         from model.question import courselist,PaperList
-        leibie=self.comboBox.currentText().split('.')[0]
-        coursename = self.comboBox.currentText().split('.')[1]
+
         try:
+            leibie = self.comboBox.currentText().split('.')[0]
+            coursename = self.comboBox.currentText().split('.')[1]
             result = session.query(PaperList).filter(PaperList.course_name == coursename).first()
             session.delete(result)
             session.commit()
         except:
             pass
         try:
+            leibie = self.comboBox.currentText().split('.')[0]
+            coursename = self.comboBox.currentText().split('.')[1]
             result1 = session.query(courselist).filter(and_(courselist.coursename == coursename,courselist.leibiename == leibie)).first()
             session.delete(result1)
             session.commit()
@@ -69,8 +72,9 @@ class myform1(QWidget,Ui_Dialog):
         session = Session()
         from model.question import PaperList
 
-        cousrcename=self.comboBox.currentText().split('.')[-1]
+
         try:
+            cousrcename = self.comboBox.currentText().split('.')[-1]
             result = session.query(PaperList).filter(PaperList.course_name == cousrcename).all()
             for paperlistre in result:
                 self.lineEdit_2.setText(str(paperlistre.single_choice_num))
@@ -79,8 +83,10 @@ class myform1(QWidget,Ui_Dialog):
                 self.lineEdit_7.setText(str(paperlistre.judgment_score))
                 self.lineEdit_5.setText(str(paperlistre.multiple_choice_num))
                 self.lineEdit_4.setText(str(paperlistre.multiple_choice_score))
-                self.lineEdit_6.setText(str(paperlistre.jd_choice_num))
-                self.lineEdit_9.setText(str(paperlistre.jd_choice_score))
+                self.lineEdit_6.setText(str(paperlistre.tk_choice_num))
+                self.lineEdit_9.setText(str(paperlistre.tk_choice_score))
+                self.lineEdit_12.setText(str(paperlistre.jd_choice_num))
+                self.lineEdit_13.setText(str(paperlistre.jd_choice_score))
                 self.lineEdit_10.setText(str(paperlistre.kaoshishijian))
 
         except:
@@ -92,16 +98,12 @@ class myform1(QWidget,Ui_Dialog):
 
     @pyqtSlot()
     def updateshezhi(self):
-        coursename = self.comboBox.currentText()
+        coursename = self.comboBox.currentText().split('.')[1]
         from model.createdb import engine
         from model.question import PaperList
         Session = sessionmaker(bind=engine)
         # 每次执行数据库操作时，都需要创建一个session
         session = Session()
-
-
-
-
 
         try:
             paperlist = session.query(PaperList).filter(PaperList.course_name == coursename).first()
@@ -111,8 +113,11 @@ class myform1(QWidget,Ui_Dialog):
             paperlist.judgment_score = int(self.lineEdit_7.text())
             paperlist.multiple_choice_num = int(self.lineEdit_5.text())
             paperlist.multiple_choice_score = int(self.lineEdit_4.text())
-            paperlist.jd_choice_num = int(self.lineEdit_6.text())
-            paperlist.jd_choice_score = int(self.lineEdit_9.text())
+            paperlist.jd_choice_num = int(self.lineEdit_12.text())
+            paperlist.jd_choice_score = int(self.lineEdit_13.text())
+
+            paperlist.tk_choice_num = int(self.lineEdit_6.text())
+            paperlist.tk_choice_score = int(self.lineEdit_9.text())
             paperlist.kaoshishijian = int(self.lineEdit_10.text())
 
             session.commit()
@@ -134,23 +139,20 @@ class myform1(QWidget,Ui_Dialog):
 
         # 每次执行数据库操作时，都需要创建一个session
         session = Session()
-        obj=courselist()
-        obj.coursename = coursename
-        obj.leibiename = leibiename
+
 
 
         try:
 
+            obj = courselist()
+            obj.coursename = coursename
+            obj.leibiename = leibiename
+            obj1 = PaperList()
+            obj1.course_name = coursename
+            session.add(obj1)
             session.add(obj)
             session.commit()
             QMessageBox.information(self, '导入', '导入成功')
-            try:
-                obj1 = PaperList()
-                obj1.course_name = coursename
-                session.add(obj1)
-                session.commit()
-            except:
-                pass
         except:
             QMessageBox.information(self, '导入', '导入失败')
         finally:

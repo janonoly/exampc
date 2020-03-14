@@ -10,4 +10,4 @@ Base = declarative_base()
 #导入models创建数据库表，只增加不会减少
 from model import user,question
 #Base.metadata.drop_all(engine)
-Base.metadata.create_all(engine)
+# Base.metadata.create_all(engine)

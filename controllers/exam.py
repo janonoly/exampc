@@ -101,7 +101,13 @@ class examfrom(QWidget,Ui_Dialog):
                 userdaan=i.toPlainText()
             tempuseran.question_id =questionid
             tempuseran.userans = userdaan
+        elif questionres.questionType == 'tk':
 
+            qlist = self.findChildren(QtWidgets.QTextEdit)
+            for i in qlist:
+                userdaan = i.toPlainText()
+            tempuseran.question_id = questionid
+            tempuseran.userans = userdaan
         session.add(tempuseran)
         session.commit()
         session.close()

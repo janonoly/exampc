@@ -102,10 +102,10 @@ class Ui_Dialog(object):
     def retranslateUi(self, Dialog):
         _translate = QtCore.QCoreApplication.translate
         Dialog.setWindowTitle(_translate("Dialog", "考试训练选择"))
-        self.comboBox_3.setCurrentText(_translate("Dialog", "类别"))
-        self.comboBox_3.setItemText(0, _translate("Dialog", "类别"))
-        self.comboBox.setItemText(0, _translate("Dialog", "专业"))
-        self.comboBox_2.setCurrentText(_translate("Dialog", "章节"))
-        self.comboBox_2.setItemText(0, _translate("Dialog", "章节"))
+        self.comboBox_3.setCurrentText(_translate("Dialog", "人员类别"))
+        self.comboBox_3.setItemText(0, _translate("Dialog", "人员类别"))
+        self.comboBox.setItemText(0, _translate("Dialog", "专业名称"))
+        self.comboBox_2.setCurrentText(_translate("Dialog", "科目名称"))
+        self.comboBox_2.setItemText(0, _translate("Dialog", "科目名称"))
         self.comboBox_4.setItemText(0, _translate("Dialog", "等级"))
         self.pushButton_8.setText(_translate("Dialog", "确定"))
