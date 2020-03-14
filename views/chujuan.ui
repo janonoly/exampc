@@ -29,7 +29,7 @@
    </column>
    <column>
     <property name="text">
-     <string>科目名称</string>
+     <string>出题数量</string>
     </property>
    </column>
   </widget>

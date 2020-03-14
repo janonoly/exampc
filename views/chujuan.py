@@ -71,7 +71,7 @@ class Ui_Dialog(object):
         item = self.tableWidget.horizontalHeaderItem(0)
         item.setText(_translate("Dialog", "专业名称"))
         item = self.tableWidget.horizontalHeaderItem(1)
-        item.setText(_translate("Dialog", "科目名称"))
+        item.setText(_translate("Dialog", "出题数量"))
         item = self.tableWidget_2.verticalHeaderItem(0)
         item.setText(_translate("Dialog", "单选题"))
         item = self.tableWidget_2.verticalHeaderItem(1)
