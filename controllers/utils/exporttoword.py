@@ -214,81 +214,81 @@ class ExportToWord(object):
         self.contentstyle(xuanxiangcontent)
 
 class RandExportToWord(object):
-    def __init__(self,filepath,filename):
+    def __init__(self,filepath,filename , fenzhi):
         self.filepath=filepath
         self.filename = filename
-    def exportpaper(self,papername,questionidlist):
+        self.fenzhi = fenzhi
+    def exportpaper(self,papername,questionidlist,shijuanname):
+
         self.file = docx.Document()  # 创建内存中的word文档对象
         self.file.styles['Normal'].font.name = u'宋体'
         # file.add_paragraph("窗前明月光")  # 写入若干段落
-        papertitle = '卷'+papername
+        papertitle =shijuanname+ '卷'+papername
 
         self.titlestyle( papertitle)
         # self.erjistyle('不知道')
         # self.contentstyle('内容')
         tihao=0
 
+        try:
+            self.xznum=self.getquestiontypenum(questionidlist,'xz')
 
-        self.xznum=self.getquestiontypenum(questionidlist,'xz')
-        self.xzfenshu=1
-        self.pdnum=self.getquestiontypenum(questionidlist,'pd')
-        self.pdfenshu=1
-        self.mxznum=self.getquestiontypenum(questionidlist,'mxz')
-        self.mxzfenshu=1
-        self.tknum=self.getquestiontypenum(questionidlist,'tk')
-        self.tkfenshu=1
-        self.jdnum = self.getquestiontypenum(questionidlist,'jd')
-        self.jdfenshu = 1
-        self.shijian=1
-        self.shijianstyle('(考试时间：'+str(self.shijian)+'分钟)')
+            self.pdnum=self.getquestiontypenum(questionidlist,'pd')
+
+            self.mxznum=self.getquestiontypenum(questionidlist,'mxz')
+
+            self.tknum=self.getquestiontypenum(questionidlist,'tk')
+
+            self.jdnum = self.getquestiontypenum(questionidlist,'jd')
+
+        except:
+            pass
+        self.shijianstyle('(考试时间：'+str(self.fenzhi['时间'])+'分钟)')
         dabiaoti=0
         dabiaotidict=['一','二','三','四','五']
         if self.xznum>0:
-            self.erjistyle('%s、选择题（每题%s分,共%s题）' % (dabiaotidict[dabiaoti],self.xzfenshu,self.xznum))
+            self.erjistyle('%s、选择题（每题%s分,共%s题）' % (dabiaotidict[dabiaoti],self.fenzhi['单选题'],self.xznum))
             dabiaoti += 1
-        for i in range(len(questionidlist)):
-            id=questionidlist[i].id
-            if self.gensinglequestion(id).questionType == 'xz':
-                tihao += 1
-                self.genwordxzmxzstr(tihao,id)
+            for i in range(len(questionidlist)):
+                id=questionidlist[i].id
+                if self.gensinglequestion(id).questionType == 'xz':
+                    tihao += 1
+                    self.genwordxzmxzstr(tihao,id)
 
         if self.pdnum > 0:
-            self.erjistyle('%s、判断题（每题%s分,共%s题）' % (dabiaotidict[dabiaoti], self.pdfenshu, self.pdnum))
+            self.erjistyle('%s、判断题（每题%s分,共%s题）' % (dabiaotidict[dabiaoti], self.fenzhi['判断题'], self.pdnum))
             dabiaoti += 1
-        for i in range(len(questionidlist)):
-            id = questionidlist[i].id
-            if self.gensinglequestion(id).questionType == 'pd':
-                tihao += 1
-                self.genwordxzmxzstr(tihao,id)
+            for i in range(len(questionidlist)):
+                id = questionidlist[i].id
+                if self.gensinglequestion(id).questionType == 'pd':
+                    tihao += 1
+                    self.genwordxzmxzstr(tihao,id)
         if self.mxznum > 0:
-            self.erjistyle('%s、多选题（每题%s分,共%s题）' % (dabiaotidict[dabiaoti], self.mxzfenshu, self.mxznum))
+            self.erjistyle('%s、多选题（每题%s分,共%s题）' % (dabiaotidict[dabiaoti], self.fenzhi['多选题'], self.mxznum))
             dabiaoti += 1
-        for i in range(len(questionidlist)):
+            for i in range(len(questionidlist)):
 
-            id = questionidlist[i].id
-            if self.gensinglequestion(id).questionType  == 'mxz':
-                tihao += 1
-                self.genwordxzmxzstr(tihao,id)
+                id = questionidlist[i].id
+                if self.gensinglequestion(id).questionType  == 'mxz':
+                    tihao += 1
+                    self.genwordxzmxzstr(tihao,id)
         if self.tknum > 0:
-            self.erjistyle('%s、填空题（每题%s分,共%s题）' % (dabiaotidict[dabiaoti], self.tkfenshu, self.tknum))
+            self.erjistyle('%s、填空题（每题%s分,共%s题）' % (dabiaotidict[dabiaoti], self.fenzhi['填空题'], self.tknum))
             dabiaoti += 1
-        for i in range(len(questionidlist)):
-
-
-
-            id = questionidlist[i].id
-            if self.gensinglequestion(id).questionType  == 'tk':
-                tihao += 1
-                self.genwordxzmxzstr(tihao,id)
+            for i in range(len(questionidlist)):
+                id = questionidlist[i].id
+                if self.gensinglequestion(id).questionType  == 'tk':
+                    tihao += 1
+                    self.genwordxzmxzstr(tihao,id)
 
         if self.jdnum > 0:
-            self.erjistyle('%s、简答题（每题%s分,共%s题）' % (dabiaotidict[dabiaoti], self.jdfenshu, self.jdnum))
+            self.erjistyle('%s、简答题（每题%s分,共%s题）' % (dabiaotidict[dabiaoti], self.fenzhi['简答题'], self.jdnum))
 
-        for i in range(len(questionidlist)):
-            id = questionidlist[i].id
-            if self.gensinglequestion(id).questionType  == 'jd':
-                tihao += 1
-                self.genwordxzmxzstr(tihao, id)
+            for i in range(len(questionidlist)):
+                id = questionidlist[i].id
+                if self.gensinglequestion(id).questionType  == 'jd':
+                    tihao += 1
+                    self.genwordxzmxzstr(tihao, id)
 
 
         filename = self.filepath + '/' +  papertitle+self.filename
@@ -327,66 +327,66 @@ class RandExportToWord(object):
         dabiaoti = 0
         dabiaotidict = ['一', '二', '三', '四', '五']
         if self.xznum > 0:
-            self.erjistyle('%s、选择题（每题%s分,共%s题）' % (dabiaotidict[dabiaoti], self.xzfenshu, self.xznum))
+            self.erjistyle('%s、单选题（每题%s分,共%s题）' % (dabiaotidict[dabiaoti], self.fenzhi['单选题'], self.xznum))
             dabiaoti += 1
-        for i in range(len(questionidlist)):
-            id = questionidlist[i].id
-            if self.gensinglequestion(id).questionType  == 'xz':
-                tihao += 1
-                single_question_set = self.gensinglequestion(id)
-                xzstr += str(tihao) + ':' + single_question_set.answer + '  '
-        self.contentstyle(xzstr)
+            for i in range(len(questionidlist)):
+                id = questionidlist[i].id
+                if self.gensinglequestion(id).questionType  == 'xz':
+                    tihao += 1
+                    single_question_set = self.gensinglequestion(id)
+                    xzstr += str(tihao) + ':' + single_question_set.answer + '  '
+            self.contentstyle(xzstr)
         pdstr = ''
         if self.pdnum > 0:
-            self.erjistyle('%s、判断题（每题%s分,共%s题）' % (dabiaotidict[dabiaoti], self.pdfenshu, self.pdnum))
+            self.erjistyle('%s、判断题（每题%s分,共%s题）' % (dabiaotidict[dabiaoti], self.fenzhi['判断题'], self.pdnum))
             dabiaoti += 1
-        for i in range(len(questionidlist)):
+            for i in range(len(questionidlist)):
 
 
-            id = questionidlist[i].id
-            if self.gensinglequestion(id).questionType == 'pd':
-                tihao += 1
+                id = questionidlist[i].id
+                if self.gensinglequestion(id).questionType == 'pd':
+                    tihao += 1
 
-                single_question_set = self.gensinglequestion(id)
-                pdstr += str(tihao) + ':' + single_question_set.answer + '  '
-        self.contentstyle(pdstr)
+                    single_question_set = self.gensinglequestion(id)
+                    pdstr += str(tihao) + ':' + single_question_set.answer + '  '
+            self.contentstyle(pdstr)
         mxzstr = ''
         if self.mxznum > 0:
-            self.erjistyle('%s、多选题（每题%s分,共%s题）' % (dabiaotidict[dabiaoti], self.mxzfenshu, self.mxznum))
+            self.erjistyle('%s、多选题（每题%s分,共%s题）' % (dabiaotidict[dabiaoti], self.fenzhi['多选题'], self.mxznum))
             dabiaoti += 1
-        for i in range(len(questionidlist)):
+            for i in range(len(questionidlist)):
 
 
-            id = questionidlist[i].id
-            if self.gensinglequestion(id).questionType  == 'mxz':
-                tihao += 1
-                single_question_set = self.gensinglequestion(id)
-                mxzstr += str(tihao) + ':' + single_question_set.answer + '  '
-        self.contentstyle(mxzstr)
+                id = questionidlist[i].id
+                if self.gensinglequestion(id).questionType  == 'mxz':
+                    tihao += 1
+                    single_question_set = self.gensinglequestion(id)
+                    mxzstr += str(tihao) + ':' + single_question_set.answer + '  '
+            self.contentstyle(mxzstr)
         tkstr = ''
         if self.tknum > 0:
-            self.erjistyle('%s、填空题（每题%s分,共%s题）' % (dabiaotidict[dabiaoti], self.tkfenshu, self.tknum))
+            self.erjistyle('%s、填空题（每题%s分,共%s题）' % (dabiaotidict[dabiaoti], self.fenzhi['填空题'], self.tknum))
             dabiaoti += 1
-        for i in range(len(questionidlist)):
+            for i in range(len(questionidlist)):
 
 
-            id = questionidlist[i].id
-            if self.gensinglequestion(id).questionType  == 'tk':
-                tihao += 1
-                single_question_set = self.gensinglequestion(id)
-                tkstr += str(tihao) + ':' + single_question_set.answer + '  '
-        self.contentstyle(tkstr)
+                id = questionidlist[i].id
+                if self.gensinglequestion(id).questionType  == 'tk':
+                    tihao += 1
+                    single_question_set = self.gensinglequestion(id)
+                    tkstr += str(tihao) + ':' + single_question_set.answer + '  '
+            self.contentstyle(tkstr)
         jdstr = ''
         if self.jdnum > 0:
-            self.erjistyle('%s、简答题（每题%s分,共%s题）' % (dabiaotidict[dabiaoti], self.jdfenshu, self.jdnum))
-        for i in range(len(questionidlist)):
+            self.erjistyle('%s、简答题（每题%s分,共%s题）' % (dabiaotidict[dabiaoti], self.fenzhi['简答题'], self.jdnum))
+            for i in range(len(questionidlist)):
 
-            tihao += 1
-            id = questionidlist[i].id
-            if self.gensinglequestion(id).questionType  == 'jd':
-                single_question_set = self.gensinglequestion(id)
-                jdstr += str(tihao) + ':' + single_question_set.answer + '  '
-        self.contentstyle(jdstr)
+                tihao += 1
+                id = questionidlist[i].id
+                if self.gensinglequestion(id).questionType  == 'jd':
+                    single_question_set = self.gensinglequestion(id)
+                    jdstr += str(tihao) + ':' + single_question_set.answer + '  '
+            self.contentstyle(jdstr)
 
         filename = self.filepath + '/' + papertitle + '答案' + self.filename
         self.file.save(filename)  # 保存才能看到结果

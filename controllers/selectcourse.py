@@ -25,6 +25,7 @@ class selectcourseform(QWidget,Ui_Dialog):
         self.comboBox.currentTextChanged.connect(self.initcombobox_zhangjie)
         self.comboBox_2.currentTextChanged.connect(self.initcombobox_dengji)
         self.pushButton_8.clicked.connect(self.train)
+        self.pushButton_9.clicked.connect(self.close)
 
         # self.pushButton.clicked.connect(self.exam)
 
@@ -37,6 +38,7 @@ class selectcourseform(QWidget,Ui_Dialog):
         CommonUtil.set_groupbox_style(self.groupBox)
         CommonUtil.set_groupbox_style(self.groupBox_2)
         CommonUtil.set_button_style1(self.pushButton_8)
+        CommonUtil.set_button_style1(self.pushButton_9)
     def paintEvent(self, event):  # set background_img
         painter = QPainter(self)
         painter.drawRect(self.rect())

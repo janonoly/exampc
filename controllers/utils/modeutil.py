@@ -131,6 +131,13 @@ class ModelUtil(object):
             zhuanye_kemu[curentcorsename]=kemulist
 
         return zhuanye_kemu
-
+    def get_timuleixing(self,zhuanye_kemudict):
+        questiontype=[]
+        for (k,v) in zhuanye_kemudict.items():
+            questiontype1 = self.session.query(question.questionType).filter(question.course_name==k).distinct(question.questionType).all()
+            for i in range(len(questiontype1)):
+                questiontype.append(questiontype1[i].questionType.value)
+        questiontype=list(set(questiontype))
+        return questiontype
     def session_close(self):
         self.session.close()
