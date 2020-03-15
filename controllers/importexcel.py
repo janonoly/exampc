@@ -24,7 +24,9 @@ class mywindow(QtWidgets.QMainWindow,Ui_MainWindow):
         self.action_K.triggered.connect(self.addcourse)
         self.action_D.triggered.connect(self.deletequestion)
         self.action_L.triggered.connect(self.history)
+        self.action_T.triggered.connect(self.close)
         self.action_word_O.triggered.connect(self.exportpaper)
+        self.action_J.triggered.connect(self.jianyichujuan)
         self.pushButton.clicked.connect(self.exam)
         self.pushButton_2.clicked.connect(self.traintl)
         self.pushButton_8.clicked.connect(self.trainyzyh)
@@ -53,23 +55,10 @@ class mywindow(QtWidgets.QMainWindow,Ui_MainWindow):
         painter.drawPixmap(self.rect(), pixmap)
 
     def deletequestion(self):
-        Session = sessionmaker(bind=engine)
-        session = Session()
-        from model.question import question
-        # result = session.query(tempuserans).all()
-        # session.delete(result)
-        reply = QtWidgets.QMessageBox.question(self,
-                                               '删除题库',
-                                               "是否要删除题库？",
-                                               QtWidgets.QMessageBox.Yes | QtWidgets.QMessageBox.No,
-                                               QtWidgets.QMessageBox.No)
-        if reply == QtWidgets.QMessageBox.Yes:
-            session.query(question).filter().delete()
-            session.commit()
-        else:
-            pass
-
-        session.close()
+        from controllers.shanchuzhuanye import Shanchuzhuanyeform
+        self.ui = Shanchuzhuanyeform()
+        self.ui.setWindowModality(Qt.ApplicationModal)
+        self.ui.show()
 
     def addcourse(self):
         from controllers.addcourse import myform1
@@ -78,12 +67,15 @@ class mywindow(QtWidgets.QMainWindow,Ui_MainWindow):
         self.ui.show()
 
     def exportpaper(self):
-        # from controllers.exportpaper import exportpaperform
-        # self.ui=exportpaperform()
-        # self.ui.setWindowModality(Qt.ApplicationModal)
-        # self.ui.show()
+
         from controllers.chujuan import chujuanform
         self.ui = chujuanform()
+        self.ui.setWindowModality(Qt.ApplicationModal)
+        self.ui.show()
+
+    def jianyichujuan(self):
+        from controllers.exportpaper import exportpaperform
+        self.ui=exportpaperform()
         self.ui.setWindowModality(Qt.ApplicationModal)
         self.ui.show()
     #定义槽函数

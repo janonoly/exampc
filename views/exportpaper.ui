@@ -64,7 +64,7 @@
        </font>
       </property>
       <property name="text">
-       <string>选择科目</string>
+       <string>选择专业</string>
       </property>
      </widget>
      <widget class="QLineEdit" name="lineEdit">
@@ -245,7 +245,7 @@
        </font>
       </property>
       <property name="text">
-       <string>选择科目</string>
+       <string>选择专业</string>
       </property>
      </widget>
     </widget>

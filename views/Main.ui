@@ -202,12 +202,14 @@
      <string>科目设置</string>
     </property>
     <addaction name="action_K"/>
+    <addaction name="action_T"/>
    </widget>
    <widget class="QMenu" name="menu_2">
     <property name="title">
      <string>出卷</string>
     </property>
     <addaction name="action_word_O"/>
+    <addaction name="action_J"/>
    </widget>
    <widget class="QMenu" name="menu_4">
     <property name="title">
@@ -215,10 +217,18 @@
     </property>
     <addaction name="action_L"/>
    </widget>
+   <widget class="QMenu" name="menu_5">
+    <property name="title">
+     <string>帮助</string>
+    </property>
+    <addaction name="actionhelp_H"/>
+    <addaction name="action_G"/>
+   </widget>
    <addaction name="menu_3"/>
    <addaction name="menu"/>
    <addaction name="menu_2"/>
    <addaction name="menu_4"/>
+   <addaction name="menu_5"/>
   </widget>
   <action name="menuimpexl">
    <property name="text">
@@ -247,12 +257,32 @@
   </action>
   <action name="action_word_O">
    <property name="text">
-    <string>试卷导出到word(O)</string>
+    <string>随机出卷(O)</string>
    </property>
   </action>
   <action name="action_L">
    <property name="text">
     <string>历史成绩(L)</string>
+   </property>
+  </action>
+  <action name="action_J">
+   <property name="text">
+    <string>简易出卷(J)</string>
+   </property>
+  </action>
+  <action name="actionhelp_H">
+   <property name="text">
+    <string>帮助(H)</string>
+   </property>
+  </action>
+  <action name="action_G">
+   <property name="text">
+    <string>关于(G)</string>
+   </property>
+  </action>
+  <action name="action_T">
+   <property name="text">
+    <string>退出(T)</string>
    </property>
   </action>
  </widget>

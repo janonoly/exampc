@@ -78,12 +78,12 @@
        <rect>
         <x>30</x>
         <y>30</y>
-        <width>75</width>
+        <width>101</width>
         <height>21</height>
        </rect>
       </property>
       <property name="text">
-       <string>类别名称：</string>
+       <string>人员类别名称：</string>
       </property>
      </widget>
      <widget class="QLineEdit" name="lineEdit_11">
