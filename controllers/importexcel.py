@@ -25,6 +25,7 @@ class mywindow(QtWidgets.QMainWindow,Ui_MainWindow):
         self.action_D.triggered.connect(self.deletequestion)
         self.action_L.triggered.connect(self.history)
         self.action_T.triggered.connect(self.close)
+        self.action_E.triggered.connect(self.daochutiku)
         self.action_word_O.triggered.connect(self.exportpaper)
         self.action_J.triggered.connect(self.jianyichujuan)
         self.pushButton.clicked.connect(self.exam)
@@ -65,7 +66,11 @@ class mywindow(QtWidgets.QMainWindow,Ui_MainWindow):
         self.ui=myform1()
         self.ui.setWindowModality(Qt.ApplicationModal)
         self.ui.show()
-
+    def daochutiku(self):
+        from controllers.daochutiku import Daochutikuform
+        self.ui = Daochutikuform()
+        self.ui.setWindowModality(Qt.ApplicationModal)
+        self.ui.show()
     def exportpaper(self):
 
         from controllers.chujuan import chujuanform

@@ -196,6 +196,7 @@
     </property>
     <addaction name="action_F"/>
     <addaction name="action_D"/>
+    <addaction name="action_E"/>
    </widget>
    <widget class="QMenu" name="menu_3">
     <property name="title">
@@ -252,7 +253,7 @@
   </action>
   <action name="action_D">
    <property name="text">
-    <string>删除题库&amp;D</string>
+    <string>删除题库(&amp;D)</string>
    </property>
   </action>
   <action name="action_word_O">
@@ -283,6 +284,11 @@
   <action name="action_T">
    <property name="text">
     <string>退出(T)</string>
+   </property>
+  </action>
+  <action name="action_E">
+   <property name="text">
+    <string>导出题库(&amp;E)</string>
    </property>
   </action>
  </widget>
