@@ -325,8 +325,9 @@ class trainfrom(QWidget,Ui_Dialog):
                 self.questionresall = session.query(question.id).filter(
                      question.course_name == self.coursename ).all()
         if len(self.questionresall)==0:
-
             QMessageBox.information(self, '提示', '当前题目为空')
+            self.close()
+            return None
         self.xianshitimu()
         self.label.setText('共'+str(len(self.questionresall))+'题')
         self.init_collectbutton()

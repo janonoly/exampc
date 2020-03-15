@@ -23,6 +23,7 @@ class Shanchuzhuanyeform(QWidget,Ui_Dialog):
         # 每次执行数据库操作时，都需要创建一个session
         session = Session()
         try:
+            self.comboBox.clear()
             result = session.query(question.course_name).filter().distinct().all()
             self.comboBox.addItems( i.course_name for i in result)
 
@@ -45,6 +46,7 @@ class Shanchuzhuanyeform(QWidget,Ui_Dialog):
             try:
                 session.query(question).filter(question.course_name==self.comboBox.currentText()).delete()
                 session.commit()
+                self.initcomboBox()
             except:
                 QtWidgets.QMessageBox.information(self, '删除', self.comboBox.currentText()+'删除失败')
         else:
