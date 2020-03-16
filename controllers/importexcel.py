@@ -1,17 +1,21 @@
+import os
 import sys
 
+import xlsxwriter as xlsxwriter
 from PyQt5.QtGui import QPalette, QBrush, QPixmap, QPainter, QIcon
 from sqlalchemy.orm import sessionmaker
 
+from controllers.utils.copyimgtodir import CopyImgToDir
 from controllers.utils.modeutil import ModelUtil
 from model.createdb import engine
 from PyQt5 import QtWidgets
 from xlrd import open_workbook
+
 from PyQt5.QtCore import pyqtSlot, Qt
 from PyQt5.QtWidgets import QMessageBox, QDialog, QFileDialog
 from views.Main import  Ui_MainWindow
 from controllers.utils.loginutil import CommonUtil
-
+import  xlsxwriter
 
 
 class mywindow(QtWidgets.QMainWindow,Ui_MainWindow):
@@ -196,6 +200,16 @@ def excel_into_model(model_name, excel_file):
             for y in range(len(field_name)):
                 tempfildname=field_name[y]
                 cell_value=table.cell_value(x, y)
+                # cell = table.inse(x, y)
+                #如果cell_value为文件则将其存入resources/tikutupian
+                file = os.path.isfile(cell_value)
+                if file:
+                    filepath, filename=os.path.split(cell_value)
+                    des_dir=r'resources\tikutupian'
+                    copy = CopyImgToDir(cell_value,des_dir)
+                    copy.copy_img_to_dir()
+                    cell_value=des_dir+'\\'+filename
+
                 tempstr = 'obj.%s' % field_name[y] + '=cell_value'
                 exec(tempstr)
             session.add(obj)

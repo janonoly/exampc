@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'train1.ui'
 #
-# Created by: PyQt5 UI code generator 5.13.0
+# Created by: PyQt5 UI code generator 5.14.1
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -60,12 +60,28 @@ class Ui_Dialog(object):
         self.groupBox.setObjectName("groupBox")
         self.horizontalLayout_3 = QtWidgets.QHBoxLayout(self.groupBox)
         self.horizontalLayout_3.setObjectName("horizontalLayout_3")
-        self.textBrowser = QtWidgets.QTextBrowser(self.groupBox)
+        self.textBrowser_2 = QtWidgets.QTextBrowser(self.groupBox)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
+        sizePolicy.setHorizontalStretch(9)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.textBrowser_2.sizePolicy().hasHeightForWidth())
+        self.textBrowser_2.setSizePolicy(sizePolicy)
         font = QtGui.QFont()
         font.setPointSize(15)
-        self.textBrowser.setFont(font)
-        self.textBrowser.setObjectName("textBrowser")
-        self.horizontalLayout_3.addWidget(self.textBrowser)
+        self.textBrowser_2.setFont(font)
+        self.textBrowser_2.setObjectName("textBrowser_2")
+        self.horizontalLayout_3.addWidget(self.textBrowser_2)
+        self.pushButton_4 = QtWidgets.QPushButton(self.groupBox)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy.setHorizontalStretch(3)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.pushButton_4.sizePolicy().hasHeightForWidth())
+        self.pushButton_4.setSizePolicy(sizePolicy)
+        self.pushButton_4.setMinimumSize(QtCore.QSize(340, 380))
+        self.pushButton_4.setMaximumSize(QtCore.QSize(340, 380))
+        self.pushButton_4.setText("")
+        self.pushButton_4.setObjectName("pushButton_4")
+        self.horizontalLayout_3.addWidget(self.pushButton_4)
         self.verticalLayout_2.addWidget(self.groupBox)
         self.groupBox_3 = QtWidgets.QGroupBox(self.groupBox_6)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)

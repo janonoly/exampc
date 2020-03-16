@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, ForeignKey, Text
+from sqlalchemy import Column, Integer, String, ForeignKey, Text, LargeBinary
 from model.createdb import Base
 from sqlalchemy_utils.types.choice import ChoiceType
 
@@ -28,6 +28,7 @@ class question(Base):
   course_name= Column(String(255), ForeignKey("courselist.coursename"),name=u"考试科目" )
   questionType = Column(ChoiceType(Question_TYPES), default="xz", name=u"题目类型")
   content =Column(Text,name=u"题目内容")
+  contentimg =Column(Text,name=u"题目内容图片")
   answer =Column(Text,name=u"正确答案")
   zhangjie =Column(Text,name=u"章节",default='')
   dengji = Column(Text, name=u"等级", default='')

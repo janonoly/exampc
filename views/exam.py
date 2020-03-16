@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'exam.ui'
 #
-# Created by: PyQt5 UI code generator 5.13.0
+# Created by: PyQt5 UI code generator 5.14.1
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -32,6 +32,17 @@ class Ui_Dialog(object):
         self.textBrowser.setFont(font)
         self.textBrowser.setObjectName("textBrowser")
         self.horizontalLayout_2.addWidget(self.textBrowser)
+        self.pushButton_6 = QtWidgets.QPushButton(self.groupBox)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy.setHorizontalStretch(3)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.pushButton_6.sizePolicy().hasHeightForWidth())
+        self.pushButton_6.setSizePolicy(sizePolicy)
+        self.pushButton_6.setMinimumSize(QtCore.QSize(340, 380))
+        self.pushButton_6.setMaximumSize(QtCore.QSize(340, 380))
+        self.pushButton_6.setText("")
+        self.pushButton_6.setObjectName("pushButton_6")
+        self.horizontalLayout_2.addWidget(self.pushButton_6)
         self.verticalLayout.addWidget(self.groupBox)
         self.groupBox_2 = QtWidgets.QGroupBox(Dialog)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)

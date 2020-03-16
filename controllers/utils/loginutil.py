@@ -37,6 +37,20 @@ class CommonUtil(object):
         widget.setIconSize(QtCore.QSize(60,60))
         widget.setAutoRepeatDelay(200)
 
+    def set_button_style_withonlyimage(widget: QWidget, filepath):
+        widget.setStyleSheet("QPushButton{color:black}"
+                             "QPushButton:hover{color:red}"
+                             "QPushButton{background :transparent}"
+                             "QPushButton{border:2px}"
+                             "QPushButton{border-radius:10px}"
+                             "QPushButton{padding:2px 4px}")
+        icon = QtGui.QIcon()
+        icon.addPixmap(QtGui.QPixmap(filepath), QIcon.Normal, QIcon.Off)
+        widget.setIcon(icon)
+        width=widget.rect().width()
+        heigth = widget.rect().height()
+        widget.setIconSize( QtCore.QSize(width, heigth))
+        widget.setAutoRepeatDelay(200)
     def set_combobox_style1(widget: QWidget):
         widget.setStyleSheet("QComboBox{color:black}"
                              "QComboBox{border:4px}"
@@ -138,6 +152,7 @@ class CommonUtil(object):
         # painter.drawRect(widget.rect())
         # pixmap = QPixmap(filepath)  # 换成自己的图片的相对路径
         # painter.drawPixmap(widget.rect(), pixmap)
+
     def set_groupbox_style(widget: QWidget):
         widget.setStyleSheet("QGroupBox{color:transparent}"
                              "QGroupBox{border:none}"

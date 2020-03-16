@@ -182,6 +182,8 @@ class examfrom(QWidget,Ui_Dialog):
              if len( self.paperlist)<=1:
                  QMessageBox.information(self, '考试', '出题失败')
                  self.close()
+                 return None
+
         except:
             QMessageBox.information(self, '考试', '出题失败')
         if self.paperlist:
@@ -207,20 +209,20 @@ class examfrom(QWidget,Ui_Dialog):
             pass
 
         if self.questionnowid>0 and self.questionnowid<papernum-1:
-            display=displayques(self,self.textBrowser,self.gridtalLayout1,questionid,self.coursename,self.questionnowid,papernum,self.tihaolayout)
+            display=displayques(self,self.textBrowser,self.gridtalLayout1,questionid,self.coursename,self.questionnowid,papernum,self.tihaolayout,self.pushButton_6)
             display.display()
             self.pushButton.setHidden(False)
             self.pushButton_2.setHidden(False)
             self.pushButton_5.setHidden(False)
         elif self.questionnowid==0:
             self.pushButton.setHidden(True)
-            display=displayques(self,self.textBrowser,self.gridtalLayout1,questionid,self.coursename,self.questionnowid,papernum,self.tihaolayout)
+            display=displayques(self,self.textBrowser,self.gridtalLayout1,questionid,self.coursename,self.questionnowid,papernum,self.tihaolayout,self.pushButton_6)
             display.display()
             self.pushButton_5.setHidden(False)
         elif self.questionnowid==papernum-1:
             self.pushButton_2.setHidden(True)
 
-            display = displayques(self,self.textBrowser, self.gridtalLayout1, questionid,self.coursename,self.questionnowid,papernum,self.tihaolayout)
+            display = displayques(self,self.textBrowser, self.gridtalLayout1, questionid,self.coursename,self.questionnowid,papernum,self.tihaolayout,self.pushButton_6)
             display.display()
         elif self.questionnowid<0:
             self.pushButton.setHidden(True)
@@ -260,7 +262,7 @@ class examfrom(QWidget,Ui_Dialog):
         timeleft="     剩余时间："+str(fenzhong)+":"+str(miao)
         if self.kaoshishijian<1:
             from controllers.jiaojuan import juaojuan
-            self.juaojuan = juaojuan(self.paperlist, self.coursename)
+            self.juaojuan = juaojuan(self.paperlist,self.coursename,self.curentusername,self.xunlianmoshi)
 
             self.juaojuan.show()
             self.close()

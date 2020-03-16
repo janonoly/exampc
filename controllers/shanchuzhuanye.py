@@ -44,8 +44,26 @@ class Shanchuzhuanyeform(QWidget,Ui_Dialog):
                                                QtWidgets.QMessageBox.No)
         if reply == QtWidgets.QMessageBox.Yes:
             try:
-                session.query(question).filter(question.course_name==self.comboBox.currentText()).delete()
+                res=session.query(question).filter(question.course_name == self.comboBox.currentText())
+                # session.query(question).filter(question.course_name==self.comboBox.currentText()).delete()
+                isimage=res.all()
+                res.delete()
                 session.commit()
+                import os
+                curentpath = os.getcwd()
+                for i in isimage:
+                    filea = os.path.isfile(curentpath + '\\' + i.choice_a)
+                    fileb = os.path.isfile(curentpath+'\\'+i.choice_b)
+                    filec = os.path.isfile(curentpath+'\\'+i.choice_c)
+                    filed = os.path.isfile(curentpath+'\\'+i.choice_d)
+                    filee = os.path.isfile(curentpath+'\\'+i.choice_e)
+                    filef = os.path.isfile(curentpath+'\\'+i.choice_f)
+                    files={i.choice_a:filea,i.choice_b:fileb,i.choice_c:filec,i.choice_d:filed,i.choice_e:filee,i.choice_f:filef}
+                    for (k,v) in files.items():
+                        if v:
+                            filepath=k
+                            finalpath=curentpath+'\\'+filepath
+                            os.remove(finalpath)
                 self.initcomboBox()
             except:
                 QtWidgets.QMessageBox.information(self, '删除', self.comboBox.currentText()+'删除失败')

@@ -265,6 +265,7 @@ class trainfrom(QWidget,Ui_Dialog):
         self.pushButton.setHidden(True)
         self.lineEdit.setHidden(True)
         self.label_3.setHidden(True)
+        self.pushButton_4.setHidden(True)
 
     def inittimu(self):
         if self.coursename=='':
@@ -477,19 +478,21 @@ class trainfrom(QWidget,Ui_Dialog):
         from controllers.utils.displayques import displayques
         questionid = self.questionresall[self.questionnowid][0]
         papernum=len(self.questionresall)
-        display = displayques(self,self.textBrowser, self.gridtalLayout1, questionid,self.coursename,self.questionnowid,papernum,None)
+        display = displayques(self,self.textBrowser_2, self.gridtalLayout1, questionid,self.coursename,self.questionnowid,papernum,None,self.pushButton_4)
         display.display()
-    def changetihao(self):
-        Session = sessionmaker(bind=engine)
-        session = Session()
-        questionall = session.query(question.id).filter(
-            question.course_name == self.coursename).all()
-        try:
 
-            self.questionnowid = questionall[self.nowid - 1].id
-        except:
-            QtWidgets.QMessageBox.information(self, '题号', '超出题目范围')
-        session.close()
+
+    # def changetihao(self):
+    #     Session = sessionmaker(bind=engine)
+    #     session = Session()
+    #     questionall = session.query(question.id).filter(
+    #         question.course_name == self.coursename).all()
+    #     try:
+    #
+    #         self.questionnowid = questionall[self.nowid - 1].id
+    #     except:
+    #         QtWidgets.QMessageBox.information(self, '题号', '超出题目范围')
+    #     session.close()
         # self.lineEdit.setText(str(self.nowid))
 
 

@@ -35,6 +35,7 @@ class LoginWindow( QWidget,  Ui_Dialog):
         conf = ConfigParser()
         self.lineEdit.setText(conf.get_username())
         self.lineEdit_2.setText(conf.get_pass())
+        self.label.setText(conf.get_pass())
 
     def paintEvent(self, event):  # set background_img
         painter = QPainter(self)

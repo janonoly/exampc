@@ -1,11 +1,13 @@
+import os
+
 from sqlalchemy import and_
 from sqlalchemy.orm import sessionmaker
 from PyQt5 import QtWidgets, QtGui
 from model.createdb import engine
 from model.question import question,tempuserans
-from PyQt5.QtCore import pyqtSlot
+from controllers.loginview import CommonUtil
 class displayques(object):
-    def __init__(self,chuangti,quescontentlabel,quesoptionlayout,questionid,coursename,tihao,papernum,tihaolayout):
+    def __init__(self,chuangti,quescontentlabel,quesoptionlayout,questionid,coursename,tihao,papernum,tihaolayout,tuxiangview):
         # super().__init__()
         # self.setupUi(self)
         self.quescontentlabel=quescontentlabel
@@ -16,6 +18,7 @@ class displayques(object):
         self.tihao=tihao
         self.papernum=papernum
         self.tihaolayout=tihaolayout
+        self.tuxiangview=tuxiangview
         # self.inittihaodisplay()
         self.userans=self.getuseran()
         self.font = QtGui.QFont()
@@ -152,6 +155,14 @@ class displayques(object):
             pass
         tempstr='('+timuleixing+')'+str(self.tihao+1)+': '+questionres.content
         self.quescontentlabel.setText(tempstr)
+
+
+        if questionres.contentimg:
+            self.tuxiangview.setHidden(False)
+            imgfilepath=os.getcwd()+'\\'+questionres.contentimg
+            CommonUtil.set_button_style_withonlyimage(self.tuxiangview,imgfilepath)
+        else:
+            self.tuxiangview.setHidden(True)
 
         # labelname = "labelname" + str(1)
         # label = QtWidgets.QLabel()
