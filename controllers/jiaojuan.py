@@ -10,13 +10,14 @@ from views.jiaojuan import Ui_Dialog
 from model.createdb import engine
 from model.question import tempuserans,question
 class juaojuan(QWidget,Ui_Dialog):
-    def __init__(self,paperlist,course,curentusername):
+    def __init__(self,paperlist,course,curentusername,xunlianmoshi):
         super().__init__()
         self.setupUi(self)
         self.setWindowIcon(QIcon(CommonUtil.APP_ICON))
         self.course=course
         self.curentusername=curentusername
         self.questionidlist=paperlist
+        self.xunlianmoshi = xunlianmoshi
         self.jishuadefen()
 
 
@@ -175,9 +176,10 @@ class juaojuan(QWidget,Ui_Dialog):
 
         #写入得分
         if zhongfen>0:
-            modelutil=ModelUtil()
-            modelutil.save_score(self.curentusername,zhongfen,self.course)
-            modelutil.session_close()
+            if self.xunlianmoshi == 5:
+                modelutil=ModelUtil()
+                modelutil.save_score(self.curentusername,zhongfen,self.course)
+                modelutil.session_close()
 
 
     def closeEvent(self, event):

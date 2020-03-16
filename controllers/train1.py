@@ -42,7 +42,7 @@ class trainfrom(QWidget,Ui_Dialog):
     #收藏题目功能
     def jiaojuan(self):
         from controllers.jiaojuan import juaojuan
-        self.juaojuan = juaojuan(self.paperlist, self.coursename,self.current_username)
+        self.juaojuan = juaojuan(self.paperlist, self.coursename,self.current_username,self.xunlianmoshi)
         self.juaojuan.show()
     def collecttimu(self):
         modelutil = ModelUtil()
@@ -123,6 +123,7 @@ class trainfrom(QWidget,Ui_Dialog):
                 self.inittimu()
             elif text == '正式考试':
                 # try:
+                self.xunlianmoshi = 5
                 self.close()
                 self.exam()
                 # except:
@@ -140,6 +141,7 @@ class trainfrom(QWidget,Ui_Dialog):
             coursename=self.coursename
             hznagjie = self.zhangjie
             self.examui.coursename=coursename
+            self.examui.xunlianmoshi = self.xunlianmoshi
             self.examui.curentusername = self.current_username
             if hznagjie:
                 self.examui.zhangjie = hznagjie
@@ -337,7 +339,7 @@ class trainfrom(QWidget,Ui_Dialog):
 
 
     def tijiaodaan(self):
-        self.xianshitimu()
+
         Session = sessionmaker(bind=engine)
         session = Session()
         questionid=self.questionresall[0][0]
@@ -408,8 +410,7 @@ class trainfrom(QWidget,Ui_Dialog):
 
         self.label_2.setText("正确答案为："+anser+"   我的答案："+userdaan)
 
-        if userdaan:
-            self.shuaxingtihao()
+
 
         #错题写入
         if anser!=userdaan:

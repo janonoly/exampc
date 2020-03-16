@@ -18,6 +18,7 @@ class examfrom(QWidget,Ui_Dialog):
         self.setupUi(self)
         self.setWindowIcon(QIcon(CommonUtil.APP_ICON))
         self.coursename=""
+        self.xunlianmoshi=5
         self.zhangjie = None
         self.curentusername=''
         self.questionnowid=0
@@ -161,7 +162,7 @@ class examfrom(QWidget,Ui_Dialog):
             # self.xianshitimu()
             self.close()
             from controllers.jiaojuan import juaojuan
-            self.juaojuan = juaojuan(self.paperlist,self.coursename,self.curentusername)
+            self.juaojuan = juaojuan(self.paperlist,self.coursename,self.curentusername,self.xunlianmoshi)
 
             self.juaojuan.show()
 
