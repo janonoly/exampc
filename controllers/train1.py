@@ -29,7 +29,11 @@ class trainfrom(QWidget,Ui_Dialog):
         self.questionnowid=0
         self.pushButton.clicked.connect(self.shangyiti)
         self.pushButton_2.clicked.connect(self.xiayiti)
+        # self.Layout = QtWidgets.QVBoxLayout(self.groupBox_2)
+        # self.horizontalLayout.setObjectName("horizontalLayout")
+
         self.gridtalLayout1 = QtWidgets.QGridLayout(self.groupBox_2)
+        # self.gridtalLayout1 = QtWidgets.QGridLayout(self.groupBox_2)
         self.pushButton_5.clicked.connect(self.tijiaodaan)
         self.lineEdit.installEventFilter(self)
         self.pushButton_3.clicked.connect(self.inittimu)
@@ -46,12 +50,13 @@ class trainfrom(QWidget,Ui_Dialog):
         self.juaojuan.show()
     def collecttimu(self):
         modelutil = ModelUtil()
-        userinstace=modelutil.getuserinstance(self.current_username)
+        # userinstace=modelutil.getuserinstance(self.current_username)
 
         questionid = self.questionresall[self.questionnowid][0]
         collect=Collects()
         collect.collectid=questionid
-        collect.userid=userinstace.id
+        # collect.userid=userinstace.id
+        collect.userid = self.current_username
         save_res=modelutil.save_collect(collect)
         self.init_collectbutton1(save_res)
         modelutil.session_close()
@@ -475,11 +480,14 @@ class trainfrom(QWidget,Ui_Dialog):
 
     def xianshitimu(self):
         #题目内容
+
+
         from controllers.utils.displayques import displayques
         questionid = self.questionresall[self.questionnowid][0]
         papernum=len(self.questionresall)
         display = displayques(self,self.textBrowser_2, self.gridtalLayout1, questionid,self.coursename,self.questionnowid,papernum,None,self.pushButton_4)
         display.display()
+
 
 
     # def changetihao(self):

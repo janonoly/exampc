@@ -59,6 +59,23 @@ class CommonUtil(object):
                              "QComboBox{font-size:22px}"
                              "QComboBox{padding:2px 2px}")
 
+
+    def set_radio_stylewithimage(widget: QWidget):
+        widget.setStyleSheet("QRadioButton{color:black}"
+                             "QRadioButton{border:4px}"
+                           
+                             "QRadioButton{font-family:宋体}"
+                             "QRadioButton{font-size:22px}"
+                             "QRadioButton{padding:2px 2px}")
+        # filepath = r'./resources/background.jpg'
+        # icon = QtGui.QIcon()
+        # icon.addPixmap(QtGui.QPixmap(filepath), QIcon.Normal, QIcon.Off)
+        # widget.setIcon(icon)
+        # width = widget.rect().width()
+        # heigth = widget.rect().height()
+        # widget.setIconSize(QtCore.QSize(200, 200))
+        # widget.setAutoRepeatDelay(200)
+
     def set_button_style1(widget: QWidget):
         widget.setStyleSheet("QPushButton{color:white}"
                              "QPushButton:hover{color:red}"

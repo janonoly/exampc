@@ -246,6 +246,7 @@ class examfrom(QWidget,Ui_Dialog):
         CommonUtil.set_button_style3(self.pushButton_3)
         CommonUtil.set_button_style3(self.pushButton_4)
         CommonUtil.set_button_style3(self.pushButton_5)
+        self.pushButton_6.setHidden(True)
         self.pushButton.hide()
         self.pushButton_2.hide()
         self.pushButton_3.hide()

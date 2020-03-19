@@ -12,6 +12,8 @@ class displayques(object):
         # self.setupUi(self)
         self.quescontentlabel=quescontentlabel
         self.quesoptionlayout=quesoptionlayout
+
+
         self.questionid=questionid
         self.coursename = coursename
         self.chuangti=chuangti
@@ -62,6 +64,10 @@ class displayques(object):
             checkbox.setObjectName(checkboxname)
             checkbox.setFont(self.font)
             checkbox.resize(20, 10)
+
+            from controllers.utils.loginutil import CommonUtil
+            CommonUtil.set_radio_stylewithimage(checkbox)
+
             tempkeyl=tempkey[i]
             if tempkeyl in self.userans:
                 checkbox.setChecked(True)
@@ -70,6 +76,9 @@ class displayques(object):
 
             label.setFont(self.font)
             label.setObjectName(labelname)
+            # self.quesoptionlayout.addWidget(checkbox)
+            # self.quesoptionlayout.addWidget(label)
+
             self.quesoptionlayout.addWidget(checkbox, i, 1)
             self.quesoptionlayout.addWidget(label, i, 2, 1, 200)
     def initpddisplay(self):
