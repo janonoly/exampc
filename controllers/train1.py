@@ -131,6 +131,10 @@ class trainfrom(QWidget,Ui_Dialog):
                 self.xunlianmoshi = 5
                 self.close()
                 self.exam()
+            elif text == '训练模式':
+                self.xunlianmoshi = 6
+                self.questionnowid = 0
+                self.inittimu()
                 # except:
                 #     QMessageBox.information(self, '提示', '当前题目为空')
 
@@ -358,7 +362,7 @@ class trainfrom(QWidget,Ui_Dialog):
         if questionres.questionType == 'xz':
 
             qlist = self.findChildren(QtWidgets.QRadioButton)
-            tempkey=['A','B','C','D','E','F']
+            tempkey=['A','B','C','D','E','F','G']
             num=0
             for i in qlist:
                 name=i.isChecked()
@@ -382,7 +386,7 @@ class trainfrom(QWidget,Ui_Dialog):
         elif questionres.questionType == 'mxz':
 
             qlist = self.findChildren(QtWidgets.QCheckBox)
-            tempkey=['A','B','C','D','E','F']
+            tempkey=['A','B','C','D','E','F','G']
             num = 0
             for i in qlist:
                 name = i.isChecked()

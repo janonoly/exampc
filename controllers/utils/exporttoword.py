@@ -211,6 +211,8 @@ class ExportToWord(object):
             xuanxiangcontent += ' ' + single_question_set.choice_e
         if len(single_question_set.choice_f) > 2:
             xuanxiangcontent += ' ' + single_question_set.choice_f
+        if len(single_question_set.choice_g) > 2:
+            xuanxiangcontent += ' ' + single_question_set.choice_g
         self.contentstyle(xuanxiangcontent)
 
 class RandExportToWord(object):
@@ -456,5 +458,7 @@ class RandExportToWord(object):
             xuanxiangcontent += ' ' + single_question_set.choice_e
         if len(single_question_set.choice_f) > 2:
             xuanxiangcontent += ' ' + single_question_set.choice_f
+        if len(single_question_set.choice_g) > 2:
+            xuanxiangcontent += ' ' + single_question_set.choice_g
         if not xuanxiangcontent=='':
             self.contentstyle(xuanxiangcontent)

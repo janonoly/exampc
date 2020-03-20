@@ -4,6 +4,7 @@ from sqlalchemy.ext.declarative import declarative_base
 
 #sqlite创建数据库连接
 engine = create_engine('sqlite:///resources/exam.db?check_same_thread=False',encoding='utf-8', echo=True)
+# engine = create_engine('sqlite:///../resources/exam.db?check_same_thread=False',encoding='utf-8', echo=True)
 #先建立基本映射类，后边真正的映射类都要继承它
 Base = declarative_base()
 

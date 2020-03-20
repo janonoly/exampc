@@ -38,6 +38,7 @@ class question(Base):
   choice_d =Column(Text,name=u"D选项", default="D.")
   choice_e =Column(Text,name=u"E选项", default="E.")
   choice_f =Column(Text,name=u"F选项", default="F.")
+  choice_g = Column(Text, name=u"G选项", default="G.")
 
 
 

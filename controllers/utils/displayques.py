@@ -41,8 +41,8 @@ class displayques(object):
         return userans
     def initmxzdisplay(self):
 
-        tempkey = ['A', 'B', 'C', 'D', 'E', 'F']
-        for i in range(6):
+        tempkey = ['A', 'B', 'C', 'D', 'E', 'F', 'G']
+        for i in range(7):
             checkboxname = "daan" + str(i)
             checkbox = QtWidgets.QCheckBox()
             checkbox.setObjectName(checkboxname)
@@ -57,8 +57,8 @@ class displayques(object):
             self.quesoptionlayout.addWidget(checkbox, i, 1)
             self.quesoptionlayout.addWidget(label, i, 2, 1, 200)
     def initxzdisplay(self):
-        tempkey = ['A', 'B', 'C', 'D', 'E', 'F']
-        for i in range(6):
+        tempkey = ['A', 'B', 'C', 'D', 'E', 'F', 'G']
+        for i in range(7):
             checkboxname = "daan" + str(i)
             checkbox = QtWidgets.QRadioButton()
             checkbox.setObjectName(checkboxname)
@@ -199,7 +199,7 @@ class displayques(object):
 
     def displayoption(self,questionres,qlist):
 
-        flag = ['a', 'b', 'c', 'd', 'e', 'f']
+        flag = ['a', 'b', 'c', 'd', 'e', 'f', 'g']
         flag1 = 0
         for x in qlist:
             # x.setText(questionres.choice_a)

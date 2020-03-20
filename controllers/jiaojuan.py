@@ -66,6 +66,7 @@ class juaojuan(QWidget,Ui_Dialog):
                 xzyemian += "<font color='black'>" + rightans.choice_d + "</font><br>"
                 xzyemian += "<font color='black'>" + rightans.choice_e + "</font><br>"
                 xzyemian += "<font color='black'>" + rightans.choice_f + "</font><br>"
+                xzyemian += "<font color='black'>" + rightans.choice_g + "</font><br>"
             elif  rightans.questionType=='pd':
                 useranss = ''
                 if usrans is not None:
@@ -106,6 +107,7 @@ class juaojuan(QWidget,Ui_Dialog):
                 mxzyemian += "<font color='black'>" + rightans.choice_d+ "</font><br>"
                 mxzyemian += "<font color='black'>" + rightans.choice_e + "</font><br>"
                 mxzyemian += "<font color='black'>" + rightans.choice_f + "</font><br>"
+                mxzyemian += "<font color='black'>" + rightans.choice_g + "</font><br>"
             elif rightans.questionType == 'tk':
                 useranss = ''
                 if usrans is not None:
