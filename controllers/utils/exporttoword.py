@@ -1,10 +1,11 @@
 import docx
 import os
 
+from PIL import Image
 from PyQt5 import QtWidgets
 from PyQt5.QtGui import QIcon
 from docx.oxml.ns import qn
-from docx.shared import RGBColor, Pt, Cm
+from docx.shared import RGBColor, Pt, Cm, Inches
 from sqlalchemy import and_
 from sqlalchemy.orm import sessionmaker
 
@@ -416,6 +417,17 @@ class RandExportToWord(object):
         run._element.rPr.rFonts.set(qn('w:eastAsia'), u'宋体')
         run.font.color.rgb = RGBColor(0, 0, 0)
         p.paragraph_format.first_line_indent = Cm(0.74)
+    def contentimgstyle(self,imagespath):
+        # p = self.file.add_paragraph()
+        # self.file.add_picture(imagespath, width=Inches(8),height=Inches(8))
+        img = Image.open(imagespath)
+        width,height=img.size
+        w=width+height
+        dw=width/w*7
+        dh=height/w*7
+        self.file.add_picture(imagespath, width=Cm(dw), height=Cm(dh))
+
+
     def shijianstyle(self,str):
         p = self.file.add_paragraph()
         run = p.add_run(str)
@@ -445,6 +457,10 @@ class RandExportToWord(object):
     def genwordxzmxzstr(self,tihao,id):
         single_question_set = self.gensinglequestion(id)
         self.contentstyle(str(tihao) + ':' + single_question_set.content)
+        if single_question_set.contentimg:
+            imgpath=os.getcwd()+'\\'+single_question_set.contentimg
+            self.contentimgstyle(imgpath)
+
         xuanxiangcontent = ''
         if len(single_question_set.choice_a) > 2:
             xuanxiangcontent += ' ' + single_question_set.choice_a

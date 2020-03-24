@@ -210,7 +210,6 @@
      <string>出卷</string>
     </property>
     <addaction name="action_word_O"/>
-    <addaction name="action_J"/>
    </widget>
    <widget class="QMenu" name="menu_4">
     <property name="title">

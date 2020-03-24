@@ -41,7 +41,7 @@ class Daochutikuform(QWidget,Ui_Dialog):
             style.font = font  # 为样式设置字体
             ws = w.add_sheet("题库", cell_overwrite_ok=True)
             # 将 title 作为 Excel 的列名
-            title = "course_name,questionType,content,answer,zhangjie,dengji,choice_a,choice_b,choice_c,choice_d,choice_e,choice_f,choice_g"
+            title = "course_name,questionType,content,answer,zhangjie,dengji,choice_a,choice_b,choice_c,choice_d,choice_e,choice_f,choice_g,contentimg"
             title = title.split(",")
             for i in range(len(title)):
                 ws.write(0, i, title[i], style)
@@ -66,6 +66,8 @@ class Daochutikuform(QWidget,Ui_Dialog):
                 ws.write(i + 1, 10, row.choice_e, style)
                 ws.write(i + 1, 11, row.choice_f, style)
                 ws.write(i + 1, 12, row.choice_g, style)
+                imgpath=os.getcwd()+'\\'+row.contentimg
+                ws.write(i + 1, 13, imgpath, style)
 
                 # for j in range(len(row)):
                 #     if row[j]:

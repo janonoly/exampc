@@ -10,7 +10,8 @@ class CopyImgToDir(object):
         if file:
             self.filepath, self.filename = os.path.split(self.fname)
             destination=self.des_dir+'\\'+self.filename
-            shutil.copyfile(self.fname, destination)
+            if destination not in self.fname :
+                shutil.copyfile(self.fname, destination)
 
 # fname = r'C:\Users\MSI-PC\Desktop\1.xls'
 # des_dir=r'E:\迅雷下载'

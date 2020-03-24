@@ -1,10 +1,10 @@
-# -*- mode: python ; coding: utf-8 -*-
+# -*- mode: python -*-
 
 block_cipher = None
 
 
 a = Analysis(['main.py'],
-             pathex=['E:\\PythonWorkspace\\exam'],
+             pathex=['D:\\PythonWorkspace\\exam'],
              binaries=[],
              datas=[],
              hiddenimports=[],
@@ -33,5 +33,4 @@ coll = COLLECT(exe,
                a.datas,
                strip=False,
                upx=True,
-               upx_exclude=[],
                name='main')

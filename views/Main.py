@@ -157,7 +157,6 @@ class Ui_MainWindow(object):
         self.menu_3.addAction(self.action_K)
         self.menu_3.addAction(self.action_T)
         self.menu_2.addAction(self.action_word_O)
-        self.menu_2.addAction(self.action_J)
         self.menu_4.addAction(self.action_L)
         self.menu_5.addAction(self.actionhelp_H)
         self.menu_5.addAction(self.action_G)

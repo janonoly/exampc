@@ -31,7 +31,7 @@ class mywindow(QtWidgets.QMainWindow,Ui_MainWindow):
         self.action_T.triggered.connect(self.close)
         self.action_E.triggered.connect(self.daochutiku)
         self.action_word_O.triggered.connect(self.exportpaper)
-        self.action_J.triggered.connect(self.jianyichujuan)
+        # self.action_J.triggered.connect(self.jianyichujuan)
         self.pushButton.clicked.connect(self.exam)
         self.pushButton_2.clicked.connect(self.traintl)
         self.pushButton_8.clicked.connect(self.trainyzyh)
