@@ -13,7 +13,7 @@ from model.user import user
 class LoginWindow( QWidget,  Ui_Dialog):
 
     def __init__(self):
-        super().__init__()
+        super(LoginWindow,self).__init__()
         self.setupUi(self)
         self.init_ui()
         self.ui1 = mywindow()
@@ -37,10 +37,11 @@ class LoginWindow( QWidget,  Ui_Dialog):
         self.lineEdit_2.setText(conf.get_pass())
         # self.label.setText(conf.get_pass())
 
-    def paintEvent(self, event):  # set background_img
+
+    def paintEvent(self, event):  # set background_imgresources/login2.png
         painter = QPainter(self)
         painter.drawRect(self.rect())
-        pixmap = QPixmap(r'./resources/login2.png')  # 换成自己的图片的相对路径
+        pixmap = QPixmap("./resources/login2.jpg")  # 换成自己的图片的相对路径
         painter.drawPixmap(self.rect(), pixmap)
 
     def login(self):

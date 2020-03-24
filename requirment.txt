@@ -1,0 +1,8 @@
+pyqt5
+sqlalchemy
+xlsxwriter
+sqlalchemy_utils
+xlrd
+docx
+xlwt
+python-docx

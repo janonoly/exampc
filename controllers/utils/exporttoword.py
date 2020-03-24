@@ -1,19 +1,11 @@
 import docx
 import os
-
 from PIL import Image
-from PyQt5 import QtWidgets
-from PyQt5.QtGui import QIcon
 from docx.oxml.ns import qn
 from docx.shared import RGBColor, Pt, Cm, Inches
 from sqlalchemy import and_
 from sqlalchemy.orm import sessionmaker
-
-from controllers.utils.loginutil import CommonUtil
 from model.createdb import engine
-import docx
-from PyQt5.QtWidgets import QWidget, QFileDialog
-from controllers.utils.createpaper import createpaper
 from docx.enum.text import WD_PARAGRAPH_ALIGNMENT
 class ExportToWord(object):
     def __init__(self,filepath,filename,coursename):
