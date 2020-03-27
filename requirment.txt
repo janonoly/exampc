@@ -6,3 +6,5 @@ xlrd
 docx
 xlwt
 python-docx
+PyQtChart
+pyinstaller

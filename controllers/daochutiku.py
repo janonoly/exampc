@@ -1,4 +1,5 @@
 import os
+import re
 
 import xlwt
 from PyQt5 import QtWidgets
@@ -41,7 +42,7 @@ class Daochutikuform(QWidget,Ui_Dialog):
             style.font = font  # 为样式设置字体
             ws = w.add_sheet("题库", cell_overwrite_ok=True)
             # 将 title 作为 Excel 的列名
-            title = "course_name,questionType,content,answer,zhangjie,dengji,choice_a,choice_b,choice_c,choice_d,choice_e,choice_f,choice_g,contentimg"
+            title = "course_name,questionType,content,answer,zhangjie,dengji,choice_a,choice_b,choice_c,choice_d,choice_e,choice_f,choice_g,choice_h,contentimg"
             title = title.split(",")
             for i in range(len(title)):
                 ws.write(0, i, title[i], style)
@@ -55,7 +56,20 @@ class Daochutikuform(QWidget,Ui_Dialog):
 
                 ws.write(i + 1, 0, row.course_name, style)
                 ws.write(i + 1, 1, row.questionType.code, style)
-                ws.write(i + 1, 2, row.content, style)
+
+                regex = r'src=\'(.*\.\S*)\''
+                mst = re.search(regex, row.content)
+                if mst:
+                    res = mst.group(1)
+                    imgpath = os.getcwd() + '\\' + res
+                    file = os.path.isfile(imgpath)
+                    if file:
+
+                        ws.write(i + 1, 2, row.content.replace(res,imgpath), style)
+                else:
+                    ws.write(i + 1, 2, row.content, style)
+
+
                 ws.write(i + 1, 3, row.answer, style)
                 ws.write(i + 1, 4, row.zhangjie, style)
                 ws.write(i + 1, 5, row.dengji, style)
@@ -66,8 +80,13 @@ class Daochutikuform(QWidget,Ui_Dialog):
                 ws.write(i + 1, 10, row.choice_e, style)
                 ws.write(i + 1, 11, row.choice_f, style)
                 ws.write(i + 1, 12, row.choice_g, style)
+                ws.write(i + 1, 13, row.choice_h, style)
                 imgpath=os.getcwd()+'\\'+row.contentimg
-                ws.write(i + 1, 13, imgpath, style)
+                file = os.path.isfile(imgpath)
+                if file:
+                    ws.write(i + 1, 14, imgpath, style)
+                else:
+                    ws.write(i + 1, 14, '', style)
 
                 # for j in range(len(row)):
                 #     if row[j]:

@@ -1,4 +1,5 @@
 import os
+import re
 import sys
 
 import xlsxwriter as xlsxwriter
@@ -200,17 +201,23 @@ def excel_into_model(model_name, excel_file):
             print(len(field_name))
             for y in range(len(field_name)):
                 tempfildname=field_name[y]
-                cell_value=table.cell_value(x, y)
+                cell_value=str(table.cell_value(x, y))
                 # cell = table.inse(x, y)
                 #如果cell_value为文件则将其存入resources/tikutupian
-                file = os.path.isfile(cell_value)
-                if file:
-                    filepath, filename=os.path.split(cell_value)
-                    des_dir=r'resources\tikutupian'
-                    copy = CopyImgToDir(cell_value,des_dir)
-                    copy.copy_img_to_dir()
-                    cell_value=des_dir+'\\'+filename
+                # 匹配content中的图片
 
+                regex = r'([a-zA-D]:.*\.\S*)\''
+                mst = re.search(regex, cell_value)
+                res=cell_value
+                if mst:
+                    res = mst.group(1)
+                file = os.path.isfile(res)
+                if file:
+                    filepath, filename=os.path.split(res)
+                    des_dir=r'resources\tikutupian'
+                    copy = CopyImgToDir(res,des_dir)
+                    copy.copy_img_to_dir()
+                    cell_value=cell_value.replace(res,des_dir+'\\'+filename)
                 tempstr = 'obj.%s' % field_name[y] + '=cell_value'
                 exec(tempstr)
             session.add(obj)

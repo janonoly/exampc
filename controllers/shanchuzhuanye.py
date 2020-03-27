@@ -58,7 +58,9 @@ class Shanchuzhuanyeform(QWidget,Ui_Dialog):
                     filed = os.path.isfile(curentpath+'\\'+i.choice_d)
                     filee = os.path.isfile(curentpath+'\\'+i.choice_e)
                     filef = os.path.isfile(curentpath+'\\'+i.choice_f)
-                    files={i.choice_a:filea,i.choice_b:fileb,i.choice_c:filec,i.choice_d:filed,i.choice_e:filee,i.choice_f:filef}
+                    fileg = os.path.isfile(curentpath + '\\' + i.choice_g)
+                    fileh = os.path.isfile(curentpath + '\\' + i.choice_h)
+                    files={i.choice_a:filea,i.choice_b:fileb,i.choice_c:filec,i.choice_d:filed,i.choice_e:filee,i.choice_f:filef,i.choice_g:fileg,i.choice_h:fileh}
                     for (k,v) in files.items():
                         if v:
                             filepath=k

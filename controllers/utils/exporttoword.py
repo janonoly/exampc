@@ -34,33 +34,47 @@ class ExportToWord(object):
         tkfenshu=paperlistset.tk_choice_score
         jdnum = paperlistset.jd_choice_num
         jdfenshu = paperlistset.jd_choice_score
+        mcjsnum = paperlistset.mcjs_choice_num
+        mcjsfenshu = paperlistset.mcjs_choice_score
         shijian=paperlistset.kaoshishijian
         self.shijianstyle('(考试时间：'+str(shijian)+'分钟)')
-        self.erjistyle('一、选择题（每题%s分）'%xzfenshu)
-        for i in range(xznum):
-            tihao+=1
-            id=questionidlist[i].id
+        if xznum:
+            self.erjistyle('选择题（每题%s分）'%xzfenshu)
+            for i in range(xznum):
+                tihao+=1
+                id=questionidlist[i].id
 
-            self.genwordxzmxzstr(tihao,id)
+                self.genwordxzmxzstr(tihao,id)
 
-        self.erjistyle('二、判断题（每题%s分）' % pdfenshu)
-        for i in range(xznum,xznum+pdnum):
-            tihao += 1
-            id = questionidlist[i].id
-            self.genwordpdjdstr(tihao,id)
-        self.erjistyle('三、多选题（每题%s分）' % mxzfenshu)
-        for i in range(xznum+pdnum,xznum+pdnum+mxznum):
-            tihao += 1
-            id = questionidlist[i].id
-            self.genwordxzmxzstr(tihao,id)
-        self.erjistyle('四、填空题（每题%s分）' % tkfenshu)
-        for i in range(xznum+pdnum+mxznum, xznum+pdnum+mxznum+tknum):
-            tihao += 1
-            id = questionidlist[i].id
-            self.genwordpdjdstr(tihao,id)
+        if pdnum:
+            self.erjistyle('判断题（每题%s分）' % pdfenshu)
+            for i in range(xznum,xznum+pdnum):
+                tihao += 1
+                id = questionidlist[i].id
+                self.genwordpdjdstr(tihao,id)
+
+        if mxznum:
+            self.erjistyle('多选题（每题%s分）' % mxzfenshu)
+            for i in range(xznum+pdnum,xznum+pdnum+mxznum):
+                tihao += 1
+                id = questionidlist[i].id
+                self.genwordxzmxzstr(tihao,id)
+
+        if tknum:
+            self.erjistyle('填空题（每题%s分）' % tkfenshu)
+            for i in range(xznum+pdnum+mxznum, xznum+pdnum+mxznum+tknum):
+                tihao += 1
+                id = questionidlist[i].id
+                self.genwordpdjdstr(tihao,id)
+        if mcjsnum:
+            self.erjistyle('填空题（每题%s分）' % mcjsfenshu)
+            for i in range(xznum + pdnum + mxznum + tknum, xznum + pdnum + mxznum + tknum + mcjsnum):
+                tihao += 1
+                id = questionidlist[i].id
+                self.genwordpdjdstr(tihao, id)
         if jdnum:
-            self.erjistyle('五、填空题（每题%s分）' % jdfenshu)
-            for i in range(xznum + pdnum + mxznum+tknum, xznum + pdnum + mxznum + tknum+jdnum):
+            self.erjistyle('简答题（每题%s分）' % jdfenshu)
+            for i in range(xznum + pdnum + mxznum+tknum+mcjsnum, xznum + pdnum + mxznum + tknum+mcjsnum+jdnum):
                 tihao += 1
                 id = questionidlist[i].id
                 self.genwordpdjdstr(tihao, id)
@@ -90,38 +104,57 @@ class ExportToWord(object):
         mxzfenshu = paperlistset.multiple_choice_score
         jdnum = paperlistset.jd_choice_num
         jdfenshu = paperlistset.jd_choice_score
-        xzstr = ''
-        self.erjistyle('一、选择题（每题%s分）' % xzfenshu)
-        for i in range(xznum):
-            tihao += 1
-            id = questionidlist[i].id
-            single_question_set = self.gensinglequestion(id)
-            xzstr += str(tihao) + ':' + single_question_set.answer + '  '
-        self.contentstyle(xzstr)
-        pdstr = ''
-        self.erjistyle('二、判断题（每题%s分）' % pdfenshu)
-        for i in range(xznum, xznum + pdnum):
-            tihao += 1
-            id = questionidlist[i].id
-            single_question_set = self.gensinglequestion(id)
-            pdstr += str(tihao) + ':' + single_question_set.answer + '  '
-        self.contentstyle(pdstr)
-        mxzstr = ''
-        self.erjistyle('三、多选题（每题%s分）' % mxzfenshu)
-        for i in range(xznum + pdnum, xznum + pdnum + mxznum):
-            tihao += 1
-            id = questionidlist[i].id
-            single_question_set = self.gensinglequestion(id)
-            mxzstr += str(tihao) + ':' + single_question_set.answer + '  '
-        self.contentstyle(mxzstr)
-        jdstr = ''
-        self.erjistyle('四、填空题（每题%s分）' % jdfenshu)
-        for i in range(xznum + pdnum + mxznum, xznum + pdnum + mxznum + jdnum):
-            tihao += 1
-            id = questionidlist[i].id
-            single_question_set = self.gensinglequestion(id)
-            jdstr += str(tihao) + ':' + single_question_set.answer + '  '
-        self.contentstyle(jdstr)
+        mcjsnum = paperlistset.mcjs_choice_num
+        mcjsfenshu = paperlistset.mcjs_choice_score
+
+        if xznum:
+            xzstr = ''
+            self.erjistyle('选择题（每题%s分）' % xzfenshu)
+            for i in range(xznum):
+                tihao += 1
+                id = questionidlist[i].id
+                single_question_set = self.gensinglequestion(id)
+                xzstr += str(tihao) + ':' + single_question_set.answer + '  '
+            self.contentstyle(xzstr)
+        if pdnum:
+            pdstr = ''
+            self.erjistyle('判断题（每题%s分）' % pdfenshu)
+            for i in range(xznum, xznum + pdnum):
+                tihao += 1
+                id = questionidlist[i].id
+                single_question_set = self.gensinglequestion(id)
+                pdstr += str(tihao) + ':' + single_question_set.answer + '  '
+            self.contentstyle(pdstr)
+
+        if mxznum:
+            mxzstr = ''
+            self.erjistyle('多选题（每题%s分）' % mxzfenshu)
+            for i in range(xznum + pdnum, xznum + pdnum + mxznum):
+                tihao += 1
+                id = questionidlist[i].id
+                single_question_set = self.gensinglequestion(id)
+                mxzstr += str(tihao) + ':' + single_question_set.answer + '  '
+            self.contentstyle(mxzstr)
+        if mcjsnum:
+            mcjsstr = ''
+            self.erjistyle('名词解释（每题%s分）' % jdfenshu)
+            for i in range(xznum + pdnum + mxznum, xznum + pdnum + mxznum + mcjsnum):
+                tihao += 1
+                id = questionidlist[i].id
+                single_question_set = self.gensinglequestion(id)
+                mcjsstr += str(tihao) + ':' + single_question_set.answer + '  '
+            self.contentstyle(mcjsstr)
+
+        if jdnum:
+            jdstr = ''
+            self.erjistyle('填空题（每题%s分）' % jdfenshu)
+            for i in range(xznum + pdnum + mxznum+mcjsnum, xznum + pdnum + mxznum +mcjsnum+ jdnum):
+                tihao += 1
+                id = questionidlist[i].id
+                single_question_set = self.gensinglequestion(id)
+                jdstr += str(tihao) + ':' + single_question_set.answer + '  '
+            self.contentstyle(jdstr)
+
 
         filename = self.filepath + '/' + papertitle + '答案' + self.filename
         self.file.save(filename)  # 保存才能看到结果
@@ -206,6 +239,8 @@ class ExportToWord(object):
             xuanxiangcontent += ' ' + single_question_set.choice_f
         if len(single_question_set.choice_g) > 2:
             xuanxiangcontent += ' ' + single_question_set.choice_g
+        if len(single_question_set.choice_h) > 2:
+            xuanxiangcontent += ' ' + single_question_set.choice_h
         self.contentstyle(xuanxiangcontent)
 
 class RandExportToWord(object):
@@ -236,11 +271,13 @@ class RandExportToWord(object):
 
             self.jdnum = self.getquestiontypenum(questionidlist,'jd')
 
+            self.mcjsnum = self.getquestiontypenum(questionidlist, 'mcjs')
+
         except:
             pass
         self.shijianstyle('(考试时间：'+str(self.fenzhi['时间'])+'分钟)')
         dabiaoti=0
-        dabiaotidict=['一','二','三','四','五']
+        dabiaotidict=['一','二','三','四','五','六']
         if self.xznum>0:
             self.erjistyle('%s、选择题（每题%s分,共%s题）' % (dabiaotidict[dabiaoti],self.fenzhi['单选题'],self.xznum))
             dabiaoti += 1
@@ -276,15 +313,23 @@ class RandExportToWord(object):
                     tihao += 1
                     self.genwordxzmxzstr(tihao,id)
 
+        if self.mcjsnum > 0:
+            self.erjistyle('%s、名词解释（每题%s分,共%s题）' % (dabiaotidict[dabiaoti], self.fenzhi['名词解释'], self.mcjsnum))
+
+            for i in range(len(questionidlist)):
+                id = questionidlist[i].id
+                if self.gensinglequestion(id).questionType  == 'mcjs':
+                    tihao += 1
+                    self.genwordxzmxzstr(tihao, id)
+
         if self.jdnum > 0:
             self.erjistyle('%s、简答题（每题%s分,共%s题）' % (dabiaotidict[dabiaoti], self.fenzhi['简答题'], self.jdnum))
 
             for i in range(len(questionidlist)):
                 id = questionidlist[i].id
-                if self.gensinglequestion(id).questionType  == 'jd':
+                if self.gensinglequestion(id).questionType == 'jd':
                     tihao += 1
                     self.genwordxzmxzstr(tihao, id)
-
 
         filename = self.filepath + '/' +  papertitle+self.filename
         self.file.save(filename)  # 保存才能看到结果
@@ -320,7 +365,7 @@ class RandExportToWord(object):
 
         xzstr = ''
         dabiaoti = 0
-        dabiaotidict = ['一', '二', '三', '四', '五']
+        dabiaotidict = ['一', '二', '三', '四', '五', '六']
         if self.xznum > 0:
             self.erjistyle('%s、单选题（每题%s分,共%s题）' % (dabiaotidict[dabiaoti], self.fenzhi['单选题'], self.xznum))
             dabiaoti += 1
@@ -371,6 +416,19 @@ class RandExportToWord(object):
                     single_question_set = self.gensinglequestion(id)
                     tkstr += str(tihao) + ':' + single_question_set.answer + '  '
             self.contentstyle(tkstr)
+
+        mcjsstr = ''
+        if self.mcjsnum > 0:
+            self.erjistyle('%s、名词解释（每题%s分,共%s题）' % (dabiaotidict[dabiaoti], self.fenzhi['名词解释'], self.mcjsnum))
+            for i in range(len(questionidlist)):
+
+                tihao += 1
+                id = questionidlist[i].id
+                if self.gensinglequestion(id).questionType == 'mcjs':
+                    single_question_set = self.gensinglequestion(id)
+                    mcjsstr += str(tihao) + ':' + single_question_set.answer + '  '
+            self.contentstyle(mcjsstr)
+
         jdstr = ''
         if self.jdnum > 0:
             self.erjistyle('%s、简答题（每题%s分,共%s题）' % (dabiaotidict[dabiaoti], self.fenzhi['简答题'], self.jdnum))
@@ -468,5 +526,8 @@ class RandExportToWord(object):
             xuanxiangcontent += ' ' + single_question_set.choice_f
         if len(single_question_set.choice_g) > 2:
             xuanxiangcontent += ' ' + single_question_set.choice_g
+        if len(single_question_set.choice_h) > 2:
+            xuanxiangcontent += ' ' + single_question_set.choice_h
+
         if not xuanxiangcontent=='':
             self.contentstyle(xuanxiangcontent)

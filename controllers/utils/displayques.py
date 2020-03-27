@@ -41,8 +41,8 @@ class displayques(object):
         return userans
     def initmxzdisplay(self):
 
-        tempkey = ['A', 'B', 'C', 'D', 'E', 'F', 'G']
-        for i in range(7):
+        tempkey = ['A', 'B', 'C', 'D', 'E', 'F', 'G','H']
+        for i in range(8):
             checkboxname = "daan" + str(i)
             checkbox = QtWidgets.QCheckBox()
             checkbox.setObjectName(checkboxname)
@@ -57,8 +57,8 @@ class displayques(object):
             self.quesoptionlayout.addWidget(checkbox, i, 1)
             self.quesoptionlayout.addWidget(label, i, 2, 1, 200)
     def initxzdisplay(self):
-        tempkey = ['A', 'B', 'C', 'D', 'E', 'F', 'G']
-        for i in range(7):
+        tempkey = ['A', 'B', 'C', 'D', 'E', 'F', 'G','H']
+        for i in range(8):
             checkboxname = "daan" + str(i)
             checkbox = QtWidgets.QRadioButton()
             checkbox.setObjectName(checkboxname)
@@ -122,6 +122,14 @@ class displayques(object):
             checkbox.setText(self.userans)
             self.quesoptionlayout.addWidget(checkbox)
 
+    def initmcjsdisplay(self):
+        checkboxname = "daan"
+        checkbox = QtWidgets.QTextEdit()
+        checkbox.setObjectName(checkboxname)
+        checkbox.resize(20, 10)
+        checkbox.setFont(self.font)
+        checkbox.setText(self.userans)
+        self.quesoptionlayout.addWidget(checkbox)
     def removeallwiget(self):
         for i in range(self.quesoptionlayout.count()):
             self.quesoptionlayout.itemAt(i).widget().deleteLater()
@@ -156,14 +164,15 @@ class displayques(object):
         session = Session()
         questionres = session.query(question).filter(and_(question.id ==self.questionid , question.course_name == self.coursename)).first()
         #显示题目内容
-        dictquestiontype={ 'xz':'选择题','mxz':'多选题', 'jd':'简答题', 'tk':'填空题', 'pd':'判断题' }
+        dictquestiontype={ 'xz':'选择题','mxz':'多选题', 'jd':'简答题', 'tk':'填空题', 'pd':'判断题' , 'mcjs':'名词解释'}
         timuleixing =''
         try:
             timuleixing = dictquestiontype[questionres.questionType]
         except:
             pass
         tempstr='('+timuleixing+')'+str(self.tihao+1)+': '+questionres.content
-        self.quescontentlabel.setText(tempstr)
+        # self.quescontentlabel.setText(tempstr)
+        self.quescontentlabel.setHtml(tempstr)
 
 
         if questionres.contentimg:
@@ -194,12 +203,14 @@ class displayques(object):
             self.initjddisplay()
         elif questionres.questionType == 'tk':
             self.inittkdisplay()
+        elif questionres.questionType == 'mcjs':
+            self.initmcjsdisplay()
 
 
 
     def displayoption(self,questionres,qlist):
 
-        flag = ['a', 'b', 'c', 'd', 'e', 'f', 'g']
+        flag = ['a', 'b', 'c', 'd', 'e', 'f', 'g','h']
         flag1 = 0
         for x in qlist:
             # x.setText(questionres.choice_a)

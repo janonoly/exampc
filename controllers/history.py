@@ -2,7 +2,7 @@ import datetime
 
 from PyQt5 import QtCore
 from PyQt5.QtChart import QChartView, QLineSeries, QValueAxis, QChart, QCategoryAxis
-from PyQt5.QtCore import Qt, QPointF
+
 from PyQt5.QtGui import QIcon, QBrush, QPainter, QColor, QCursor, QFont
 from PyQt5.QtWidgets import QWidget, QToolTip, QApplication, QStyle, QMessageBox
 from controllers.utils.modeutil import ModelUtil

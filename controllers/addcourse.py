@@ -87,6 +87,8 @@ class myform1(QWidget,Ui_Dialog):
                 self.lineEdit_9.setText(str(paperlistre.tk_choice_score))
                 self.lineEdit_12.setText(str(paperlistre.jd_choice_num))
                 self.lineEdit_13.setText(str(paperlistre.jd_choice_score))
+                self.lineEdit_14.setText(str(paperlistre.mcjs_choice_num))
+                self.lineEdit_15.setText(str(paperlistre.mcjs_choice_score))
                 self.lineEdit_10.setText(str(paperlistre.kaoshishijian))
 
         except:
@@ -115,7 +117,8 @@ class myform1(QWidget,Ui_Dialog):
             paperlist.multiple_choice_score = int(self.lineEdit_4.text())
             paperlist.jd_choice_num = int(self.lineEdit_12.text())
             paperlist.jd_choice_score = int(self.lineEdit_13.text())
-
+            paperlist.mcjs_choice_num = int(self.lineEdit_14.text())
+            paperlist.mcjs_choice_score = int(self.lineEdit_15.text())
             paperlist.tk_choice_num = int(self.lineEdit_6.text())
             paperlist.tk_choice_score = int(self.lineEdit_9.text())
             paperlist.kaoshishijian = int(self.lineEdit_10.text())

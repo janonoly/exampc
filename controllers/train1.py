@@ -362,7 +362,7 @@ class trainfrom(QWidget,Ui_Dialog):
         if questionres.questionType == 'xz':
 
             qlist = self.findChildren(QtWidgets.QRadioButton)
-            tempkey=['A','B','C','D','E','F','G']
+            tempkey=['A','B','C','D','E','F','G','H']
             num=0
             for i in qlist:
                 name=i.isChecked()
@@ -386,7 +386,7 @@ class trainfrom(QWidget,Ui_Dialog):
         elif questionres.questionType == 'mxz':
 
             qlist = self.findChildren(QtWidgets.QCheckBox)
-            tempkey=['A','B','C','D','E','F','G']
+            tempkey = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H']
             num = 0
             for i in qlist:
                 name = i.isChecked()
@@ -401,6 +401,11 @@ class trainfrom(QWidget,Ui_Dialog):
             for i in qlist:
                 userdaan=i.toPlainText()
         elif questionres.questionType == 'jd':
+
+            qlist = self.findChildren(QtWidgets.QTextEdit)
+            for i in qlist:
+                userdaan = i.toPlainText()
+        elif questionres.questionType == 'mcjs':
 
             qlist = self.findChildren(QtWidgets.QTextEdit)
             for i in qlist:
@@ -458,6 +463,7 @@ class trainfrom(QWidget,Ui_Dialog):
                 self.pushButton.setHidden(True)
         except:
             QMessageBox.information(self, '提示', '跳转题号超出范围')
+            return None
         self.init_collectbutton()
     def inittempuser(self):
         Session = sessionmaker(bind=engine)
@@ -479,6 +485,7 @@ class trainfrom(QWidget,Ui_Dialog):
                 self.pushButton.setHidden(False)
         except:
             QMessageBox.information(self, '提示', '跳转题号超出范围')
+            return None
 
         self.init_collectbutton()
 

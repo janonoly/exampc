@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'addcourseview.ui'
 #
-# Created by: PyQt5 UI code generator 5.14.1
+# Created by: PyQt5 UI code generator 5.13.0
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -13,9 +13,9 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_Dialog(object):
     def setupUi(self, Dialog):
         Dialog.setObjectName("Dialog")
-        Dialog.resize(1035, 257)
-        Dialog.setMinimumSize(QtCore.QSize(1035, 257))
-        Dialog.setMaximumSize(QtCore.QSize(1035, 257))
+        Dialog.resize(1300, 257)
+        Dialog.setMinimumSize(QtCore.QSize(1300, 257))
+        Dialog.setMaximumSize(QtCore.QSize(1300, 257))
         self.verticalLayout = QtWidgets.QVBoxLayout(Dialog)
         self.verticalLayout.setObjectName("verticalLayout")
         self.groupBox = QtWidgets.QGroupBox(Dialog)
@@ -80,7 +80,7 @@ class Ui_Dialog(object):
         self.comboBox.setFont(font)
         self.comboBox.setObjectName("comboBox")
         self.pushButton_2 = QtWidgets.QPushButton(self.groupBox_2)
-        self.pushButton_2.setGeometry(QtCore.QRect(910, 70, 93, 28))
+        self.pushButton_2.setGeometry(QtCore.QRect(1140, 70, 93, 28))
         self.pushButton_2.setObjectName("pushButton_2")
         self.label_3 = QtWidgets.QLabel(self.groupBox_2)
         self.label_3.setGeometry(QtCore.QRect(188, 70, 75, 16))
@@ -116,17 +116,29 @@ class Ui_Dialog(object):
         self.lineEdit_10.setGeometry(QtCore.QRect(730, 30, 123, 24))
         self.lineEdit_10.setObjectName("lineEdit_10")
         self.label_12 = QtWidgets.QLabel(self.groupBox_2)
-        self.label_12.setGeometry(QtCore.QRect(728, 70, 75, 16))
+        self.label_12.setGeometry(QtCore.QRect(938, 70, 75, 16))
         self.label_12.setObjectName("label_12")
         self.lineEdit_12 = QtWidgets.QLineEdit(self.groupBox_2)
-        self.lineEdit_12.setGeometry(QtCore.QRect(810, 70, 80, 24))
+        self.lineEdit_12.setGeometry(QtCore.QRect(1020, 70, 80, 24))
         self.lineEdit_12.setObjectName("lineEdit_12")
         self.lineEdit_13 = QtWidgets.QLineEdit(self.groupBox_2)
-        self.lineEdit_13.setGeometry(QtCore.QRect(810, 110, 80, 24))
+        self.lineEdit_13.setGeometry(QtCore.QRect(1020, 110, 80, 24))
         self.lineEdit_13.setObjectName("lineEdit_13")
         self.label_13 = QtWidgets.QLabel(self.groupBox_2)
-        self.label_13.setGeometry(QtCore.QRect(728, 110, 75, 16))
+        self.label_13.setGeometry(QtCore.QRect(938, 110, 75, 16))
         self.label_13.setObjectName("label_13")
+        self.lineEdit_14 = QtWidgets.QLineEdit(self.groupBox_2)
+        self.lineEdit_14.setGeometry(QtCore.QRect(840, 70, 80, 24))
+        self.lineEdit_14.setObjectName("lineEdit_14")
+        self.lineEdit_15 = QtWidgets.QLineEdit(self.groupBox_2)
+        self.lineEdit_15.setGeometry(QtCore.QRect(840, 110, 80, 24))
+        self.lineEdit_15.setObjectName("lineEdit_15")
+        self.label_15 = QtWidgets.QLabel(self.groupBox_2)
+        self.label_15.setGeometry(QtCore.QRect(728, 110, 111, 16))
+        self.label_15.setObjectName("label_15")
+        self.label_14 = QtWidgets.QLabel(self.groupBox_2)
+        self.label_14.setGeometry(QtCore.QRect(728, 70, 101, 16))
+        self.label_14.setObjectName("label_14")
         self.verticalLayout.addWidget(self.groupBox_2)
 
         self.retranslateUi(Dialog)
@@ -153,3 +165,5 @@ class Ui_Dialog(object):
         self.label_9.setText(_translate("Dialog", "考试时间："))
         self.label_12.setText(_translate("Dialog", "简答题数："))
         self.label_13.setText(_translate("Dialog", "简答分值："))
+        self.label_15.setText(_translate("Dialog", "名词解释分值："))
+        self.label_14.setText(_translate("Dialog", "名词解释题数："))

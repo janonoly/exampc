@@ -59,7 +59,7 @@ class examfrom(QWidget,Ui_Dialog):
         if questionres.questionType == 'xz':
 
             qlist = self.findChildren(QtWidgets.QRadioButton)
-            tempkey=['A','B','C','D','E','F']
+            tempkey=['A','B','C','D','E','F','G','H']
             num=0
             for i in qlist:
                 name=i.isChecked()
@@ -85,7 +85,7 @@ class examfrom(QWidget,Ui_Dialog):
         elif questionres.questionType == 'mxz':
 
             qlist = self.findChildren(QtWidgets.QCheckBox)
-            tempkey=['A','B','C','D','E','F']
+            tempkey = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H']
             num = 0
             for i in qlist:
                 name = i.isChecked()
@@ -101,6 +101,13 @@ class examfrom(QWidget,Ui_Dialog):
             for i in qlist:
                 userdaan=i.toPlainText()
             tempuseran.question_id =questionid
+            tempuseran.userans = userdaan
+        elif questionres.questionType == 'mcjs':
+
+            qlist = self.findChildren(QtWidgets.QTextEdit)
+            for i in qlist:
+                userdaan = i.toPlainText()
+            tempuseran.question_id = questionid
             tempuseran.userans = userdaan
         elif questionres.questionType == 'tk':
 

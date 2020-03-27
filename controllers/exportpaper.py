@@ -157,6 +157,8 @@ class exportpaperform(QWidget,Ui_Dialog):
             xuanxiangcontent += ' ' + single_question_set.choice_f
         if len(single_question_set.choice_g) > 2:
             xuanxiangcontent += ' ' + single_question_set.choice_g
+        if len(single_question_set.choice_h) > 2:
+            xuanxiangcontent += ' ' + single_question_set.choice_h
         self.contentstyle(xuanxiangcontent)
     def genwordpdjdstr(self,tihao,id):
         single_question_set = self.gensinglequestion(id)

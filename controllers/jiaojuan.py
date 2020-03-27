@@ -32,6 +32,7 @@ class juaojuan(QWidget,Ui_Dialog):
         mxzyemian = ''
         tkyemian = ''
         jdyemian = ''
+        mcjsyemian = ''
 
         tihao=1
         xzdaduitishu=0
@@ -39,6 +40,7 @@ class juaojuan(QWidget,Ui_Dialog):
         mxzdaduitishu = 0
         tkdaduitishu = 0
         jddaduitishu = 0
+        mcjsdaduitishu = 0
         for que in self.questionidlist:
 
             usrans = session.query(tempuserans).filter(tempuserans.question_id == que[0]).first()
@@ -67,6 +69,7 @@ class juaojuan(QWidget,Ui_Dialog):
                 xzyemian += "<font color='black'>" + rightans.choice_e + "</font><br>"
                 xzyemian += "<font color='black'>" + rightans.choice_f + "</font><br>"
                 xzyemian += "<font color='black'>" + rightans.choice_g + "</font><br>"
+                xzyemian += "<font color='black'>" + rightans.choice_h + "</font><br>"
             elif  rightans.questionType=='pd':
                 useranss = ''
                 if usrans is not None:
@@ -108,6 +111,7 @@ class juaojuan(QWidget,Ui_Dialog):
                 mxzyemian += "<font color='black'>" + rightans.choice_e + "</font><br>"
                 mxzyemian += "<font color='black'>" + rightans.choice_f + "</font><br>"
                 mxzyemian += "<font color='black'>" + rightans.choice_g + "</font><br>"
+                mxzyemian += "<font color='black'>" + rightans.choice_h + "</font><br>"
             elif rightans.questionType == 'tk':
                 useranss = ''
                 if usrans is not None:
@@ -141,7 +145,23 @@ class juaojuan(QWidget,Ui_Dialog):
                     jdyemian += str(
                         tihao)+':' + rightans.content + '正确答案(%s)' % rightans.answer + '我的答案(%s)' % useranss + '\n'
                     jdyemian = "<font color='red'>" + jdyemian + "</font><br>"
-
+            elif rightans.questionType == 'mcjs':
+                useranss = ''
+                if usrans is not None:
+                    if rightans.answer == usrans.userans:
+                        jddaduitishu += 1
+                        useranss = usrans.userans
+                        mcjsyemian += str(
+                            tihao) + rightans.content + '正确答案(%s)' % rightans.answer + '我的答案(%s)' % useranss + '\n'
+                        mcjsyemian = "<font color='black'>" + mcjsyemian + "</font><br>"
+                    else:
+                        mcjsyemian += str(
+                            tihao) + ':' + rightans.content + '正确答案(%s)' % rightans.answer + '我的答案(%s)' % useranss + '\n'
+                        mcjsyemian = "<font color='red'>" + mcjsyemian + "</font><br>"
+                else:
+                    mcjsyemian += str(
+                        tihao) + ':' + rightans.content + '正确答案(%s)' % rightans.answer + '我的答案(%s)' % useranss + '\n'
+                    mcjsyemian = "<font color='red'>" + mcjsyemian + "</font><br>"
             # yemian+=rightans.content+'正确答案(%s)'% rightans.answer+'我的答案(%s)'%usrans.userans+'\n'
             # yemian+=question.choice_a+'\n'
             # yemian += question.choice_a + '\n'
@@ -156,20 +176,23 @@ class juaojuan(QWidget,Ui_Dialog):
         mxzfen=paperset.multiple_choice_score
         tkfen = paperset.tk_choice_score
         jdfen=paperset.jd_choice_score
+        mcjsfen=paperset.mcjs_choice_score
         xzdaduitishufen= xzfen*xzdaduitishu
         pddaduitishufen = pdfen*pddaduitishu
         mxzdaduitishufen = mxzfen*mxzdaduitishu
         tkdaduitishufen = tkfen * tkdaduitishu
         jddaduitishufen = jdfen*jddaduitishu
-        zhongfen=xzdaduitishufen+pddaduitishufen+mxzdaduitishufen+jddaduitishufen+tkdaduitishufen
+        mcjsdaduitishufen = mcjsfen * mcjsdaduitishu
+        zhongfen=xzdaduitishufen+pddaduitishufen+mxzdaduitishufen+jddaduitishufen+tkdaduitishufen+mcjsdaduitishufen
         zhongfenstr="<font size='6' color='red'>" +'总分:'+ str(zhongfen) + "</font><br>"
         xzcuotistr="<font size='4' color='red'>" + '选择题数：%s ' % paperset.single_choice_num+'答对题数：%s' % xzdaduitishu + "</font><br>"
         pdcuotistr = "<font size='4' color='red'>" + '判断题数：%s ' % paperset.judgment+'答对题数：%s' % pddaduitishu  + "</font><br>"
         mxzcuotistr = "<font size='4' color='red'>" + '多选题数：%s ' % paperset.multiple_choice_num+ '答对题数：%s' % mxzdaduitishu  + "</font><br>"
         tkcuotistr = "<font size='4' color='red'>" + '填空题数：%s ' % paperset.tk_choice_num + '答对题数：%s' % tkdaduitishu + "</font><br>"
+        mcjscuotistr = "<font size='4' color='red'>" + '名词解释题数：%s ' % paperset.mcjs_choice_num + '答对题数：%s' % mcjsdaduitishu + "</font><br>"
         jdcuotistr = "<font size='4' color='red'>" + '简答题数：%s ' % paperset.jd_choice_num + '答对题数：%s' % jddaduitishu  + "</font><br>"
 
-        yemian=zhongfenstr+xzcuotistr+xzyemian+pdcuotistr+pdyemian+mxzcuotistr+mxzyemian+tkcuotistr+tkyemian+jdcuotistr+jdyemian
+        yemian=zhongfenstr+xzcuotistr+xzyemian+pdcuotistr+pdyemian+mxzcuotistr+mxzyemian+tkcuotistr+tkyemian+mcjscuotistr+mcjsyemian+jdcuotistr+jdyemian
         # yemian =zhongfenstr+ xzyemian  + pdyemian + mxzyemian  + jdyemian
 
         # self.textBrowser.setHtml("<font color='red'>hell</font>")
