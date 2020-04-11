@@ -56,7 +56,7 @@ class CommonUtil(object):
                              "QComboBox{border:4px}"
                              "QComboBox{background :#5aabe3}"
                              "QComboBox{font-family:宋体}"
-                             "QComboBox{font-size:22px}"
+                             "QComboBox{font-size:18px}"
                              "QComboBox{padding:2px 2px}")
 
 

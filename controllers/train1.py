@@ -498,6 +498,7 @@ class trainfrom(QWidget,Ui_Dialog):
         papernum=len(self.questionresall)
         display = displayques(self,self.textBrowser_2, self.gridtalLayout1, questionid,self.coursename,self.questionnowid,papernum,None,self.pushButton_4)
         display.display()
+        self.showMaximized()
 
 
 

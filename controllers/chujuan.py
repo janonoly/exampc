@@ -257,6 +257,7 @@ class chujuanform(QWidget,Ui_Dialog):
                      try:
                          exporttoword = RandExportToWord(self.filepath, self.filename,fenzhi)
                          exporttoword.exportpaper(str(i), questionidlist,shijuanname)
+                         QtWidgets.QMessageBox.information(self, '出卷', '出卷完成')
                      except:
                          QtWidgets.QMessageBox.information(self, '出卷', '出卷失败')
                      # exporttoword = ExportToWord(self.filepath, self.filename, self.coursename)

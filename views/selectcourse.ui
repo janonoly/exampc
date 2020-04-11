@@ -40,9 +40,15 @@
      <layout class="QHBoxLayout" name="horizontalLayout">
       <item>
        <widget class="QComboBox" name="comboBox_3">
+        <property name="minimumSize">
+         <size>
+          <width>120</width>
+          <height>35</height>
+         </size>
+        </property>
         <property name="maximumSize">
          <size>
-          <width>16777215</width>
+          <width>120</width>
           <height>35</height>
          </size>
         </property>
@@ -54,7 +60,7 @@
         </property>
         <property name="font">
          <font>
-          <pointsize>13</pointsize>
+          <pointsize>12</pointsize>
          </font>
         </property>
         <property name="currentText">
@@ -69,9 +75,15 @@
       </item>
       <item>
        <widget class="QComboBox" name="comboBox">
+        <property name="minimumSize">
+         <size>
+          <width>170</width>
+          <height>35</height>
+         </size>
+        </property>
         <property name="maximumSize">
          <size>
-          <width>16777215</width>
+          <width>170</width>
           <height>35</height>
          </size>
         </property>
@@ -83,7 +95,7 @@
         </property>
         <property name="font">
          <font>
-          <pointsize>13</pointsize>
+          <pointsize>12</pointsize>
          </font>
         </property>
         <item>
@@ -109,7 +121,7 @@
         </property>
         <property name="font">
          <font>
-          <pointsize>13</pointsize>
+          <pointsize>10</pointsize>
          </font>
         </property>
         <property name="currentText">
@@ -124,9 +136,15 @@
       </item>
       <item>
        <widget class="QComboBox" name="comboBox_4">
+        <property name="minimumSize">
+         <size>
+          <width>70</width>
+          <height>35</height>
+         </size>
+        </property>
         <property name="maximumSize">
          <size>
-          <width>16777215</width>
+          <width>70</width>
           <height>35</height>
          </size>
         </property>
@@ -138,7 +156,7 @@
         </property>
         <property name="font">
          <font>
-          <pointsize>13</pointsize>
+          <pointsize>12</pointsize>
          </font>
         </property>
         <item>
@@ -156,9 +174,15 @@
           <verstretch>0</verstretch>
          </sizepolicy>
         </property>
+        <property name="minimumSize">
+         <size>
+          <width>80</width>
+          <height>35</height>
+         </size>
+        </property>
         <property name="maximumSize">
          <size>
-          <width>16777215</width>
+          <width>80</width>
           <height>35</height>
          </size>
         </property>
@@ -170,7 +194,7 @@
         </property>
         <property name="font">
          <font>
-          <pointsize>13</pointsize>
+          <pointsize>12</pointsize>
          </font>
         </property>
         <property name="text">
@@ -186,9 +210,15 @@
           <verstretch>0</verstretch>
          </sizepolicy>
         </property>
+        <property name="minimumSize">
+         <size>
+          <width>80</width>
+          <height>35</height>
+         </size>
+        </property>
         <property name="maximumSize">
          <size>
-          <width>16777215</width>
+          <width>80</width>
           <height>35</height>
          </size>
         </property>
@@ -200,7 +230,7 @@
         </property>
         <property name="font">
          <font>
-          <pointsize>13</pointsize>
+          <pointsize>12</pointsize>
          </font>
         </property>
         <property name="text">

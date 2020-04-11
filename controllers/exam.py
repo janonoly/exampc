@@ -238,6 +238,8 @@ class examfrom(QWidget,Ui_Dialog):
             self.pushButton_2.setHidden(True)
             self.pushButton_5.setHidden(True)
 
+        self.showMaximized()
+
 
 
 

@@ -1,5 +1,7 @@
 import datetime
-from sqlalchemy import Column, Integer, String, ForeignKey, DateTime
+from sqlalchemy import Column, Integer, String, ForeignKey, DateTime, create_engine
+from sqlalchemy.ext.declarative import declarative_base
+
 from model.createdb import Base, engine
 
 
@@ -56,3 +58,12 @@ class Scores(Base):
   coursename = Column(String(255), ForeignKey('question.id', ondelete='CASCADE'), name=u"考试科目")
   datetime = Column(DateTime, default=datetime.datetime.now,name=u"时间")
 
+# engine = create_engine('sqlite:///../resources/exam.db?check_same_thread=False',encoding='utf-8', echo=True)
+# # engine = create_engine('sqlite:///../resources/exam.db?check_same_thread=False',encoding='utf-8', echo=True)
+# #先建立基本映射类，后边真正的映射类都要继承它
+# Base = declarative_base()
+#
+# #导入models创建数据库表，只增加不会减少
+#
+# #Base.metadata.drop_all(engine)
+# Base.metadata.create_all(engine)

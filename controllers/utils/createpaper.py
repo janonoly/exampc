@@ -189,23 +189,38 @@ class random_createpaper(object):
         tkquestion_id = []
         jdquestion_id = []
         mcjsquestion_id = []
-        for j in range(len(self.dengjilist[zhuanyename])):
-            xzque1 = que.filter(and_(question.dengji == self.dengjilist[zhuanyename][j], question.questionType == 'xz')).all()
+        if len(self.dengjilist[zhuanyename]):
+            for j in range(len(self.dengjilist[zhuanyename])):
+                xzque1 = que.filter(and_(question.dengji == self.dengjilist[zhuanyename][j], question.questionType == 'xz')).all()
 
+                xzquestion_id.extend(xzque1)
+                mxzque1 = que.filter(and_(question.dengji == self.dengjilist[zhuanyename][j], question.questionType == 'mxz')).all()
+                mxzquestion_id.extend(mxzque1)
+                pdque1 = que.filter(
+                    and_(question.dengji == self.dengjilist[zhuanyename][j], question.questionType == 'pd')).all()
+                pdquestion_id.extend(pdque1)
+                tkque1 = que.filter(
+                    and_(question.dengji == self.dengjilist[zhuanyename][j], question.questionType == 'tk')).all()
+                tkquestion_id.extend(tkque1)
+                jdque1 = que.filter(
+                    and_(question.dengji == self.dengjilist[zhuanyename][j], question.questionType == 'jd')).all()
+                jdquestion_id.extend(jdque1)
+                mcjsque1 = que.filter(
+                    and_(question.dengji == self.dengjilist[zhuanyename][j], question.questionType == 'mcjs')).all()
+                mcjsquestion_id.extend(jdque1)
+
+        else:
+            xzque1 = que.filter( question.questionType == 'xz').all()
             xzquestion_id.extend(xzque1)
-            mxzque1 = que.filter(and_(question.dengji == self.dengjilist[zhuanyename][j], question.questionType == 'mxz')).all()
+            mxzque1 = que.filter(question.questionType == 'mxz').all()
             mxzquestion_id.extend(mxzque1)
-            pdque1 = que.filter(
-                and_(question.dengji == self.dengjilist[zhuanyename][j], question.questionType == 'pd')).all()
+            pdque1 = que.filter(question.questionType == 'pd').all()
             pdquestion_id.extend(pdque1)
-            tkque1 = que.filter(
-                and_(question.dengji == self.dengjilist[zhuanyename][j], question.questionType == 'tk')).all()
+            tkque1 = que.filter(question.questionType == 'tk').all()
             tkquestion_id.extend(tkque1)
-            jdque1 = que.filter(
-                and_(question.dengji == self.dengjilist[zhuanyename][j], question.questionType == 'jd')).all()
+            jdque1 = que.filter( question.questionType == 'jd').all()
             jdquestion_id.extend(jdque1)
-            mcjsque1 = que.filter(
-                and_(question.dengji == self.dengjilist[zhuanyename][j], question.questionType == 'mcjs')).all()
+            mcjsque1 = que.filter(question.questionType == 'mcjs').all()
             mcjsquestion_id.extend(jdque1)
         return  xzquestion_id ,mxzquestion_id,pdquestion_id,tkquestion_id,jdquestion_id,mcjsquestion_id
 

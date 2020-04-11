@@ -1,3 +1,5 @@
+import re
+
 import docx
 import os
 from PIL import Image
@@ -321,6 +323,7 @@ class RandExportToWord(object):
                 if self.gensinglequestion(id).questionType  == 'mcjs':
                     tihao += 1
                     self.genwordxzmxzstr(tihao, id)
+                    self.add_konghang(2)
 
         if self.jdnum > 0:
             self.erjistyle('%s、简答题（每题%s分,共%s题）' % (dabiaotidict[dabiaoti], self.fenzhi['简答题'], self.jdnum))
@@ -330,6 +333,7 @@ class RandExportToWord(object):
                 if self.gensinglequestion(id).questionType == 'jd':
                     tihao += 1
                     self.genwordxzmxzstr(tihao, id)
+                    self.add_konghang(4)
 
         filename = self.filepath + '/' +  papertitle+self.filename
         self.file.save(filename)  # 保存才能看到结果
@@ -429,6 +433,7 @@ class RandExportToWord(object):
                     mcjsstr += str(tihao) + ':' + single_question_set.answer + '  '
             self.contentstyle(mcjsstr)
 
+
         jdstr = ''
         if self.jdnum > 0:
             self.erjistyle('%s、简答题（每题%s分,共%s题）' % (dabiaotidict[dabiaoti], self.fenzhi['简答题'], self.jdnum))
@@ -440,6 +445,7 @@ class RandExportToWord(object):
                     single_question_set = self.gensinglequestion(id)
                     jdstr += str(tihao) + ':' + single_question_set.answer + '  '
             self.contentstyle(jdstr)
+
 
         filename = self.filepath + '/' + papertitle + '答案' + self.filename
         self.file.save(filename)  # 保存才能看到结果
@@ -460,13 +466,55 @@ class RandExportToWord(object):
         run.font.name = u'黑体'
         run._element.rPr.rFonts.set(qn('w:eastAsia'), u'黑体')
         run.font.color.rgb = RGBColor(0, 0, 0)
-    def contentstyle(self,str):
+    def add_konghang(self,hangshu):
         p = self.file.add_paragraph()
-        run = p.add_run(str)
+        for i in range(hangshu):
+            run = p.add_run('\n')
+
+
+    def contentstyle(self,str):
+
+        regex1=r'(<img src=.*/>)'
+        mst1 = re.search(regex1, str)
+        res1 = ''
+        if mst1:
+            res1 = mst1.group(1)
+            startstr=str.split(res1)[0]
+            endstr = str.split(res1)[-1]
+
+            p = self.file.add_paragraph()
+            run = p.add_run(startstr)
+            # 题目内容中含有图片未完成
+            regex = r'\'(.*\.\S*)\''
+            mst = re.search(regex, str)
+            res = ''
+            imagespath=''
+            if mst:
+                res = mst.group(1)
+            file = os.path.isfile(res)
+            if file:
+                imagespath=res
+            run1 = p.add_run()
+            run1.add_picture(imagespath, width=Cm(1), height=Cm(1))
+            run2=p.add_run(endstr)
+            self.set_run_style(run)
+            self.set_run_style(run1)
+            self.set_run_style(run2)
+            p.paragraph_format.first_line_indent = Cm(0.74)
+
+        else:
+            p = self.file.add_paragraph()
+            run = p.add_run(str)
+            self.set_run_style(run)
+            p.paragraph_format.first_line_indent = Cm(0.74)
+
+
+
+
+    def set_run_style(self,run):
         run.font.name = u'宋体'
         run._element.rPr.rFonts.set(qn('w:eastAsia'), u'宋体')
         run.font.color.rgb = RGBColor(0, 0, 0)
-        p.paragraph_format.first_line_indent = Cm(0.74)
     def contentimgstyle(self,imagespath):
         # p = self.file.add_paragraph()
         # self.file.add_picture(imagespath, width=Inches(8),height=Inches(8))
@@ -507,6 +555,9 @@ class RandExportToWord(object):
     def genwordxzmxzstr(self,tihao,id):
         single_question_set = self.gensinglequestion(id)
         self.contentstyle(str(tihao) + ':' + single_question_set.content)
+
+
+
         if single_question_set.contentimg:
             imgpath=os.getcwd()+'\\'+single_question_set.contentimg
             self.contentimgstyle(imgpath)
@@ -531,3 +582,4 @@ class RandExportToWord(object):
 
         if not xuanxiangcontent=='':
             self.contentstyle(xuanxiangcontent)
+
