@@ -32,7 +32,8 @@ class mywindow(QtWidgets.QMainWindow,Ui_MainWindow):
         self.action_T.triggered.connect(self.close)
         self.action_E.triggered.connect(self.daochutiku)
         self.action_word_O.triggered.connect(self.exportpaper)
-
+        self.actionhelp_H.triggered.connect(self.bangzhu)
+        self.action_G.triggered.connect(self.guanyu)
         # self.action_J.triggered.connect(self.jianyichujuan)
         self.pushButton.clicked.connect(self.exam)
         self.pushButton_2.clicked.connect(self.traintl)
@@ -41,6 +42,30 @@ class mywindow(QtWidgets.QMainWindow,Ui_MainWindow):
         self.pushButton_9.clicked.connect(self.trainzsjh)
         modelutil=ModelUtil()
         modelutil.inittempuser()
+
+    def guanyu(self):
+        QtWidgets.QMessageBox.information(self, '关于', '版本：V1.0.0   \n'
+                                                '源代码：https://github.com/janonoly/exampc.git   ')
+
+    def bangzhu(self):
+        from win32com import client as wc
+        try:
+            word=None
+            try:
+
+                word = wc.Dispatch('Word.Application')  # 打开word应用程序
+            except:
+                pass
+            try:
+                word = wc.Dispatch("Kwps.Application")
+            except:
+                pass
+            word.Visible = True
+            path =os.getcwd()+'\\'+ r'resources\帮助.docx'
+            doc = word.Documents.Open(FileName=path)
+        except:
+            QtWidgets.QMessageBox.information(self, '帮助', '打开失败，无word应用')
+
     def setstyle(self):
 
         self.setWindowIcon(QIcon(CommonUtil.APP_ICON))
