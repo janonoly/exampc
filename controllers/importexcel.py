@@ -44,8 +44,7 @@ class mywindow(QtWidgets.QMainWindow,Ui_MainWindow):
         modelutil.inittempuser()
 
     def guanyu(self):
-        QtWidgets.QMessageBox.information(self, '关于', '版本：V1.0.0   \n'
-                                                '源代码：https://github.com/janonoly/exampc.git   ')
+        QtWidgets.QMessageBox.information(self, '关于', '版本：V1.0.0  ')
 
     def bangzhu(self):
         from win32com import client as wc
@@ -72,12 +71,13 @@ class mywindow(QtWidgets.QMainWindow,Ui_MainWindow):
         CommonUtil.set_button_style1( self.pushButton )
         CommonUtil.set_button_style1(self.pushButton_2 )
         CommonUtil.set_button_style1(self.pushButton_7 )
+        self.pushButton_7.setHidden(True)
         CommonUtil.set_button_style1(self.pushButton_8 )
         CommonUtil.set_button_style1(self.pushButton_9)
         CommonUtil.set_groupbox_style(self.groupBox)
         CommonUtil.set_groupbox_style_withimage(self.groupBox_2,'')
         CommonUtil.set_horizontalline_style(self.line)
-        self.label.setText("理论知识学习系统")
+        self.label.setText("理论知识考核系统")
 
 
     def paintEvent(self, event):  # set background_img
