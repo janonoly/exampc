@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="sizePolicy">
-   <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
+   <sizepolicy hsizetype="Ignored" vsizetype="Ignored">
     <horstretch>0</horstretch>
     <verstretch>0</verstretch>
    </sizepolicy>
@@ -81,6 +81,12 @@
        <horstretch>8</horstretch>
        <verstretch>5</verstretch>
       </sizepolicy>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>130000</width>
+       <height>16777215</height>
+      </size>
      </property>
      <property name="title">
       <string/>
@@ -203,6 +209,12 @@
            <height>51</height>
           </rect>
          </property>
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
          <property name="font">
           <font>
            <pointsize>13</pointsize>
@@ -217,15 +229,15 @@
       <item>
        <widget class="QGroupBox" name="groupBox_2">
         <property name="sizePolicy">
-         <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+         <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
           <horstretch>0</horstretch>
           <verstretch>4</verstretch>
          </sizepolicy>
         </property>
         <property name="maximumSize">
          <size>
-          <width>1366</width>
-          <height>768</height>
+          <width>130000</width>
+          <height>136612</height>
          </size>
         </property>
         <property name="title">
@@ -316,7 +328,7 @@
             </font>
            </property>
            <property name="text">
-            <string>确定</string>
+            <string>提交答案</string>
            </property>
           </widget>
          </item>

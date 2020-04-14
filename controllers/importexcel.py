@@ -71,7 +71,7 @@ class mywindow(QtWidgets.QMainWindow,Ui_MainWindow):
         CommonUtil.set_button_style1( self.pushButton )
         CommonUtil.set_button_style1(self.pushButton_2 )
         CommonUtil.set_button_style1(self.pushButton_7 )
-        self.pushButton_7.setHidden(True)
+
         CommonUtil.set_button_style1(self.pushButton_8 )
         CommonUtil.set_button_style1(self.pushButton_9)
         CommonUtil.set_groupbox_style(self.groupBox)

@@ -455,16 +455,19 @@ class trainfrom(QWidget,Ui_Dialog):
             self.questionnowid-=1
 
             # self.changetihao()
-            self.xianshitimu()
+
             self.label_2.setText('')
             if self.questionnowid <= len(self.questionresall) - 1:
                 self.pushButton_2.setHidden(False)
             if self.questionnowid <= 0:
                 self.pushButton.setHidden(True)
+            self.xianshitimu()
         except:
             QMessageBox.information(self, '提示', '跳转题号超出范围')
             return None
+
         self.init_collectbutton()
+
     def inittempuser(self):
         Session = sessionmaker(bind=engine)
         session = Session()
@@ -498,7 +501,7 @@ class trainfrom(QWidget,Ui_Dialog):
         papernum=len(self.questionresall)
         display = displayques(self,self.textBrowser_2, self.gridtalLayout1, questionid,self.coursename,self.questionnowid,papernum,None,self.pushButton_4)
         display.display()
-        self.showMaximized()
+
 
 
 

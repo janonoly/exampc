@@ -55,7 +55,7 @@ class displayques(object):
             label = QtWidgets.QLabel()
             label.setObjectName(labelname)
             self.quesoptionlayout.addWidget(checkbox, i, 1)
-            self.quesoptionlayout.addWidget(label, i, 2, 1, 200)
+            self.quesoptionlayout.addWidget(label, i, 2, 1, 100)
     def initxzdisplay(self):
         tempkey = ['A', 'B', 'C', 'D', 'E', 'F', 'G','H']
         for i in range(8):
@@ -80,7 +80,7 @@ class displayques(object):
             # self.quesoptionlayout.addWidget(label)
 
             self.quesoptionlayout.addWidget(checkbox, i, 1)
-            self.quesoptionlayout.addWidget(label, i, 2, 1, 200)
+            self.quesoptionlayout.addWidget(label, i, 2, 1, 100)
     def initpddisplay(self):
         for i in range(2):
             checkboxname = "daan" + str(i)
@@ -104,7 +104,7 @@ class displayques(object):
             if i==1:
                 label.setText('错')
             self.quesoptionlayout.addWidget(checkbox, i, 1)
-            self.quesoptionlayout.addWidget(label, i, 2, 1, 200)
+            self.quesoptionlayout.addWidget(label, i, 2, 1, 100)
     def initjddisplay(self):
             checkboxname = "daan"
             checkbox = QtWidgets.QTextEdit()

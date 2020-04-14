@@ -280,21 +280,29 @@ class RandExportToWord(object):
         self.shijianstyle('(考试时间：'+str(self.fenzhi['时间'])+'分钟)')
         dabiaoti=0
         dabiaotidict=['一','二','三','四','五','六']
-        if self.xznum>0:
-            self.erjistyle('%s、选择题（每题%s分,共%s题）' % (dabiaotidict[dabiaoti],self.fenzhi['单选题'],self.xznum))
+
+        if self.tknum > 0:
+            self.erjistyle('%s、填空题（每题%s分,共%s题）' % (dabiaotidict[dabiaoti], self.fenzhi['填空题'], self.tknum))
             dabiaoti += 1
             for i in range(len(questionidlist)):
-                id=questionidlist[i].id
-                if self.gensinglequestion(id).questionType == 'xz':
+                id = questionidlist[i].id
+                if self.gensinglequestion(id).questionType == 'tk':
                     tihao += 1
-                    self.genwordxzmxzstr(tihao,id)
-
+                    self.genwordxzmxzstr(tihao, id)
         if self.pdnum > 0:
             self.erjistyle('%s、判断题（每题%s分,共%s题）' % (dabiaotidict[dabiaoti], self.fenzhi['判断题'], self.pdnum))
             dabiaoti += 1
             for i in range(len(questionidlist)):
                 id = questionidlist[i].id
                 if self.gensinglequestion(id).questionType == 'pd':
+                    tihao += 1
+                    self.genwordxzmxzstr(tihao,id)
+        if self.xznum>0:
+            self.erjistyle('%s、选择题（每题%s分,共%s题）' % (dabiaotidict[dabiaoti],self.fenzhi['单选题'],self.xznum))
+            dabiaoti += 1
+            for i in range(len(questionidlist)):
+                id=questionidlist[i].id
+                if self.gensinglequestion(id).questionType == 'xz':
                     tihao += 1
                     self.genwordxzmxzstr(tihao,id)
         if self.mxznum > 0:
@@ -306,18 +314,11 @@ class RandExportToWord(object):
                 if self.gensinglequestion(id).questionType  == 'mxz':
                     tihao += 1
                     self.genwordxzmxzstr(tihao,id)
-        if self.tknum > 0:
-            self.erjistyle('%s、填空题（每题%s分,共%s题）' % (dabiaotidict[dabiaoti], self.fenzhi['填空题'], self.tknum))
-            dabiaoti += 1
-            for i in range(len(questionidlist)):
-                id = questionidlist[i].id
-                if self.gensinglequestion(id).questionType  == 'tk':
-                    tihao += 1
-                    self.genwordxzmxzstr(tihao,id)
+
 
         if self.mcjsnum > 0:
             self.erjistyle('%s、名词解释（每题%s分,共%s题）' % (dabiaotidict[dabiaoti], self.fenzhi['名词解释'], self.mcjsnum))
-
+            dabiaoti += 1
             for i in range(len(questionidlist)):
                 id = questionidlist[i].id
                 if self.gensinglequestion(id).questionType  == 'mcjs':
@@ -327,7 +328,7 @@ class RandExportToWord(object):
 
         if self.jdnum > 0:
             self.erjistyle('%s、简答题（每题%s分,共%s题）' % (dabiaotidict[dabiaoti], self.fenzhi['简答题'], self.jdnum))
-
+            dabiaoti += 1
             for i in range(len(questionidlist)):
                 id = questionidlist[i].id
                 if self.gensinglequestion(id).questionType == 'jd':
@@ -367,9 +368,38 @@ class RandExportToWord(object):
         tihao = 0
 
 
-        xzstr = ''
+
         dabiaoti = 0
         dabiaotidict = ['一', '二', '三', '四', '五', '六']
+
+        tkstr = ''
+        if self.tknum > 0:
+            self.erjistyle('%s、填空题（每题%s分,共%s题）' % (dabiaotidict[dabiaoti], self.fenzhi['填空题'], self.tknum))
+            dabiaoti += 1
+            for i in range(len(questionidlist)):
+
+                id = questionidlist[i].id
+                if self.gensinglequestion(id).questionType == 'tk':
+                    tihao += 1
+                    single_question_set = self.gensinglequestion(id)
+                    tkstr += str(tihao) + ':' + single_question_set.answer + '  '
+            self.contentstyle(tkstr)
+
+        pdstr = ''
+        if self.pdnum > 0:
+            self.erjistyle('%s、判断题（每题%s分,共%s题）' % (dabiaotidict[dabiaoti], self.fenzhi['判断题'], self.pdnum))
+            dabiaoti += 1
+            for i in range(len(questionidlist)):
+
+                id = questionidlist[i].id
+                if self.gensinglequestion(id).questionType == 'pd':
+                    tihao += 1
+
+                    single_question_set = self.gensinglequestion(id)
+                    pdstr += str(tihao) + ':' + single_question_set.answer + '  '
+            self.contentstyle(pdstr)
+
+        xzstr = ''
         if self.xznum > 0:
             self.erjistyle('%s、单选题（每题%s分,共%s题）' % (dabiaotidict[dabiaoti], self.fenzhi['单选题'], self.xznum))
             dabiaoti += 1
@@ -380,20 +410,7 @@ class RandExportToWord(object):
                     single_question_set = self.gensinglequestion(id)
                     xzstr += str(tihao) + ':' + single_question_set.answer + '  '
             self.contentstyle(xzstr)
-        pdstr = ''
-        if self.pdnum > 0:
-            self.erjistyle('%s、判断题（每题%s分,共%s题）' % (dabiaotidict[dabiaoti], self.fenzhi['判断题'], self.pdnum))
-            dabiaoti += 1
-            for i in range(len(questionidlist)):
 
-
-                id = questionidlist[i].id
-                if self.gensinglequestion(id).questionType == 'pd':
-                    tihao += 1
-
-                    single_question_set = self.gensinglequestion(id)
-                    pdstr += str(tihao) + ':' + single_question_set.answer + '  '
-            self.contentstyle(pdstr)
         mxzstr = ''
         if self.mxznum > 0:
             self.erjistyle('%s、多选题（每题%s分,共%s题）' % (dabiaotidict[dabiaoti], self.fenzhi['多选题'], self.mxznum))
@@ -407,23 +424,12 @@ class RandExportToWord(object):
                     single_question_set = self.gensinglequestion(id)
                     mxzstr += str(tihao) + ':' + single_question_set.answer + '  '
             self.contentstyle(mxzstr)
-        tkstr = ''
-        if self.tknum > 0:
-            self.erjistyle('%s、填空题（每题%s分,共%s题）' % (dabiaotidict[dabiaoti], self.fenzhi['填空题'], self.tknum))
-            dabiaoti += 1
-            for i in range(len(questionidlist)):
 
-
-                id = questionidlist[i].id
-                if self.gensinglequestion(id).questionType  == 'tk':
-                    tihao += 1
-                    single_question_set = self.gensinglequestion(id)
-                    tkstr += str(tihao) + ':' + single_question_set.answer + '  '
-            self.contentstyle(tkstr)
 
         mcjsstr = ''
         if self.mcjsnum > 0:
             self.erjistyle('%s、名词解释（每题%s分,共%s题）' % (dabiaotidict[dabiaoti], self.fenzhi['名词解释'], self.mcjsnum))
+            dabiaoti += 1
             for i in range(len(questionidlist)):
 
                 tihao += 1
@@ -437,8 +443,8 @@ class RandExportToWord(object):
         jdstr = ''
         if self.jdnum > 0:
             self.erjistyle('%s、简答题（每题%s分,共%s题）' % (dabiaotidict[dabiaoti], self.fenzhi['简答题'], self.jdnum))
+            dabiaoti += 1
             for i in range(len(questionidlist)):
-
                 tihao += 1
                 id = questionidlist[i].id
                 if self.gensinglequestion(id).questionType  == 'jd':

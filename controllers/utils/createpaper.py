@@ -76,6 +76,7 @@ class random_createpaper(object):
                        return '单选题题库数量不够'
                except:
                    pass
+
                try:
                    if mxzquestion_id:
                        if len(mxzquestion_id) >= shuliang['多选题']:
@@ -86,6 +87,7 @@ class random_createpaper(object):
                        return '多选题题库数量不够'
                except:
                    pass
+
                try:
                    if pdquestion_id:
                        if len(pdquestion_id) >= shuliang['判断题']:
@@ -96,6 +98,7 @@ class random_createpaper(object):
                        return '判断题题库数量不够'
                except:
                    pass
+
                try:
                    if tkquestion_id:
                        if len(tkquestion_id) >= shuliang['填空题']:
@@ -106,6 +109,7 @@ class random_createpaper(object):
                        return '填空题题库数量不够'
                except:
                    pass
+
                try:
                    if jdquestion_id:
                        if len(jdquestion_id) >= shuliang['简答题']:
@@ -116,6 +120,7 @@ class random_createpaper(object):
                        return '简答题题库数量不够'
                except:
                    pass
+
                try:
                    if mcjsquestion_id:
                        if len(mcjsquestion_id) >= shuliang['名词解释']:
@@ -207,7 +212,7 @@ class random_createpaper(object):
                 jdquestion_id.extend(jdque1)
                 mcjsque1 = que.filter(
                     and_(question.dengji == self.dengjilist[zhuanyename][j], question.questionType == 'mcjs')).all()
-                mcjsquestion_id.extend(jdque1)
+                mcjsquestion_id.extend(mcjsque1)
 
         else:
             xzque1 = que.filter( question.questionType == 'xz').all()
