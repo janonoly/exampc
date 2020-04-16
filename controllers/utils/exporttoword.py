@@ -432,9 +432,10 @@ class RandExportToWord(object):
             dabiaoti += 1
             for i in range(len(questionidlist)):
 
-                tihao += 1
+
                 id = questionidlist[i].id
                 if self.gensinglequestion(id).questionType == 'mcjs':
+                    tihao += 1
                     single_question_set = self.gensinglequestion(id)
                     mcjsstr += str(tihao) + ':' + single_question_set.answer + '  '
             self.contentstyle(mcjsstr)
@@ -445,9 +446,10 @@ class RandExportToWord(object):
             self.erjistyle('%s、简答题（每题%s分,共%s题）' % (dabiaotidict[dabiaoti], self.fenzhi['简答题'], self.jdnum))
             dabiaoti += 1
             for i in range(len(questionidlist)):
-                tihao += 1
+
                 id = questionidlist[i].id
                 if self.gensinglequestion(id).questionType  == 'jd':
+                    tihao += 1
                     single_question_set = self.gensinglequestion(id)
                     jdstr += str(tihao) + ':' + single_question_set.answer + '  '
             self.contentstyle(jdstr)

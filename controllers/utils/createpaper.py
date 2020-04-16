@@ -131,7 +131,7 @@ class random_createpaper(object):
                        return  '名词解释题库数量不够'
                except:
                    pass
-           question_id_list = xznum + mxznum + pdnum + tknum + jdnum +mcjsnum
+           question_id_list = tknum+ pdnum + xznum + mxznum +mcjsnum + jdnum
            return question_id_list
         except:
             return '出题失败'
@@ -226,7 +226,7 @@ class random_createpaper(object):
             jdque1 = que.filter( question.questionType == 'jd').all()
             jdquestion_id.extend(jdque1)
             mcjsque1 = que.filter(question.questionType == 'mcjs').all()
-            mcjsquestion_id.extend(jdque1)
+            mcjsquestion_id.extend(mcjsque1)
         return  xzquestion_id ,mxzquestion_id,pdquestion_id,tkquestion_id,jdquestion_id,mcjsquestion_id
 
 
@@ -292,7 +292,7 @@ class createpaper(object):
 
                 kssj = paperlist.kaoshishijian
                 # 试卷题号集合与考试时间
-                question_id_list = question_id_listxz + question_id_listpd + question_id_listmxz +question_id_listtk+ question_id_listjd+question_id_listmcjs
+                question_id_list =question_id_listtk+ question_id_listpd + question_id_listxz +  question_id_listmxz +question_id_listmcjs+question_id_listjd
                 question_id_list.append(kssj)
             else:
 
@@ -322,7 +322,7 @@ class createpaper(object):
                 kssj = paperlist.kaoshishijian
 
                 #试卷题号集合与考试时间
-                question_id_list=question_id_listxz+question_id_listpd+question_id_listmxz+question_id_listtk+question_id_listjd+question_id_listmcjs
+                question_id_list =question_id_listtk+ question_id_listpd + question_id_listxz +  question_id_listmxz +question_id_listmcjs+question_id_listjd
                 question_id_list.append(kssj)
             session.commit()
             return question_id_list

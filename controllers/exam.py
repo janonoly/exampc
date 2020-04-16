@@ -127,8 +127,8 @@ class examfrom(QWidget,Ui_Dialog):
 
     def inittihaodisplay(self):
         papernum = len(self.paperlist)
-        rownum = papernum // 25 + 1
-        clonum = 25
+        rownum = papernum // 20 + 1
+        clonum = 20
         tihao=1
         for i in range(rownum):
             for j in range(clonum):
@@ -137,7 +137,7 @@ class examfrom(QWidget,Ui_Dialog):
                 checkboxname = "tihao" + str(tihao)
                 checkbox = QtWidgets.QPushButton()
                 CommonUtil.set_button_style4(checkbox)
-                checkbox.setFixedSize(60, 25)
+                checkbox.setFixedSize(50, 25)
                 checkbox.setObjectName(checkboxname)
                 checkbox.setText(str(tihao))
                 self.tihaolayout.addWidget(checkbox, i,j)
@@ -238,7 +238,7 @@ class examfrom(QWidget,Ui_Dialog):
             self.pushButton_2.setHidden(True)
             self.pushButton_5.setHidden(True)
 
-        self.showMaximized()
+
 
 
 

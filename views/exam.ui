@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1511</width>
-    <height>847</height>
+    <width>1176</width>
+    <height>649</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -19,7 +19,7 @@
      <property name="sizePolicy">
       <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
        <horstretch>0</horstretch>
-       <verstretch>6</verstretch>
+       <verstretch>0</verstretch>
       </sizepolicy>
      </property>
      <property name="sizeIncrement">
@@ -45,20 +45,20 @@
        <widget class="QPushButton" name="pushButton_6">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-          <horstretch>3</horstretch>
+          <horstretch>0</horstretch>
           <verstretch>0</verstretch>
          </sizepolicy>
         </property>
         <property name="minimumSize">
          <size>
-          <width>340</width>
-          <height>380</height>
+          <width>300</width>
+          <height>250</height>
          </size>
         </property>
         <property name="maximumSize">
          <size>
-          <width>340</width>
-          <height>380</height>
+          <width>300</width>
+          <height>250</height>
          </size>
         </property>
         <property name="text">
@@ -214,7 +214,7 @@
      <property name="sizePolicy">
       <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
        <horstretch>0</horstretch>
-       <verstretch>2</verstretch>
+       <verstretch>5</verstretch>
       </sizepolicy>
      </property>
      <property name="title">

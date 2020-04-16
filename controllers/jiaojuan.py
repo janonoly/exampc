@@ -27,12 +27,12 @@ class juaojuan(QWidget,Ui_Dialog):
         session = Session()
 
         yemian=""
-        xzyemian=''
-        pdyemian = ''
-        mxzyemian = ''
         tkyemian = ''
-        jdyemian = ''
+        pdyemian = ''
+        xzyemian = ''
+        mxzyemian = ''
         mcjsyemian = ''
+        jdyemian = ''
 
         tihao=1
         xzdaduitishu=0
@@ -41,134 +41,37 @@ class juaojuan(QWidget,Ui_Dialog):
         tkdaduitishu = 0
         jddaduitishu = 0
         mcjsdaduitishu = 0
-        for que in self.questionidlist:
+        xztibool=False
+        mxztibool = False
+        pdtibool = False
+        jdtibool = False
+        tktibool = False
+        mcjstibool = False
 
+        for que in self.questionidlist:
             usrans = session.query(tempuserans).filter(tempuserans.question_id == que[0]).first()
             # rightans=session.query(question).filter(and_(question.id==usrans.question_id),(question.questionType=='xz')).first()
             rightans = session.query(question).filter(question.id ==que[0]).first()
             if rightans.questionType=='xz':
-                useranss=''
-                if usrans is not None :
-                    if  rightans.answer==usrans.userans:
-                        xzdaduitishu+=1
-                        useranss=usrans.userans
-                        xzyemian+=str(tihao)+':'+rightans.content+'正确答案(%s)'% rightans.answer+'我的答案(%s)'%useranss+'\n'
-                        xzyemian = "<font color='black'>" + xzyemian + "</font><br>"
-                    else:
-                        xzyemian += str(
-                            tihao)+':' + rightans.content + '正确答案(%s)' % rightans.answer + '我的答案(%s)' % useranss + '\n'
-                        xzyemian = "<font color='red'>" + xzyemian + "</font><br>"
-                else:
-                    xzyemian += str(
-                        tihao) +':'+ rightans.content + '正确答案(%s)' % rightans.answer + '我的答案(%s)' % useranss + '\n'
-                    xzyemian = "<font color='red'>" + xzyemian + "</font><br>"
-                xzyemian += "<font color='black'>" + rightans.choice_a + "</font><br>"
-                xzyemian += "<font color='black'>" + rightans.choice_b + "</font><br>"
-                xzyemian += "<font color='black'>" + rightans.choice_c + "</font><br>"
-                xzyemian += "<font color='black'>" + rightans.choice_d + "</font><br>"
-                xzyemian += "<font color='black'>" + rightans.choice_e + "</font><br>"
-                xzyemian += "<font color='black'>" + rightans.choice_f + "</font><br>"
-                xzyemian += "<font color='black'>" + rightans.choice_g + "</font><br>"
-                xzyemian += "<font color='black'>" + rightans.choice_h + "</font><br>"
+                xztibool=True
+                xzyemian += self.get_jie_xi(usrans, rightans, xzdaduitishu, tihao)
             elif  rightans.questionType=='pd':
-                useranss = ''
-                if usrans is not None:
-                    if rightans.answer == usrans.userans:
-                        pddaduitishu += 1
-                        useranss = usrans.userans
-                        pdyemian+=str(tihao)+':'+rightans.content+'正确答案(%s)'% rightans.answer+'我的答案(%s)'%useranss+'\n'
-                        pdyemian = "<font color='black'>" + pdyemian + "</font><br>"
-                    else:
-                        pdyemian += str(
-                            tihao)+':' + rightans.content + '正确答案(%s)' % rightans.answer + '我的答案(%s)' % useranss + '\n'
-                        pdyemian = "<font color='red'>" + pdyemian + "</font><br>"
-                else:
-                    pdyemian += str(
-                        tihao)+':' + rightans.content + '正确答案(%s)' % rightans.answer + '我的答案(%s)' % useranss + '\n'
-                    pdyemian = "<font color='red'>" + pdyemian + "</font><br>"
+                pdtibool = True
+                pdyemian += self.get_jie_xi(usrans, rightans, pddaduitishu, tihao)
             elif  rightans.questionType == 'mxz':
-                useranss = ''
-                if usrans is not None:
-                    if rightans.answer == usrans.userans:
-                        mxzdaduitishu += 1
-                        useranss = usrans.userans
-                        mxzyemian += str(
-                            tihao)+':' + rightans.content + '正确答案(%s)' % rightans.answer + '我的答案(%s)' % useranss + '\n'
-                        mxzyemian = "<font color='black'>" + mxzyemian + "</font><br>"
-                    else:
-                        mxzyemian += str(
-                            tihao)+':' + rightans.content + '正确答案(%s)' % rightans.answer + '我的答案(%s)' % useranss + '\n'
-                        mxzyemian = "<font color='red'>" + mxzyemian + "</font><br>"
-                else:
-                    mxzyemian += str(
-                        tihao) +':'+ rightans.content + '正确答案(%s)' % rightans.answer + '我的答案(%s)' % useranss + '\n'
-                    mxzyemian = "<font color='red'>" + mxzyemian + "</font><br>"
-
-                mxzyemian +=  "<font color='black'>" + rightans.choice_a + "</font><br>"
-                mxzyemian += "<font color='black'>" + rightans.choice_b + "</font><br>"
-                mxzyemian += "<font color='black'>" + rightans.choice_c + "</font><br>"
-                mxzyemian += "<font color='black'>" + rightans.choice_d+ "</font><br>"
-                mxzyemian += "<font color='black'>" + rightans.choice_e + "</font><br>"
-                mxzyemian += "<font color='black'>" + rightans.choice_f + "</font><br>"
-                mxzyemian += "<font color='black'>" + rightans.choice_g + "</font><br>"
-                mxzyemian += "<font color='black'>" + rightans.choice_h + "</font><br>"
+                mxztibool = True
+                mxzyemian += self.get_jie_xi(usrans, rightans, mxzdaduitishu, tihao)
             elif rightans.questionType == 'tk':
-                useranss = ''
-                if usrans is not None:
-                    if rightans.answer == usrans.userans:
-                        tkdaduitishu += 1
-                        useranss = usrans.userans
-                        tkyemian += str(
-                            tihao) + rightans.content + '正确答案(%s)' % rightans.answer + '我的答案(%s)' % useranss + '\n'
-                        tkyemian = "<font color='black'>" + tkyemian + "</font><br>"
-                    else:
-                        tkyemian += str(
-                            tihao) + ':' + rightans.content + '正确答案(%s)' % rightans.answer + '我的答案(%s)' % useranss + '\n'
-                        tkyemian = "<font color='red'>" + tkyemian + "</font><br>"
-                else:
-                    tkyemian += str(
-                        tihao) + ':' + rightans.content + '正确答案(%s)' % rightans.answer + '我的答案(%s)' % useranss + '\n'
-                    tkyemian = "<font color='red'>" + tkyemian + "</font><br>"
+                tktibool = True
+                tkyemian += self.get_jie_xi(usrans, rightans, tkdaduitishu, tihao)
             elif   rightans.questionType == 'jd':
-                useranss = ''
-                if usrans is not None:
-                    if rightans.answer == usrans.userans:
-                        jddaduitishu += 1
-                        useranss = usrans.userans
-                        jdyemian+=str(tihao)+rightans.content+'正确答案(%s)'% rightans.answer+'我的答案(%s)'%useranss+'\n'
-                        jdyemian="<font color='black'>"+jdyemian+"</font><br>"
-                    else:
-                        jdyemian += str(
-                            tihao)+':' + rightans.content + '正确答案(%s)' % rightans.answer + '我的答案(%s)' % useranss + '\n'
-                        jdyemian = "<font color='red'>" + jdyemian + "</font><br>"
-                else:
-                    jdyemian += str(
-                        tihao)+':' + rightans.content + '正确答案(%s)' % rightans.answer + '我的答案(%s)' % useranss + '\n'
-                    jdyemian = "<font color='red'>" + jdyemian + "</font><br>"
+                jdtibool = True
+                jdyemian += self.get_jie_xi(usrans, rightans, jddaduitishu, tihao)
             elif rightans.questionType == 'mcjs':
-                useranss = ''
-                if usrans is not None:
-                    if rightans.answer == usrans.userans:
-                        jddaduitishu += 1
-                        useranss = usrans.userans
-                        mcjsyemian += str(
-                            tihao) + rightans.content + '正确答案(%s)' % rightans.answer + '我的答案(%s)' % useranss + '\n'
-                        mcjsyemian = "<font color='black'>" + mcjsyemian + "</font><br>"
-                    else:
-                        mcjsyemian += str(
-                            tihao) + ':' + rightans.content + '正确答案(%s)' % rightans.answer + '我的答案(%s)' % useranss + '\n'
-                        mcjsyemian = "<font color='red'>" + mcjsyemian + "</font><br>"
-                else:
-                    mcjsyemian += str(
-                        tihao) + ':' + rightans.content + '正确答案(%s)' % rightans.answer + '我的答案(%s)' % useranss + '\n'
-                    mcjsyemian = "<font color='red'>" + mcjsyemian + "</font><br>"
-            # yemian+=rightans.content+'正确答案(%s)'% rightans.answer+'我的答案(%s)'%usrans.userans+'\n'
-            # yemian+=question.choice_a+'\n'
-            # yemian += question.choice_a + '\n'
-            # yemian += question.choice_a + '\n'
-            # yemian += question.choice_a + '\n'
-
+                mcjstibool = True
+                mcjsyemian +=self.get_jie_xi(usrans, rightans,mcjsdaduitishu,tihao)
             tihao+=1
+
         from model.question import PaperList
         paperset = session.query(PaperList).filter(PaperList.course_name== self.course).first()
         xzfen=paperset.single_choice_score
@@ -185,16 +88,27 @@ class juaojuan(QWidget,Ui_Dialog):
         mcjsdaduitishufen = mcjsfen * mcjsdaduitishu
         zhongfen=xzdaduitishufen+pddaduitishufen+mxzdaduitishufen+jddaduitishufen+tkdaduitishufen+mcjsdaduitishufen
         zhongfenstr="<font size='6' color='red'>" +'总分:'+ str(zhongfen) + "</font><br>"
-        xzcuotistr="<font size='4' color='red'>" + '选择题数：%s ' % paperset.single_choice_num+'答对题数：%s' % xzdaduitishu + "</font><br>"
-        pdcuotistr = "<font size='4' color='red'>" + '判断题数：%s ' % paperset.judgment+'答对题数：%s' % pddaduitishu  + "</font><br>"
-        mxzcuotistr = "<font size='4' color='red'>" + '多选题数：%s ' % paperset.multiple_choice_num+ '答对题数：%s' % mxzdaduitishu  + "</font><br>"
-        tkcuotistr = "<font size='4' color='red'>" + '填空题数：%s ' % paperset.tk_choice_num + '答对题数：%s' % tkdaduitishu + "</font><br>"
-        mcjscuotistr = "<font size='4' color='red'>" + '名词解释题数：%s ' % paperset.mcjs_choice_num + '答对题数：%s' % mcjsdaduitishu + "</font><br>"
-        jdcuotistr = "<font size='4' color='red'>" + '简答题数：%s ' % paperset.jd_choice_num + '答对题数：%s' % jddaduitishu  + "</font><br>"
+        tkcuotistr=''
+        xzcuotistr=''
+        pdcuotistr = ''
+        mxzcuotistr=''
+        mcjscuotistr=''
+        jdcuotistr=''
+        if xztibool:
+            xzcuotistr="<font size='4' color='red'>" + '单选题数：%s ' % paperset.single_choice_num+'答对题数：%s' % xzdaduitishu + "</font><br>"
+        if pdtibool:
+            pdcuotistr = "<font size='4' color='red'>" + '判断题数：%s ' % paperset.judgment+'答对题数：%s' % pddaduitishu  + "</font><br>"
+        if mxztibool:
+            mxzcuotistr = "<font size='4' color='red'>" + '多选题数：%s ' % paperset.multiple_choice_num+ '答对题数：%s' % mxzdaduitishu  + "</font><br>"
+        if tktibool:
+            tkcuotistr = "<font size='4' color='red'>" + '填空题数：%s ' % paperset.tk_choice_num + '答对题数：%s' % tkdaduitishu + "</font><br>"
+        if mcjstibool:
+            mcjscuotistr = "<font size='4' color='red'>" + '名词解释题数：%s ' % paperset.mcjs_choice_num + '答对题数：%s' % mcjsdaduitishu + "</font><br>"
+        if jdtibool:
+            jdcuotistr = "<font size='4' color='red'>" + '简答题数：%s ' % paperset.jd_choice_num + '答对题数：%s' % jddaduitishu  + "</font><br>"
 
-        yemian=zhongfenstr+xzcuotistr+xzyemian+pdcuotistr+pdyemian+mxzcuotistr+mxzyemian+tkcuotistr+tkyemian+mcjscuotistr+mcjsyemian+jdcuotistr+jdyemian
+        yemian=zhongfenstr+tkcuotistr+tkyemian+pdcuotistr+pdyemian+xzcuotistr+xzyemian+mxzcuotistr+mxzyemian+mcjscuotistr+mcjsyemian+jdcuotistr+jdyemian
         # yemian =zhongfenstr+ xzyemian  + pdyemian + mxzyemian  + jdyemian
-
         # self.textBrowser.setHtml("<font color='red'>hell</font>")
         self.textBrowser.setHtml(yemian)
         session.close()
@@ -206,7 +120,41 @@ class juaojuan(QWidget,Ui_Dialog):
                 modelutil.save_score(self.curentusername,zhongfen,self.course)
                 modelutil.session_close()
 
-
+    def get_jie_xi(self,usrans, rightans,jddaduitishu,tihao):
+        useranss = ''
+        mcjsyemian = ''
+        if usrans is not None:
+            if rightans.answer == usrans.userans:
+                jddaduitishu += 1
+                useranss = usrans.userans
+                mcjsyemian += str(
+                    tihao) + rightans.content + '正确答案(%s)' % rightans.answer + '我的答案(%s)' % useranss + '\n'
+                mcjsyemian = "<font color='black'>" + mcjsyemian + "</font><br>"
+            else:
+                mcjsyemian += str(
+                    tihao) + ':' + rightans.content + '正确答案(%s)' % rightans.answer + '我的答案(%s)' % useranss + '\n'
+                mcjsyemian = "<font color='red'>" + mcjsyemian + "</font><br>"
+        else:
+            mcjsyemian += str(
+                tihao) + ':' + rightans.content + '正确答案(%s)' % rightans.answer + '我的答案(%s)' % useranss + '\n'
+            mcjsyemian = "<font color='red'>" + mcjsyemian + "</font><br>"
+        if len(rightans.choice_a)>2:
+            mcjsyemian += "<font color='black'>" + rightans.choice_a + "</font><br>"
+        if len(rightans.choice_b)>2:
+            mcjsyemian += "<font color='black'>" + rightans.choice_b + "</font><br>"
+        if len(rightans.choice_c)>2:
+            mcjsyemian += "<font color='black'>" + rightans.choice_c + "</font><br>"
+        if len(rightans.choice_d)>2:
+            mcjsyemian += "<font color='black'>" + rightans.choice_d + "</font><br>"
+        if len(rightans.choice_e)>2:
+            mcjsyemian += "<font color='black'>" + rightans.choice_e + "</font><br>"
+        if len(rightans.choice_f)>2:
+            mcjsyemian += "<font color='black'>" + rightans.choice_f + "</font><br>"
+        if len(rightans.choice_g)>2:
+            mcjsyemian += "<font color='black'>" + rightans.choice_g + "</font><br>"
+        if len(rightans.choice_h)>2:
+            mcjsyemian += "<font color='black'>" + rightans.choice_h + "</font><br>"
+        return mcjsyemian
     def closeEvent(self, event):
         """
         重写closeEvent方法，实现dialog窗体关闭时执行一些代码

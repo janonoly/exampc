@@ -172,12 +172,13 @@ class mywindow(QtWidgets.QMainWindow,Ui_MainWindow):
   # 定义槽函数
     @pyqtSlot()
     def trainfgzd(self):
-        from controllers.train1 import trainfrom
-        self.trainfromui = trainfrom(self.currentuser, '法规制度')
-        self.trainfromui.setWindowTitle('法规制度')
-        self.trainfromui.show()
-
-        self.trainfromui.showMaximized()
+        # from controllers.train1 import trainfrom
+        # self.trainfromui = trainfrom(self.currentuser, '法规制度')
+        # self.trainfromui.setWindowTitle('法规制度')
+        # self.trainfromui.show()
+        #
+        # self.trainfromui.showMaximized()
+        QMessageBox.information(self, '法规制度', '在开发中')
 
   # 定义槽函数
     @pyqtSlot()
@@ -231,7 +232,7 @@ def excel_into_model(model_name, excel_file):
                 #如果cell_value为文件则将其存入resources/tikutupian
                 # 匹配content中的图片
 
-                regex = r'([a-zA-D]:.*\.\S*)\''
+                regex = r'([a-zA-Z]:.*\.\S*)\''
                 mst = re.search(regex, cell_value)
                 res=cell_value
                 if mst:
