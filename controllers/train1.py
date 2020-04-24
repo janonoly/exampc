@@ -307,16 +307,61 @@ class trainfrom(QWidget,Ui_Dialog):
                 pass
             pass
         elif self.xunlianmoshi==2: # 错题训练
-
-
             # self.questionresall = session.query(Errors.id).join(question.course_name,question.id==Errors.id).filter(and_(Errors.userid == self.current_username,question.course_name==self.coursename)).all()
-            self.questionresall = session.query(Errors.errorid).join(question,question.id==Errors.errorid).filter(and_(Errors.userid==self.current_username,question.course_name==self.coursename)).all()
+
+            if self.zhangjie and self.dengji:
+                self.questionresall = session.query(Errors.errorid).join(question,
+                                                                         question.id == Errors.errorid).filter(
+                    and_(Errors.userid == self.current_username, question.course_name == self.coursename,
+                         question.zhangjie == self.zhangjie, question.dengji == self.dengji)).all()
+
+            elif self.zhangjie and not self.dengji:
+                self.questionresall = session.query(Errors.errorid).join(question,
+                                                                         question.id == Errors.errorid).filter(
+                    and_(Errors.userid == self.current_username, question.course_name == self.coursename, question.zhangjie == self.zhangjie)).all()
+
+
+            elif not self.zhangjie and  self.dengji:
+                self.questionresall = session.query(Errors.errorid).join(question,
+                                                                         question.id == Errors.errorid).filter(
+                    and_(Errors.userid == self.current_username, question.course_name == self.coursename, question.dengji == self.dengji)).all()
+
+            else:
+                self.questionresall = session.query(Errors.errorid).join(question,
+                                                                         question.id == Errors.errorid).filter(
+                    and_(Errors.userid == self.current_username, question.course_name == self.coursename)).all()
 
         elif self.xunlianmoshi == 3:  # 收藏训练
 
             # self.questionresall = session.query(Errors.id).join(question.course_name,question.id==Errors.id).filter(and_(Errors.userid == self.current_username,question.course_name==self.coursename)).all()
-            self.questionresall = session.query(Collects.collectid).join(question, question.id == Collects.collectid).filter(
-                and_(Collects.userid == self.current_username, question.course_name == self.coursename)).all()
+
+            if self.zhangjie and self.dengji:
+                self.questionresall = session.query(Collects.collectid).join(question,
+                                                                             question.id == Collects.collectid).filter(
+                    and_(Collects.userid == self.current_username, question.course_name == self.coursename,
+                         question.zhangjie == self.zhangjie, question.dengji == self.dengji)).all()
+
+
+
+            elif self.zhangjie and not self.dengji:
+                self.questionresall = session.query(Collects.collectid).join(question,
+                                                                             question.id == Collects.collectid).filter(
+                    and_(Collects.userid == self.current_username, question.course_name == self.coursename,
+                         question.zhangjie == self.zhangjie)).all()
+
+
+
+            elif not self.zhangjie and self.dengji:
+                self.questionresall = session.query(Collects.collectid).join(question,
+                                                                             question.id == Collects.collectid).filter(
+                    and_(Collects.userid == self.current_username, question.course_name == self.coursename,
+                      question.dengji == self.dengji)).all()
+
+
+            else:
+                self.questionresall = session.query(Collects.collectid).join(question,
+                                                                             question.id == Collects.collectid).filter(
+                    and_(Collects.userid == self.current_username, question.course_name == self.coursename)).all()
 
         elif self.xunlianmoshi == 4:  # 章节训练
 
@@ -494,8 +539,6 @@ class trainfrom(QWidget,Ui_Dialog):
 
     def xianshitimu(self):
         #题目内容
-
-
         from controllers.utils.displayques import displayques
         questionid = self.questionresall[self.questionnowid][0]
         papernum=len(self.questionresall)

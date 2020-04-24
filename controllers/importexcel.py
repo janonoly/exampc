@@ -44,7 +44,7 @@ class mywindow(QtWidgets.QMainWindow,Ui_MainWindow):
         modelutil.inittempuser()
 
     def guanyu(self):
-        QtWidgets.QMessageBox.information(self, '关于', '版本：V1.0.0  ')
+        QtWidgets.QMessageBox.information(self, '关于', '版本：V1.0.6  ')
 
     def bangzhu(self):
         from win32com import client as wc
