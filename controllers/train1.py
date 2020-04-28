@@ -149,11 +149,17 @@ class trainfrom(QWidget,Ui_Dialog):
             # self.examui.setWindowModality(Qt.ApplicationModal)
             coursename=self.coursename
             hznagjie = self.zhangjie
+            dengji = self.dengji
             self.examui.coursename=coursename
             self.examui.xunlianmoshi = self.xunlianmoshi
             self.examui.curentusername = self.current_username
             if hznagjie:
                 self.examui.zhangjie = hznagjie
+            else:
+                pass
+
+            if dengji:
+                self.examui.dengji = dengji
             else:
                 pass
 
@@ -298,7 +304,7 @@ class trainfrom(QWidget,Ui_Dialog):
             self.pushButton_7.setHidden(False)
             self.label_2.setHidden(True)
             from controllers.utils.createpaper import createpaper
-            paper = createpaper(self.coursename, None)
+            paper = createpaper(self.coursename, self.zhangjie,  self.dengji )
             try:
                 self.paperlist = paper.createpaper()
                 self.paperlist.pop()

@@ -44,7 +44,7 @@ class mywindow(QtWidgets.QMainWindow,Ui_MainWindow):
         modelutil.inittempuser()
 
     def guanyu(self):
-        QtWidgets.QMessageBox.information(self, '关于', '版本：V1.0.6  ')
+        QtWidgets.QMessageBox.information(self, '关于', '版本：V1.0.7  ')
 
     def bangzhu(self):
         from win32com import client as wc
@@ -152,22 +152,35 @@ class mywindow(QtWidgets.QMainWindow,Ui_MainWindow):
     # 定义槽函数
     @pyqtSlot()
     def traintl(self):
-        from controllers.train1 import trainfrom
-        self.trainfromui = trainfrom(self.currentuser, '条令条例')
-        self.trainfromui.setWindowTitle('条令条例')
-        self.trainfromui.show()
-        self.trainfromui.showMaximized()
+        # from controllers.train1 import trainfrom
+        # self.trainfromui = trainfrom(self.currentuser, '条令条例')
+        # self.trainfromui.setWindowTitle('条令条例')
+        # self.trainfromui.show()
+        # self.trainfromui.showMaximized()
+        from controllers.selectcourse import selectcourseform
+        self.examui = selectcourseform(self.currentuser)
+        self.examui.setWindowModality(Qt.ApplicationModal)
+        self.examui.set_combobox_leibie('全体官兵')
+        self.examui.set_combobox_zhuanye('条令条例')
+        self.examui.show()
+
 
         # 定义槽函数
 
     @pyqtSlot()
     def trainyzyh(self):
-        from controllers.train1 import trainfrom
-        self.trainfromui = trainfrom(self.currentuser, '应知应会')
-        self.trainfromui.setWindowTitle('应知应会')
-        self.trainfromui.show()
-
-        self.trainfromui.showMaximized()
+        # from controllers.train1 import trainfrom
+        # self.trainfromui = trainfrom(self.currentuser, '应知应会')
+        # self.trainfromui.setWindowTitle('应知应会')
+        # self.trainfromui.show()
+        #
+        # self.trainfromui.showMaximized()
+        from controllers.selectcourse import selectcourseform
+        self.examui = selectcourseform(self.currentuser)
+        self.examui.setWindowModality(Qt.ApplicationModal)
+        self.examui.set_combobox_leibie('全体官兵')
+        self.examui.set_combobox_zhuanye('应知应会')
+        self.examui.show()
 
   # 定义槽函数
     @pyqtSlot()
@@ -183,13 +196,18 @@ class mywindow(QtWidgets.QMainWindow,Ui_MainWindow):
   # 定义槽函数
     @pyqtSlot()
     def trainzsjh(self):
-        from controllers.train1 import trainfrom
-        self.trainfromui = trainfrom(self.currentuser, '战伤救护')
-        self.trainfromui.setWindowTitle('战伤救护')
-        self.trainfromui.show()
-
-        self.trainfromui.showMaximized()
-
+        # from controllers.train1 import trainfrom
+        # self.trainfromui = trainfrom(self.currentuser, '战伤救护')
+        # self.trainfromui.setWindowTitle('战伤救护')
+        # self.trainfromui.show()
+        #
+        # self.trainfromui.showMaximized()
+        from controllers.selectcourse import selectcourseform
+        self.examui = selectcourseform(self.currentuser)
+        self.examui.setWindowModality(Qt.ApplicationModal)
+        self.examui.set_combobox_leibie('全体官兵')
+        self.examui.set_combobox_zhuanye('战伤救护')
+        self.examui.show()
 
 
 

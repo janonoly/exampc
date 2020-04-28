@@ -57,6 +57,23 @@ class selectcourseform(QWidget,Ui_Dialog):
             pass
         session.close()
 
+    def set_combobox_leibie(self, leibie):
+        self.comboBox_3.clear()
+        self.comboBox_3.addItem(leibie)
+
+    def set_combobox_zhuanye(self, zhuanye):
+        self.comboBox.clear()
+        self.comboBox.addItem(zhuanye)
+
+    def set_combobox_zhangjie(self, zhnagjie):
+        self.comboBox_2.clear()
+        self.comboBox_2.addItem(zhnagjie)
+
+    def set_combobox_dengji(self, dengji):
+        self.comboBox_4.clear()
+        self.comboBox_4.addItem(dengji)
+
+
     def initcombobox_dengji(self):
         self.comboBox_4.clear()
         Session = sessionmaker(bind=engine)

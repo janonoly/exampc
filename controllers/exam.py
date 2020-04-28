@@ -20,6 +20,7 @@ class examfrom(QWidget,Ui_Dialog):
         self.coursename=""
         self.xunlianmoshi=5
         self.zhangjie = None
+        self.dengji = None
         self.curentusername=''
         self.questionnowid=0
         self.paperlist=[]
@@ -183,7 +184,7 @@ class examfrom(QWidget,Ui_Dialog):
         self.pushButton.setHidden(False)
         self.pushButton_4.setHidden(True)
         from controllers.utils.createpaper import createpaper
-        paper=createpaper(self.coursename,self.zhangjie)
+        paper=createpaper(self.coursename,self.zhangjie,self.dengji)
         try:
              self.paperlist=paper.createpaper()
              if len( self.paperlist)<=1:

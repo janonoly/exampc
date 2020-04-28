@@ -54,22 +54,32 @@ class juaojuan(QWidget,Ui_Dialog):
             rightans = session.query(question).filter(question.id ==que[0]).first()
             if rightans.questionType=='xz':
                 xztibool=True
-                xzyemian += self.get_jie_xi(usrans, rightans, xzdaduitishu, tihao)
+                yemianxz, xzdaduitishu= self.get_jie_xi(usrans, rightans, xzdaduitishu, tihao)
+                xzyemian += yemianxz
             elif  rightans.questionType=='pd':
                 pdtibool = True
-                pdyemian += self.get_jie_xi(usrans, rightans, pddaduitishu, tihao)
+                yemianpd, pddaduitishu = self.get_jie_xi(usrans, rightans, pddaduitishu, tihao)
+                pdyemian += yemianpd
             elif  rightans.questionType == 'mxz':
                 mxztibool = True
-                mxzyemian += self.get_jie_xi(usrans, rightans, mxzdaduitishu, tihao)
+
+                yemianmxz, mxzdaduitishu = self.get_jie_xi(usrans, rightans, mxzdaduitishu, tihao)
+                mxzyemian += yemianmxz
             elif rightans.questionType == 'tk':
                 tktibool = True
-                tkyemian += self.get_jie_xi(usrans, rightans, tkdaduitishu, tihao)
+
+                yemiantk, tkdaduitishu = self.get_jie_xi(usrans, rightans, tkdaduitishu, tihao)
+                tkyemian += yemiantk
             elif   rightans.questionType == 'jd':
                 jdtibool = True
-                jdyemian += self.get_jie_xi(usrans, rightans, jddaduitishu, tihao)
+
+                yemianjd, jddaduitishu = self.get_jie_xi(usrans, rightans, jddaduitishu, tihao)
+                jdyemian += yemianjd
             elif rightans.questionType == 'mcjs':
                 mcjstibool = True
-                mcjsyemian +=self.get_jie_xi(usrans, rightans,mcjsdaduitishu,tihao)
+
+                yemianmcjs, mcjsdaduitishu = self.get_jie_xi(usrans, rightans, mcjsdaduitishu, tihao)
+                mcjsyemian += yemianmcjs
             tihao+=1
 
         from model.question import PaperList
@@ -124,15 +134,19 @@ class juaojuan(QWidget,Ui_Dialog):
         useranss = ''
         mcjsyemian = ''
         if usrans is not None:
-            if rightans.answer == usrans.userans:
+            #填空题可能有两个空
+            # str1 = ' 填空  是    士大夫 '
+            # right_ans = str1.replace(' ', '')
+
+            if rightans.answer.replace(' ', '') == usrans.userans.replace(' ', ''):
                 jddaduitishu += 1
-                useranss = usrans.userans
+
                 mcjsyemian += str(
-                    tihao) + rightans.content + '正确答案(%s)' % rightans.answer + '我的答案(%s)' % useranss + '\n'
+                    tihao) + rightans.content + '正确答案(%s)' % rightans.answer + '我的答案(%s)' % usrans.userans + '\n'
                 mcjsyemian = "<font color='black'>" + mcjsyemian + "</font><br>"
             else:
                 mcjsyemian += str(
-                    tihao) + ':' + rightans.content + '正确答案(%s)' % rightans.answer + '我的答案(%s)' % useranss + '\n'
+                    tihao) + ':' + rightans.content + '正确答案(%s)' % rightans.answer + '我的答案(%s)' % usrans.userans + '\n'
                 mcjsyemian = "<font color='red'>" + mcjsyemian + "</font><br>"
         else:
             mcjsyemian += str(
@@ -154,7 +168,7 @@ class juaojuan(QWidget,Ui_Dialog):
             mcjsyemian += "<font color='black'>" + rightans.choice_g + "</font><br>"
         if len(rightans.choice_h)>2:
             mcjsyemian += "<font color='black'>" + rightans.choice_h + "</font><br>"
-        return mcjsyemian
+        return mcjsyemian, jddaduitishu
     def closeEvent(self, event):
         """
         重写closeEvent方法，实现dialog窗体关闭时执行一些代码

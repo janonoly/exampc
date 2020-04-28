@@ -231,9 +231,10 @@ class random_createpaper(object):
 
 
 class createpaper(object):
-    def __init__(self,coursename,zhangjie=None):
+    def __init__(self,coursename,zhangjie=None,dengji=None):
         self.coursename=coursename
         self.zhangjie = zhangjie
+        self.dengji = dengji
 
     def createpaper(self):
         Session = sessionmaker(bind=engine)
@@ -252,84 +253,166 @@ class createpaper(object):
             question_id_listtk = []
             question_id_listjd=[]
             question_id_listmcjs=[]
-            if self.zhangjie:
-                xz_listxz = session.query(question.id).filter(
-                    and_(question.questionType == 'xz', question.course_name == coursename,
-                         question.zhangjie == self.zhangjie)).all()
-
-                if len(xz_listxz)>=paperlist.single_choice_num:
-                    question_id_listxz = random.sample(xz_listxz, paperlist.single_choice_num)
-
-                xz_listpd = session.query(question.id).filter(
-                    and_(question.questionType == 'pd', question.course_name == coursename,
-                         question.zhangjie == self.zhangjie)).all()
-                if len(xz_listpd) >= paperlist.judgment:
-                     question_id_listpd = random.sample(xz_listpd, paperlist.judgment)
-
-                xz_listmxz = session.query(question.id).filter(
-                    and_(question.questionType == 'mxz', question.course_name == coursename,
-                         question.zhangjie == self.zhangjie)).all()
-                if len(xz_listmxz) >= paperlist.multiple_choice_num:
-                    question_id_listmxz = random.sample(xz_listmxz, paperlist.multiple_choice_num)
-
-                xz_listjd = session.query(question.id).filter(
-                    and_(question.questionType == 'jd', question.course_name == coursename,
-                         question.zhangjie == self.zhangjie)).all()
-                if len(xz_listjd) >= paperlist.jd_choice_num:
-                    question_id_listjd = random.sample(xz_listjd, paperlist.jd_choice_num)
-
-                xz_listtk = session.query(question.id).filter(
-                    and_(question.questionType == 'tk', question.course_name == coursename,
-                         question.zhangjie == self.zhangjie)).all()
-                if len(xz_listtk) >= paperlist.tk_choice_num:
-                    question_id_listtk = random.sample(xz_listtk, paperlist.tk_choice_num)
-
-                xz_listmcjs = session.query(question.id).filter(
-                    and_(question.questionType == 'mcjs', question.course_name == coursename,
-                         question.zhangjie == self.zhangjie)).all()
-                if len(xz_listmcjs) >=paperlist.mcjs_choice_num:
-                    question_id_listmcjs = random.sample(xz_listmcjs, paperlist.mcjs_choice_num)
-
-                kssj = paperlist.kaoshishijian
-                # 试卷题号集合与考试时间
-                question_id_list =question_id_listtk+ question_id_listpd + question_id_listxz +  question_id_listmxz +question_id_listmcjs+question_id_listjd
-                question_id_list.append(kssj)
+            if self.zhangjie and self.dengji:
+                question_id_listxz = self.get_question_all(self.zhangjie,self.dengji,'xz',paperlist)
+                question_id_listpd = self.get_question_all(self.zhangjie,self.dengji,'pd',paperlist)
+                question_id_listmxz = self.get_question_all(self.zhangjie, self.dengji, 'mxz', paperlist)
+                question_id_listjd = self.get_question_all(self.zhangjie, self.dengji, 'jd', paperlist)
+                question_id_listtk = self.get_question_all(self.zhangjie, self.dengji, 'tk', paperlist)
+                question_id_listmcjs = self.get_question_all(self.zhangjie, self.dengji, 'mcjs', paperlist)
+            elif self.zhangjie and not self.dengji:
+                question_id_listxz = self.get_question_all(self.zhangjie, None, 'xz', paperlist)
+                question_id_listpd = self.get_question_all(self.zhangjie, None, 'pd', paperlist)
+                question_id_listmxz = self.get_question_all(self.zhangjie, None, 'mxz', paperlist)
+                question_id_listjd = self.get_question_all(self.zhangjie, None, 'jd', paperlist)
+                question_id_listtk = self.get_question_all(self.zhangjie, None, 'tk', paperlist)
+                question_id_listmcjs = self.get_question_all(self.zhangjie, None, 'mcjs', paperlist)
+            elif not self.zhangjie and self.dengji:
+                question_id_listxz = self.get_question_all(None, self.dengji, 'xz', paperlist)
+                question_id_listpd = self.get_question_all(None, self.dengji, 'pd', paperlist)
+                question_id_listmxz = self.get_question_all(None, self.dengji, 'mxz', paperlist)
+                question_id_listjd = self.get_question_all(None, self.dengji, 'jd', paperlist)
+                question_id_listtk = self.get_question_all(None, self.dengji, 'tk', paperlist)
+                question_id_listmcjs = self.get_question_all(None, self.dengji, 'mcjs', paperlist)
             else:
+                question_id_listxz = self.get_question_all(None, None, 'xz', paperlist)
+                question_id_listpd = self.get_question_all(None, None, 'pd', paperlist)
+                question_id_listmxz = self.get_question_all(None,None, 'mxz', paperlist)
+                question_id_listjd = self.get_question_all(None,None, 'jd', paperlist)
+                question_id_listtk = self.get_question_all(None, None, 'tk', paperlist)
+                question_id_listmcjs = self.get_question_all(None, None, 'mcjs', paperlist)
 
-                xz_listxz = session.query(question.id).filter(and_(question.questionType == 'xz', question.course_name == coursename)).all()
 
-                if len(xz_listxz) >= paperlist.single_choice_num:
-                    question_id_listxz = random.sample(xz_listxz, paperlist.single_choice_num)
-                xz_listpd = session.query(question.id).filter(and_(question.questionType == 'pd', question.course_name == coursename)).all()
-                if len(xz_listpd) >= paperlist.judgment:
-                    question_id_listpd = random.sample(xz_listpd, paperlist.judgment)
-                xz_listmxz = session.query(question.id).filter(and_(question.questionType == 'mxz', question.course_name == coursename)).all()
-                if len(xz_listmxz) >= paperlist.multiple_choice_num:
-                    question_id_listmxz = random.sample(xz_listmxz, paperlist.multiple_choice_num)
-                xz_listjd = session.query(question.id).filter(and_(question.questionType == 'jd', question.course_name == coursename)).all()
-                if len(xz_listjd) >= paperlist.jd_choice_num:
-                    question_id_listjd = random.sample(xz_listjd, paperlist.jd_choice_num)
+            # if self.zhangjie:
+            #     xz_listxz = session.query(question.id).filter(
+            #         and_(question.questionType == 'xz', question.course_name == coursename,
+            #              question.zhangjie == self.zhangjie)).all()
+            #
+            #     if len(xz_listxz)>=paperlist.single_choice_num:
+            #         question_id_listxz = random.sample(xz_listxz, paperlist.single_choice_num)
+            #
+            #     xz_listpd = session.query(question.id).filter(
+            #         and_(question.questionType == 'pd', question.course_name == coursename,
+            #              question.zhangjie == self.zhangjie)).all()
+            #     if len(xz_listpd) >= paperlist.judgment:
+            #          question_id_listpd = random.sample(xz_listpd, paperlist.judgment)
+            #
+            #     xz_listmxz = session.query(question.id).filter(
+            #         and_(question.questionType == 'mxz', question.course_name == coursename,
+            #              question.zhangjie == self.zhangjie)).all()
+            #     if len(xz_listmxz) >= paperlist.multiple_choice_num:
+            #         question_id_listmxz = random.sample(xz_listmxz, paperlist.multiple_choice_num)
+            #
+            #     xz_listjd = session.query(question.id).filter(
+            #         and_(question.questionType == 'jd', question.course_name == coursename,
+            #              question.zhangjie == self.zhangjie)).all()
+            #     if len(xz_listjd) >= paperlist.jd_choice_num:
+            #         question_id_listjd = random.sample(xz_listjd, paperlist.jd_choice_num)
+            #
+            #     xz_listtk = session.query(question.id).filter(
+            #         and_(question.questionType == 'tk', question.course_name == coursename,
+            #              question.zhangjie == self.zhangjie)).all()
+            #     if len(xz_listtk) >= paperlist.tk_choice_num:
+            #         question_id_listtk = random.sample(xz_listtk, paperlist.tk_choice_num)
+            #
+            #     xz_listmcjs = session.query(question.id).filter(
+            #         and_(question.questionType == 'mcjs', question.course_name == coursename,
+            #              question.zhangjie == self.zhangjie)).all()
+            #     if len(xz_listmcjs) >=paperlist.mcjs_choice_num:
+            #         question_id_listmcjs = random.sample(xz_listmcjs, paperlist.mcjs_choice_num)
+            #
+            #     kssj = paperlist.kaoshishijian
+            #     # 试卷题号集合与考试时间
+            #     question_id_list =question_id_listtk+ question_id_listpd + question_id_listxz +  question_id_listmxz +question_id_listmcjs+question_id_listjd
+            #     question_id_list.append(kssj)
+            # else:
+            #
+            #     xz_listxz = session.query(question.id).filter(and_(question.questionType == 'xz', question.course_name == coursename)).all()
+            #
+            #     if len(xz_listxz) >= paperlist.single_choice_num:
+            #         question_id_listxz = random.sample(xz_listxz, paperlist.single_choice_num)
+            #     xz_listpd = session.query(question.id).filter(and_(question.questionType == 'pd', question.course_name == coursename)).all()
+            #     if len(xz_listpd) >= paperlist.judgment:
+            #         question_id_listpd = random.sample(xz_listpd, paperlist.judgment)
+            #     xz_listmxz = session.query(question.id).filter(and_(question.questionType == 'mxz', question.course_name == coursename)).all()
+            #     if len(xz_listmxz) >= paperlist.multiple_choice_num:
+            #         question_id_listmxz = random.sample(xz_listmxz, paperlist.multiple_choice_num)
+            #     xz_listjd = session.query(question.id).filter(and_(question.questionType == 'jd', question.course_name == coursename)).all()
+            #     if len(xz_listjd) >= paperlist.jd_choice_num:
+            #         question_id_listjd = random.sample(xz_listjd, paperlist.jd_choice_num)
+            #
+            #     xz_listtk = session.query(question.id).filter(
+            #         and_(question.questionType == 'tk', question.course_name == coursename)).all()
+            #     if len(xz_listtk) >= paperlist.tk_choice_num:
+            #         question_id_listtk = random.sample(xz_listtk, paperlist.tk_choice_num)
+            #
+            #     xz_listmcjs = session.query(question.id).filter(
+            #         and_(question.questionType == 'mcjs', question.course_name == coursename)).all()
+            #     if len(xz_listmcjs) >= paperlist.mcjs_choice_num:
+            #         question_id_listmcjs = random.sample(xz_listmcjs, paperlist.mcjs_choice_num)
+            #     kssj = paperlist.kaoshishijian
+            #
+            #     #试卷题号集合与考试时间
+            #     question_id_list =question_id_listtk+ question_id_listpd + question_id_listxz +  question_id_listmxz +question_id_listmcjs+question_id_listjd
+            #     question_id_list.append(kssj)
 
-                xz_listtk = session.query(question.id).filter(
-                    and_(question.questionType == 'tk', question.course_name == coursename)).all()
-                if len(xz_listtk) >= paperlist.tk_choice_num:
-                    question_id_listtk = random.sample(xz_listtk, paperlist.tk_choice_num)
-
-                xz_listmcjs = session.query(question.id).filter(
-                    and_(question.questionType == 'mcjs', question.course_name == coursename)).all()
-                if len(xz_listmcjs) >= paperlist.mcjs_choice_num:
-                    question_id_listmcjs = random.sample(xz_listmcjs, paperlist.mcjs_choice_num)
-                kssj = paperlist.kaoshishijian
-
-                #试卷题号集合与考试时间
-                question_id_list =question_id_listtk+ question_id_listpd + question_id_listxz +  question_id_listmxz +question_id_listmcjs+question_id_listjd
-                question_id_list.append(kssj)
+            kssj = paperlist.kaoshishijian
+            # 试卷题号集合与考试时间
+            question_id_list = question_id_listtk + question_id_listpd + question_id_listxz + question_id_listmxz + question_id_listmcjs + question_id_listjd
+            question_id_list.append(kssj)
             session.commit()
             return question_id_list
         except:
             pass
         finally:
             session.close()
+    def get_question_all(self,zhangjie, dengji, question_type, paperlist):
+        Session = sessionmaker(bind=engine)
+        # 每次执行数据库操作时，都需要创建一个session
+        session = Session()
+        try:
+            questionresxzall = []
+            if self.zhangjie and self.dengji:
+                questionresxzall = session.query(question.id).filter(
+                    and_(question.course_name == self.coursename, question.zhangjie == zhangjie,
+                         question.dengji == dengji, question.questionType == question_type)).all()
+
+            elif self.zhangjie and not self.dengji:
+                questionresxzall = session.query(question.id).filter(
+                    and_(question.course_name == self.coursename, question.zhangjie == zhangjie,
+                         question.questionType == question_type)).all()
+
+            elif not self.zhangjie and self.dengji:
+                questionresxzall = session.query(question.id).filter(
+                    and_(question.course_name == self.coursename,
+                         question.dengji == dengji, question.questionType == question_type)).all()
+
+            else:
+                questionresxzall = session.query(question.id).filter(
+                    and_(question.course_name == self.coursename, question.questionType == question_type)).all()
+            if question_type=='xz':
+                return self.get_random_question_from_list(questionresxzall,paperlist.single_choice_num)
+            if question_type=='pd':
+                return self.get_random_question_from_list(questionresxzall, paperlist.judgment)
+            if question_type == 'mxz':
+                return self.get_random_question_from_list(questionresxzall, paperlist.multiple_choice_num)
+            if question_type == 'jd':
+                return self.get_random_question_from_list(questionresxzall, paperlist.jd_choice_num)
+            if question_type == 'tk':
+                return self.get_random_question_from_list(questionresxzall, paperlist.tk_choice_num)
+            if question_type == 'mcjs':
+                return self.get_random_question_from_list(questionresxzall, paperlist.mcjs_choice_num)
+
+        except:
+            pass
+        finally:
+            session.close()
+    def get_random_question_from_list(self,questionresxzall,question_num):
+        if len(questionresxzall) >= question_num:
+            question_id_listpd = random.sample(questionresxzall, question_num)
+            return question_id_listpd
+        else:
+            return []
 
     def createpaperformat(self,startid,endid):
         Session = sessionmaker(bind=engine)
